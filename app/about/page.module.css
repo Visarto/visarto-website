@@ -27,3 +27,13 @@
     padding-block: var(--s-9) var(--section);
   }
 }
+
+/*
+ * On a phone a photograph that breaks only one margin reads as a misalignment
+ * rather than as a decision, so at this width it runs edge to edge.
+ */
+@media (max-width: 47.99rem) {
+  .media {
+    margin-inline: calc(var(--gutter) * -1);
+  }
+}

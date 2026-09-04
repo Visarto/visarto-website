@@ -120,6 +120,25 @@
     min-height: 0;
   }
 
+  /*
+   * A laptop with browser chrome open is a wide, short window. The masthead is
+   * scaled off viewport width alone, which at 1280 by 600 leaves it too tall
+   * for the space and pushes the action off the fold. Here it is scaled down
+   * so the whole opening, action included, fits in one screen.
+   */
+  /*
+   * Retuning the token rather than the property. `.display-1` reads
+   * `--t-display-1`, so setting the variable on the element wins regardless of
+   * which of the two stylesheets the browser happens to order first.
+   */
+  .display {
+    --t-display-1: clamp(2.75rem, 5vw, 4.25rem);
+  }
+
+  .copy {
+    gap: var(--s-5);
+  }
+
   .section {
     padding-top: var(--s-6);
     padding-bottom: var(--s-8);
@@ -135,4 +154,14 @@
 .footRuleLine {
   height: 1px;
   background-color: var(--rule);
+}
+
+/*
+ * On a phone a photograph that breaks only one margin reads as a misalignment
+ * rather than as a decision, so at this width it runs edge to edge.
+ */
+@media (max-width: 47.99rem) {
+  .media {
+    margin-inline: calc(var(--gutter) * -1);
+  }
 }

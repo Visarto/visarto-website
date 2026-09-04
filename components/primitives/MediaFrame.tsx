@@ -39,7 +39,6 @@ export type MediaFrameProps = {
    * the full direction belongs in the CMS field the editor is filling anyway.
    */
   briefTone?: 'full' | 'compact';
-  drift?: boolean;
   className?: string;
 };
 
@@ -53,13 +52,10 @@ export function MediaFrame({
   weaveScale = 'fine',
   brief,
   briefTone = 'full',
-  drift = false,
   className,
 }: MediaFrameProps) {
   const src = image ? imageUrl(image, 2000) : null;
-  const classes = [styles.frame, drift ? styles.drift : null, className]
-    .filter(Boolean)
-    .join(' ');
+  const classes = [styles.frame, className].filter(Boolean).join(' ');
 
   if (src) {
     return (

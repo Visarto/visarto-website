@@ -35,7 +35,15 @@ for (const viewport of VIEWPORTS) {
     if (m.type() === 'error' || m.type() === 'warning') errors.push(`[${viewport.name}] ${m.type()}: ${m.text()}`);
   });
   page.on('pageerror', (e) => errors.push(`[${viewport.name}] pageerror: ${e.message}`));
-  page.on('requestfailed', (r) => errors.push(`[${viewport.name}] failed: ${r.url()} ${r.failure()?.errorText}`));
+  page.on('requestfailed', (r) => {
+    // Next prefetches route payloads on hover and on entering the viewport.
+    // Navigating to the next path in this sweep cancels any still in flight,
+    // which the browser reports as an abort. That is this script moving on, not
+    // a broken request, so only aborted RSC prefetches are ignored.
+    const aborted = r.failure()?.errorText === 'net::ERR_ABORTED';
+    if (aborted && r.url().includes('_rsc=')) return;
+    errors.push(`[${viewport.name}] failed: ${r.url()} ${r.failure()?.errorText}`);
+  });
 
   for (const path of paths) {
     const slug = path === '/' ? 'home' : path.replace(/\//g, '-').replace(/^-/, '');

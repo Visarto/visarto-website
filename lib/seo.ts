@@ -23,7 +23,9 @@ export function pageMetadata({
   const fullTitle = path === '/' ? `${brand.name} | ${brand.descriptor}` : `${title} | ${brand.name}`;
 
   return {
-    title: fullTitle,
+    // Absolute, because the title already carries the house name. Letting the
+    // layout's template apply as well produces "Collections | Visarto | Visarto".
+    title: { absolute: fullTitle },
     description,
     alternates: { canonical },
     openGraph: {

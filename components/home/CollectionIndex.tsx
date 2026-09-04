@@ -2,7 +2,6 @@ import Link from 'next/link';
 import type { Route } from 'next';
 
 import { QuietLink } from '@/components/primitives/Cta';
-import { Reveal } from '@/components/primitives/Reveal';
 import { collectionEntries } from '@/lib/content/collections';
 import { home } from '@/lib/content/home';
 import type { Collection } from '@/sanity/lib/types';
@@ -26,7 +25,7 @@ export function CollectionIndex({ collections }: { collections: Collection[] }) 
   return (
     <section className={styles.section} aria-labelledby="collections-heading">
       <div className={`sheet ${styles.layout}`}>
-        <Reveal className={styles.intro}>
+        <div className={styles.intro}>
           <h2 id="collections-heading" className="display-2">
             {home.collections.heading}
           </h2>
@@ -34,7 +33,7 @@ export function CollectionIndex({ collections }: { collections: Collection[] }) 
           <QuietLink href="/collections" className={styles.introLink}>
             {home.collections.linkLabel}
           </QuietLink>
-        </Reveal>
+        </div>
 
         <ol className={styles.list}>
           {entries.map((entry, position) => (

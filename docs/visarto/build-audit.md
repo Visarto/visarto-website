@@ -45,8 +45,8 @@ site reads images and content through). Everything else is a development depende
 | `/cloth` | Static | Authored weave notation, CMS `mill` |
 | `/lookbook` | Static | CMS `lookbookItem` only |
 | `/about` | Static | CMS `aboutPage` |
-| `/appointments` | Static shell, dynamic API | CMS `appointmentSettings` |
-| `/contact` | Static shell, dynamic API | CMS `siteSettings` |
+| `/appointments` | Per request | CMS `appointmentSettings` |
+| `/contact` | Per request | CMS `siteSettings` |
 | `/privacy`, `/terms` | Static, `noindex` | Awaiting Visarto |
 | `/studio/[[...tool]]` | Static shell, client-only | Sanity Studio |
 | `/api/appointments` | Dynamic | Appointment and inquiry delivery |
@@ -61,9 +61,10 @@ Established from scratch, so there is no inherited debt. Current state of the ch
 | Install | `npm ci` | Clean |
 | Types | `npm run typecheck` | Clean |
 | Lint | `npm run lint` | Clean |
-| Build | `npm run build` | Clean, all routes prerendered |
+| Build | `npm run build` | Clean. Every route prerendered except the two conversion pages and the API |
 | Copy gate | `npm run copy-gate` | Clean |
-| Unit tests | `npm test` | Clean |
+| Unit tests | `npm test` | Clean, 10 assertions |
+| Behaviour | `bash scripts/behaviour.sh` | Clean, 27 checks including the appointment journey end to end |
 | Browser audit | `bash scripts/audit.sh <paths>` | Clean: headings, landmarks, accessible names, form labels, contrast, target size, focus visibility, horizontal overflow |
 | Screenshots | `bash scripts/qa.sh <paths>` | No console errors, no failed requests, no horizontal overflow at any of seven viewports |
 
@@ -131,6 +132,11 @@ visible "Content required" marker until an editor fills the matching CMS field.
 
 ## 9. Known gaps in this build
 
+- **The two conversion pages render per request.** Whether the appointment destination is
+  configured is read from the server environment, and prerendering them baked in whatever that
+  was at build time. On a platform where environment variables are set after a build, the form
+  would have silently stayed switched off while the destination was live. Everything else on the
+  site is still static.
 - **No proof passage.** There is no testimonial, press, or client section anywhere, because
   there is no real material for one. This is a deliberate hole in the homepage sequence and the
   first thing to build once permissions exist.

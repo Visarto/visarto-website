@@ -24,16 +24,19 @@ npm test            # weave drafts and the appointment guarantees
 npm run copy-gate   # dashes and stock language in authored copy
 ```
 
-Two browser checks run against a production build:
+Three browser checks run against a production build:
 
 ```bash
 bash scripts/qa.sh "/,/collections,/appointments"      # screenshots at seven viewports
 bash scripts/audit.sh "/,/collections,/appointments"   # accessibility and layout
+bash scripts/behaviour.sh                              # reduced motion, no-JS, menu, booking
 ```
 
 `qa.sh` writes to `qa/screenshots/` and reports console errors, failed requests and horizontal
 overflow. `audit.sh` checks heading order, landmarks, accessible names, form labels, computed
-contrast, target size, focus visibility and keyboard reachability.
+contrast, target size, focus visibility and keyboard reachability. `behaviour.sh` starts a local
+receiver and a second application instance pointed at it, so the whole appointment journey is
+exercised: form, API, destination, and only then a confirmation.
 
 ## Editing content
 

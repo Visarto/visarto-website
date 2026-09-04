@@ -22,3 +22,4 @@ production/exports/
 qa/screenshots/
 .qa-server.pid
 .audit-server.pid
+.behaviour-server.pid

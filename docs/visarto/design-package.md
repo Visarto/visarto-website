@@ -79,7 +79,9 @@ Taken from the materials of a tailoring room. Implemented in `styles/tokens.css`
 | `--on-midnight` | `#ede8de` | Text on the dark passage | 13.5:1 |
 | `--on-midnight-muted` | `#a7a093` | | 6.4:1 |
 | `--rule` | `#d6cfc2` | The drafting line | Non-text |
-| `--rule-strong` | `#bdb4a4` | A stronger rule, and input underlines | Non-text |
+| `--rule-strong` | `#bdb4a4` | A stronger rule | Non-text |
+| `--control-line` | `#867b68` | The outline of a control | 3.6:1 on chalk, 3.1:1 on stone |
+| `--control-line-on-midnight` | `#6b7898` | | 3.7:1 |
 | `--madder` | `#7b3226` | Basting thread red | 7.8:1 on chalk |
 | `--madder-on-midnight` | `#c08573` | | 5.4:1 |
 
@@ -91,6 +93,10 @@ Notes.
 - Madder is the only accent, and on the production site its only jobs are the content-required
   markers and form error states. When Visarto's content is complete, madder will be almost
   invisible on the site. That is intended. A rare colour has authority; a democratic one does not.
+- A rule and a control line are different things. A rule separates content and can be as quiet
+  as it likes; a control line is the outline of a button or the underside of an input, and it is
+  the only thing telling somebody a control is there, so it holds 3:1 against every surface it is
+  drawn on.
 - The palette is provisional until it can be checked against real Visarto photography.
 
 Dark and stone passages are surfaces, not themes: `.on-midnight` and `.on-stone` re-point the
@@ -268,6 +274,11 @@ Four behaviours for the whole site. Nothing loops, drifts, tilts, follows the po
 | Rule | A drafting line draws left to right | 620ms | same |
 | Exchange | Hover response on index rows, collection frames and links | 180 to 320ms | same |
 
+**One gesture per passage, and it lands on whatever the passage is about.** The homepage carries
+a rule draw under the opening, a mask on the fitting photograph, and a single rise on the cloth
+heading. Nothing else on the page moves. Giving every section the same lift on entry is the most
+recognisable tell of a generated page, and it was removed from this one after the first review.
+
 Engineering rules.
 
 - One IntersectionObserver serves the page; each element is unobserved once it has entered.
@@ -325,6 +336,11 @@ across every page at two viewports and checks heading order, one `h1` per page, 
 attributes, accessible names, form label association, computed contrast against the real
 rendered backdrop, target size, focus visibility across a full tab pass, and horizontal overflow.
 It currently reports clean.
+
+`scripts/behaviour.sh` covers what a screenshot cannot: reduced motion leaving every element in
+its final state, a page with JavaScript switched off, the mobile menu's focus and scroll
+behaviour, the metadata and structured data, and the appointment path against both an
+unconfigured and a live destination. Twenty-seven checks, all passing.
 
 Beyond the automated pass:
 

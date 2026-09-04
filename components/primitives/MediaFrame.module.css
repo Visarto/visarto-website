@@ -104,24 +104,3 @@
   line-height: 1.2;
   color: var(--text-secondary);
 }
-
-/* A slow, small scale change reserved for the two largest editorial frames. */
-.drift .image,
-.drift .cloth {
-  transform: scale(1.04);
-  transition: transform 1.6s var(--ease-out);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .drift[data-revealed='true'] .image,
-  .drift[data-revealed='true'] .cloth {
-    transform: scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .drift .image,
-  .drift .cloth {
-    transform: none;
-  }
-}

@@ -29,10 +29,20 @@
   --on-midnight: #ede8de; /* 13.5:1 on midnight */
   --on-midnight-muted: #a7a093; /* 6.4:1 on midnight */
 
-  /* ---- Line ------------------------------------------------------------- */
+  /* ---- Line -------------------------------------------------------------
+   * Two kinds of line, and the difference matters.
+   *
+   * A rule separates content and is decoration, so it can be as quiet as it
+   * likes. A control line is the outline of a button or the underside of an
+   * input, and it is the only thing telling somebody a control is there, so it
+   * has to hold 3:1 against every surface it is drawn on.
+   */
   --rule: #d6cfc2; /* the drafting line */
   --rule-strong: #bdb4a4;
   --rule-on-midnight: #3a4152;
+
+  --control-line: #867b68; /* 3.6:1 on chalk, 3.8:1 on paper, 3.1:1 on stone */
+  --control-line-on-midnight: #6b7898; /* 3.7:1 on midnight */
 
   /* ---- Accent ----------------------------------------------------------- */
   --madder: #7b3226; /* 7.8:1 on chalk */
@@ -45,6 +55,7 @@
   --text-muted: var(--ink-muted);
   --line: var(--rule);
   --line-strong: var(--rule-strong);
+  --control: var(--control-line);
   --accent: var(--madder);
   --focus: var(--ink);
   --focus-halo: var(--chalk);
@@ -105,9 +116,9 @@
   --s-9: 6rem;
   --s-10: 8.5rem;
 
-  --section-tight: clamp(3.5rem, 6vw, 6rem);
-  --section: clamp(5rem, 9vw, 9.5rem);
-  --section-loose: clamp(6.5rem, 12vw, 13rem);
+  --section-tight: clamp(3rem, 6vw, 6rem);
+  --section: clamp(4rem, 9vw, 9.5rem);
+  --section-loose: clamp(4.75rem, 12vw, 13rem);
 
   /* ---- Grid --------------------------------------------------------------
    * The page is drafted like a pattern: a wide sheet, a narrower block of
@@ -164,6 +175,7 @@
   --text-muted: var(--on-midnight-muted);
   --line: var(--rule-on-midnight);
   --line-strong: #4a5266;
+  --control: var(--control-line-on-midnight);
   --accent: var(--madder-on-midnight);
   --focus: var(--on-midnight);
   --focus-halo: var(--midnight);

@@ -20,18 +20,23 @@ export function FittingSection({
   return (
     <section className={styles.section} aria-labelledby="fitting-heading">
       <div className={`sheet ${styles.layout}`}>
-        <MediaFrame
-          className={styles.media}
-          ratio="5 / 6"
-          image={image}
-          alt={image?.alt ?? ''}
-          sizes="(min-width: 64rem) 44vw, 100vw"
-          weave="herringbone"
-          brief={home.fitting.imageBrief}
-          drift
-        />
+        {/*
+          The photograph is the subject of this passage, so it carries the
+          entrance and the copy beside it does not. One gesture per passage, and
+          it lands on whatever the passage is actually about.
+        */}
+        <Reveal as="div" variant="mask" className={styles.media}>
+          <MediaFrame
+            ratio="5 / 6"
+            image={image}
+            alt={image?.alt ?? ''}
+            sizes="(min-width: 64rem) 44vw, 100vw"
+            weave="herringbone"
+            brief={home.fitting.imageBrief}
+          />
+        </Reveal>
 
-        <Reveal className={styles.copy}>
+        <div className={styles.copy}>
           <h2 id="fitting-heading" className="display-2">
             {home.fitting.heading}
           </h2>
@@ -59,7 +64,7 @@ export function FittingSection({
           </div>
 
           <p className={`fine ${styles.closing}`}>{home.fitting.closing}</p>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

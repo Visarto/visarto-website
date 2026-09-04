@@ -7,6 +7,18 @@ import { pageMetadata } from '@/lib/seo';
 import { getSiteSettings } from '@/sanity/lib/queries';
 import styles from '../appointments/page.module.css';
 
+/**
+ * Rendered per request.
+ *
+ * Whether the appointment destination is configured is read from the server
+ * environment, and a statically prerendered page would bake in whatever that
+ * was at build time. On a platform where environment variables are set after a
+ * build, or changed without one, the form would silently stay switched off
+ * while the destination was live. This is the one page on the site where that
+ * would cost a client, so it is rendered per request.
+ */
+export const dynamic = 'force-dynamic';
+
 export const metadata = pageMetadata({
   title: 'Make an inquiry',
   description:
