@@ -27,3 +27,4 @@ qa/*.png
 .audit-server.pid
 .behaviour-server.pid
 .snapshot-server.pid
+visarto-system/
