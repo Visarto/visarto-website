@@ -38,6 +38,19 @@ contrast, target size, focus visibility and keyboard reachability. `behaviour.sh
 receiver and a second application instance pointed at it, so the whole appointment journey is
 exercised: form, API, destination, and only then a confirmation.
 
+## Sharing it for review
+
+```bash
+bash scripts/snapshot.sh
+```
+
+Builds `qa/visarto-snapshot.html`: every page of the site in one file, with the real markup,
+the real stylesheets and the fonts as data URIs. It opens in any browser, needs no server and
+depends on no network, so the site can be reviewed without deploying it anywhere.
+
+It is a snapshot, not the application. Navigation runs on the hash, the entrance and the mobile
+menu are reimplemented in a few lines of plain JavaScript, and the appointment form is inert.
+
 ## Editing content
 
 The Sanity Studio is served at `/studio`. Set `NEXT_PUBLIC_SANITY_PROJECT_ID` and

@@ -18,8 +18,12 @@ production/raw/
 production/review/
 production/exports/
 
-# Local QA artefacts
+# Local QA artefacts. The snapshot is rebuilt from the production build with
+# scripts/snapshot.sh rather than committed.
 qa/screenshots/
+qa/*.html
+qa/*.png
 .qa-server.pid
 .audit-server.pid
 .behaviour-server.pid
+.snapshot-server.pid
