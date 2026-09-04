@@ -1,0 +1,58 @@
+/*
+ * Visarto layout primitives.
+ *
+ * Three widths, used consistently: the sheet is the full pattern paper, the
+ * content block is where most composition happens, and the reading column is
+ * fixed so body copy never runs past a comfortable measure.
+ */
+
+.sheet {
+  width: 100%;
+  max-width: var(--max-sheet);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.content {
+  width: 100%;
+  max-width: var(--max-content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.reading {
+  max-width: var(--max-reading);
+}
+
+/*
+ * The draft grid. Twelve columns on wide viewports, six on tablet, and a single
+ * column on phones where a twelve-column grid is a fiction.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+@media (max-width: 63.99rem) {
+  .grid {
+    --grid-columns: 6;
+  }
+}
+
+@media (max-width: 39.99rem) {
+  .grid {
+    --grid-columns: 1;
+  }
+}
+
+/*
+ * The hairline. A drafting rule, not a border on a card. It is the primary way
+ * sections are separated, which is why the site needs almost no containers.
+ */
+.rule {
+  border: 0;
+  height: 1px;
+  background-color: var(--line);
+  margin: 0;
+}

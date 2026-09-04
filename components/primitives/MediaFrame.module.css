@@ -1,0 +1,127 @@
+.frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background-color: var(--cloth-ground);
+  aspect-ratio: var(--frame-ratio, 4 / 5);
+  margin: 0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focal, 50% 50%);
+}
+
+/* The cloth field stands in for a photograph that has not been supplied. */
+.cloth {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Registration marks. These are crop marks, and they are drawn only on a frame
+ * that is waiting for artwork, which is exactly where a crop mark belongs.
+ */
+.marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: var(--line-strong);
+}
+
+.marks::before,
+.marks::after {
+  content: '';
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-color: currentColor;
+  border-style: solid;
+  opacity: 0.85;
+}
+
+.marks::before {
+  top: 0.75rem;
+  left: 0.75rem;
+  border-width: 1px 0 0 1px;
+}
+
+.marks::after {
+  bottom: 0.75rem;
+  right: 0.75rem;
+  border-width: 0 1px 1px 0;
+}
+
+/*
+ * The brief sits at the top of the frame, not the bottom. A tall editorial
+ * frame often runs past the fold, and a note that says what is missing is
+ * useless if it is the part that gets cut off.
+ */
+.brief {
+  position: absolute;
+  left: 0.75rem;
+  top: 2.75rem;
+  right: 2.75rem;
+  max-width: 30rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0.625rem 0.75rem;
+  background-color: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-left: 2px solid var(--accent);
+}
+
+.briefTitle {
+  color: var(--accent);
+}
+
+.briefBody {
+  font-size: var(--t-fine);
+  line-height: 1.45;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* The compact marker: the label and the slot, on one line, in the corner. */
+.briefCompact {
+  position: absolute;
+  left: 0.75rem;
+  top: 2.75rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.375rem 0.625rem;
+  background-color: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-left: 2px solid var(--accent);
+}
+
+.briefSlot {
+  font-size: var(--t-fine);
+  line-height: 1.2;
+  color: var(--text-secondary);
+}
+
+/* A slow, small scale change reserved for the two largest editorial frames. */
+.drift .image,
+.drift .cloth {
+  transform: scale(1.04);
+  transition: transform 1.6s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .drift[data-revealed='true'] .image,
+  .drift[data-revealed='true'] .cloth {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift .image,
+  .drift .cloth {
+    transform: none;
+  }
+}

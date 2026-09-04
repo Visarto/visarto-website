@@ -1,0 +1,119 @@
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0.5rem 0.25rem;
+  font-size: var(--t-fine);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+@media (min-width: 64rem) {
+  .trigger {
+    display: none;
+  }
+}
+
+/*
+ * Two rules, not a hamburger glyph. The site already uses the drafting rule as
+ * its structural mark, so the menu control is drawn from the same vocabulary.
+ */
+.bars {
+  display: block;
+  width: 1.375rem;
+}
+
+.bars span {
+  display: block;
+  height: 1px;
+  background-color: var(--ink);
+}
+
+.bars span + span {
+  margin-top: 5px;
+}
+
+.dialog {
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: var(--chalk);
+  color: var(--ink);
+}
+
+.dialog::backdrop {
+  background-color: rgb(25 21 18 / 0.45);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-block: var(--s-5) var(--s-6);
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3rem;
+  padding-bottom: var(--s-5);
+  border-bottom: 1px solid var(--rule);
+}
+
+.close {
+  min-height: 2.75rem;
+  padding: 0.5rem;
+  font-size: var(--t-fine);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: var(--s-2);
+}
+
+.item {
+  border-bottom: 1px solid var(--rule);
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  padding-block: var(--s-4);
+  min-height: 3.25rem;
+  justify-content: center;
+}
+
+.linkLabel {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-variation-settings: 'opsz' 48;
+  color: var(--ink);
+}
+
+.linkNote {
+  font-size: var(--t-fine);
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+
+.foot {
+  padding-top: var(--s-5);
+  display: grid;
+  gap: var(--s-3);
+}

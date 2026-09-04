@@ -1,0 +1,17 @@
+.link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  transform: translateY(-120%);
+  padding: 0.875rem 1.25rem;
+  background-color: var(--ink);
+  color: var(--chalk);
+  font-size: var(--t-small);
+  font-weight: 600;
+  transition: transform var(--dur-quick) var(--ease-out);
+}
+
+.link:focus-visible {
+  transform: translateY(0);
+}

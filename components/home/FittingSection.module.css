@@ -1,0 +1,78 @@
+/*
+ * The fitting.
+ *
+ * A mirror of the opening: the photograph now breaks the left margin and the
+ * type holds the right. Reversing the axis is how the page changes subject
+ * without announcing it with a label or a coloured band.
+ */
+
+.section {
+  padding-block: var(--section-loose);
+  background-color: var(--paper);
+  border-block: 1px solid var(--rule);
+}
+
+.layout {
+  display: grid;
+  gap: var(--s-7);
+}
+
+.media {
+  margin-left: calc(var(--gutter) * -1);
+}
+
+.copy {
+  display: grid;
+  align-content: center;
+  gap: var(--s-5);
+}
+
+.body {
+  color: var(--ink-secondary);
+}
+
+.places {
+  display: grid;
+  gap: 0;
+  margin-top: var(--s-3);
+  border-top: 1px solid var(--rule);
+}
+
+.place {
+  display: grid;
+  gap: var(--s-3);
+  padding-block: var(--s-5);
+  border-bottom: 1px solid var(--rule);
+}
+
+.placeTitle {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'opsz' 32;
+  color: var(--ink);
+}
+
+.placeNote {
+  font-size: var(--t-small);
+  color: var(--ink-muted);
+  max-width: 44ch;
+}
+
+.closing {
+  margin-top: var(--s-2);
+  color: var(--ink-muted);
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 5.4fr) minmax(0, 6.6fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  .copy {
+    padding-block: var(--s-5);
+  }
+}

@@ -1,0 +1,197 @@
+/*
+ * Visarto design tokens.
+ *
+ * The palette is taken from the materials of a tailoring room: pattern paper,
+ * tailor's chalk, worsted wool, espresso, and the midnight blue used for
+ * evening cloth because true black reads flat under light. Nothing here is a
+ * generic "luxury" colour. Accent is madder, the red of a basting thread, and
+ * it is used rarely so that it keeps its authority.
+ *
+ * Contrast has been measured. Every text token meets WCAG 2.2 AA against the
+ * surfaces it is allowed to sit on.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Surfaces --------------------------------------------------------- */
+  --chalk: #f2eee6; /* pattern paper, the default ground */
+  --paper: #f8f5ef; /* a half tone lighter, for raised passages */
+  --stone: #e4ded2; /* pressed cloth, for quiet blocks */
+  --midnight: #1a1f2b; /* evening cloth */
+  --midnight-raised: #242a38;
+
+  /* ---- Ink -------------------------------------------------------------- */
+  --ink: #191512; /* 15.7:1 on chalk */
+  --ink-secondary: #4e463c; /* 8.0:1 on chalk */
+  --ink-muted: #675e52; /* 5.5:1 on chalk, 4.8:1 on stone */
+
+  --on-midnight: #ede8de; /* 13.5:1 on midnight */
+  --on-midnight-muted: #a7a093; /* 6.4:1 on midnight */
+
+  /* ---- Line ------------------------------------------------------------- */
+  --rule: #d6cfc2; /* the drafting line */
+  --rule-strong: #bdb4a4;
+  --rule-on-midnight: #3a4152;
+
+  /* ---- Accent ----------------------------------------------------------- */
+  --madder: #7b3226; /* 7.8:1 on chalk */
+  --madder-on-midnight: #c08573; /* 5.4:1 on midnight */
+
+  /* ---- Surface-aware roles ---------------------------------------------- */
+  --surface: var(--chalk);
+  --text: var(--ink);
+  --text-secondary: var(--ink-secondary);
+  --text-muted: var(--ink-muted);
+  --line: var(--rule);
+  --line-strong: var(--rule-strong);
+  --accent: var(--madder);
+  --focus: var(--ink);
+  --focus-halo: var(--chalk);
+  --selection-bg: #d9d0be;
+  --selection-fg: var(--ink);
+
+  /* ---- Type families ----------------------------------------------------- */
+  --font-display: var(--font-fraunces), 'Iowan Old Style', 'Palatino Linotype',
+    'Times New Roman', serif;
+  --font-text: var(--font-manrope), 'Helvetica Neue', Arial, sans-serif;
+
+  /* ---- Type scale --------------------------------------------------------
+   * Fluid, but bounded. Not every heading is enormous: the scale narrows as it
+   * descends so that a page can hold three levels of hierarchy without
+   * shouting.
+   */
+  --t-display-1: clamp(3.25rem, 1.55rem + 7vw, 6.25rem);
+  --t-display-2: clamp(2.2rem, 1.6rem + 2.6vw, 4rem);
+  --t-display-3: clamp(1.65rem, 1.36rem + 1.25vw, 2.5rem);
+  --t-title: clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem);
+  --t-lede: clamp(1.1rem, 1.03rem + 0.34vw, 1.35rem);
+  --t-body: clamp(1rem, 0.975rem + 0.11vw, 1.0625rem);
+  --t-small: 0.9375rem;
+  --t-fine: 0.8125rem;
+  --t-label: 0.6875rem;
+
+  --lh-display: 1.04;
+  --lh-display-small: 1.12;
+  --lh-title: 1.24;
+  --lh-lede: 1.48;
+  --lh-body: 1.66;
+
+  --track-display: -0.02em;
+  --track-display-large: -0.028em;
+  --track-body: 0;
+  --track-label: 0.13em;
+
+  /* ---- Measure -----------------------------------------------------------
+   * Display measure is set by the composition, not here: a masthead on a hero
+   * and a section opener want different line lengths.
+   */
+  --measure-lede: 44ch;
+  --measure-body: 62ch;
+
+  /* ---- Space -------------------------------------------------------------
+   * A four-step base with editorial jumps above it. Section rhythm is
+   * deliberately not one value: an opening passage breathes differently from a
+   * dense index.
+   */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 2.75rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 8.5rem;
+
+  --section-tight: clamp(3.5rem, 6vw, 6rem);
+  --section: clamp(5rem, 9vw, 9.5rem);
+  --section-loose: clamp(6.5rem, 12vw, 13rem);
+
+  /* ---- Grid --------------------------------------------------------------
+   * The page is drafted like a pattern: a wide sheet, a narrower block of
+   * content, and a fixed reading column. The gutter is generous because the
+   * margin of a pattern sheet is where the tailor works.
+   */
+  --gutter: clamp(1.25rem, 5vw, 5.5rem);
+  --max-sheet: 1680px;
+  --max-content: 1240px;
+  --max-reading: 34rem;
+  --grid-columns: 12;
+  --grid-gap: clamp(1rem, 2.2vw, 2.25rem);
+
+  /* ---- Motion ------------------------------------------------------------
+   * Four durations and two easings for the whole site. A restricted vocabulary
+   * is what keeps motion from becoming decoration.
+   */
+  --dur-quick: 180ms;
+  --dur-normal: 320ms;
+  --dur-slow: 620ms;
+  --dur-reveal: 820ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ---- Cloth -------------------------------------------------------------
+   * The weave fields are drawn from real draft notation, so they need a warp
+   * tone, a weft tone and a dark band tone for the checked structures. The
+   * contrast between them is low on purpose: cloth at arm's length is a
+   * texture, not a pattern.
+   */
+  --cloth-ground: #e7e1d4;
+  --cloth-warp: #c9c0aa;
+  --cloth-weft: #e6e0d3;
+  --cloth-dark: #b0a58e;
+
+  /* ---- Chrome ------------------------------------------------------------ */
+  --header-height: 4.5rem;
+}
+
+@media (min-width: 60rem) {
+  :root {
+    --header-height: 5.5rem;
+  }
+}
+
+/*
+ * Dark passages are a surface, not a theme. Applying this class re-points the
+ * role tokens so that every primitive inside adapts without knowing where it is.
+ */
+.on-midnight {
+  --surface: var(--midnight);
+  --text: var(--on-midnight);
+  --text-secondary: var(--on-midnight);
+  --text-muted: var(--on-midnight-muted);
+  --line: var(--rule-on-midnight);
+  --line-strong: #4a5266;
+  --accent: var(--madder-on-midnight);
+  --focus: var(--on-midnight);
+  --focus-halo: var(--midnight);
+  --selection-bg: #3d4557;
+  --selection-fg: var(--on-midnight);
+
+  --cloth-ground: #212736;
+  --cloth-warp: #2c3345;
+  --cloth-weft: #242b3a;
+  --cloth-dark: #38405a;
+
+  background-color: var(--midnight);
+  color: var(--text);
+}
+
+.on-stone {
+  --surface: var(--stone);
+  --line: var(--rule-strong);
+
+  --cloth-ground: #ded7c8;
+  --cloth-warp: #cbc2ae;
+  --cloth-weft: #d9d2c3;
+  --cloth-dark: #ada288;
+
+  background-color: var(--stone);
+}
+
+.on-paper {
+  --surface: var(--paper);
+  background-color: var(--paper);
+}

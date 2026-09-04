@@ -1,0 +1,79 @@
+/*
+ * The specimen sheet.
+ *
+ * Six squares of cloth with their notation printed beneath. No container, no
+ * border box, no icon, no shadow: a rule between the rows and the weave itself
+ * carry it, which is how a bunch of swatches has always been presented.
+ */
+
+.specimens {
+  display: grid;
+  gap: 0;
+  margin-top: var(--s-8);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.specimen {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: var(--s-5);
+  align-items: start;
+  padding-block: var(--s-6);
+  border-bottom: 1px solid var(--rule);
+}
+
+.swatch {
+  width: 4.5rem;
+  height: 4.5rem;
+  background-color: var(--cloth-ground);
+}
+
+.specimenBody {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'opsz' 32;
+  color: var(--ink);
+}
+
+.note {
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--ink-secondary);
+  max-width: 58ch;
+}
+
+@media (min-width: 48rem) {
+  .specimens {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+  }
+}
+
+@media (min-width: 75rem) {
+  /*
+   * At full width the swatch stops being an inline mark and becomes the
+   * specimen itself: a square of cloth with its notation printed beneath.
+   */
+  .specimens {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .specimen {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    padding-block: var(--s-7);
+  }
+
+  .swatch {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 4;
+  }
+}

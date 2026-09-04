@@ -1,0 +1,7 @@
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4) var(--s-6);
+  padding-block: var(--section-tight) var(--section-loose);
+}

@@ -1,0 +1,71 @@
+/*
+ * Visarto motion vocabulary.
+ *
+ * Four behaviours for the whole site. Every one of them is an entrance: nothing
+ * on Visarto loops, drifts, bounces, or follows the pointer. A section does not
+ * earn movement by scrolling into view; movement is applied where it clarifies
+ * an order of reading.
+ *
+ * 1. mask  a media frame uncovers from its lower edge, the way a length of
+ *          cloth is unrolled
+ * 2. rise  a short lift on the first block of a passage, once per section
+ * 3. rule  a drafting line drawn across, left to right
+ * 4. hover exchange, handled in the components that use it
+ *
+ * The pre-state applies only when JavaScript is available and the visitor has
+ * not asked for reduced motion. Without either, the page is already finished.
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-js='true'] [data-reveal] {
+    --reveal-delay: 0ms;
+  }
+
+  [data-js='true'] [data-reveal='mask'] {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path var(--dur-reveal) var(--ease-out);
+    transition-delay: var(--reveal-delay);
+  }
+
+  [data-js='true'] [data-reveal='mask'][data-revealed='true'] {
+    clip-path: inset(0 0 0 0);
+  }
+
+  [data-js='true'] [data-reveal='rise'] {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0);
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    transition-delay: var(--reveal-delay);
+  }
+
+  [data-js='true'] [data-reveal='rise'][data-revealed='true'] {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-js='true'] [data-reveal='rule'] {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--dur-slow) var(--ease-out);
+    transition-delay: var(--reveal-delay);
+  }
+
+  [data-js='true'] [data-reveal='rule'][data-revealed='true'] {
+    transform: scaleX(1);
+  }
+}
+
+/*
+ * Print, and any context that renders the document without scrolling it, gets
+ * the finished page. Nothing on Visarto is allowed to be invisible because an
+ * entrance never ran.
+ */
+@media print {
+  [data-reveal] {
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

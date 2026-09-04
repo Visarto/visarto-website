@@ -1,0 +1,138 @@
+/*
+ * The opening.
+ *
+ * Two axes. Type holds the left gutter and never moves off it; the photograph
+ * breaks the right margin and runs to the edge of the viewport. The asymmetry
+ * is the point: a pattern is drafted against one straight edge, and the cloth
+ * runs off the other.
+ */
+
+.section {
+  position: relative;
+  padding-top: var(--s-7);
+  padding-bottom: var(--section-tight);
+}
+
+.layout {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.copy {
+  display: grid;
+  align-content: start;
+  gap: var(--s-6);
+}
+
+/*
+ * The masthead is held to ten characters so it breaks after "fit" at every
+ * width. Two weighted halves, one above the other, is the composition; a single
+ * long line running edge to edge is not.
+ */
+.display {
+  max-width: 10ch;
+}
+
+.lede {
+  color: var(--ink-secondary);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4) var(--s-6);
+}
+
+.note {
+  color: var(--ink-muted);
+}
+
+.media {
+  /* Runs past the sheet margin to the right edge of the viewport. */
+  margin-right: calc(var(--gutter) * -1);
+}
+
+@media (min-width: 48rem) {
+  .section {
+    padding-top: var(--s-8);
+  }
+
+  .lede {
+    /* Indented one step off the display axis: the standfirst of a spread sits
+       inside the headline, not under it. */
+    margin-left: clamp(0rem, 4vw, 3.5rem);
+  }
+}
+
+@media (min-width: 64rem) {
+  /*
+   * The cloth column runs from the underside of the header to the foot of the
+   * composition, so the section itself carries no top padding and the copy
+   * holds its own. The photograph becomes a full-height edge for the type to
+   * sit against rather than a picture placed next to it.
+   */
+  .section {
+    padding-top: 0;
+    padding-bottom: var(--section);
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 6.2fr) minmax(0, 5.8fr);
+    gap: clamp(2rem, 5vw, 5.5rem);
+    align-items: stretch;
+    min-height: min(calc(100svh - var(--header-height)), 44rem);
+  }
+
+  /*
+   * The photograph takes the height of the row rather than dictating it. A
+   * fixed ratio here would make the frame taller than the screen and push the
+   * type off its optical centre.
+   */
+  .media {
+    --frame-ratio: auto;
+    height: 100%;
+    min-height: 28rem;
+  }
+
+  .copy {
+    gap: var(--s-7);
+    align-content: center;
+    padding-block: var(--s-4) var(--s-6);
+  }
+
+  .actions {
+    gap: var(--s-6);
+  }
+}
+
+/* Short desktop windows: release the minimum height so the composition is not
+   crushed vertically. */
+@media (min-width: 64rem) and (max-height: 43rem) {
+  .layout {
+    min-height: 0;
+    align-items: start;
+  }
+
+  .media {
+    --frame-ratio: 4 / 5;
+    height: auto;
+    min-height: 0;
+  }
+
+  .section {
+    padding-top: var(--s-6);
+    padding-bottom: var(--s-8);
+  }
+}
+
+.footRule {
+  margin-top: var(--section-tight);
+  display: grid;
+  gap: var(--s-4);
+}
+
+.footRuleLine {
+  height: 1px;
+  background-color: var(--rule);
+}

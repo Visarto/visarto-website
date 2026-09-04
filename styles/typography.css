@@ -1,0 +1,129 @@
+/*
+ * Visarto typography.
+ *
+ * Fraunces carries the identity. It is a variable serif with a true optical
+ * size axis, so display sizes can take the high stroke contrast of a fashion
+ * masthead while the same family at text size stays sturdy. WONK is held at 0
+ * and SOFT low: the terminals stay cut rather than rounded, which is the right
+ * temperament for a tailoring house.
+ *
+ * Manrope sets everything that has to be read rather than looked at. It is kept
+ * small, quiet, and slightly tracked so it never competes with the serif.
+ *
+ * These classes set type and nothing else. Measure is the business of the
+ * composition using them, so a headline's line length is decided where the
+ * headline sits rather than globally.
+ */
+
+.display-1,
+.display-2,
+.display-3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.display-1 {
+  font-size: var(--t-display-1);
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display-large);
+  font-variation-settings: 'opsz' 144;
+}
+
+.display-2 {
+  font-size: var(--t-display-2);
+  line-height: var(--lh-display-small);
+  letter-spacing: var(--track-display);
+  font-variation-settings: 'opsz' 96;
+  max-width: 20ch;
+}
+
+.display-3 {
+  font-size: var(--t-display-3);
+  line-height: var(--lh-title);
+  letter-spacing: -0.014em;
+  font-variation-settings: 'opsz' 48;
+  max-width: 26ch;
+}
+
+/* A serif set at reading size. Used for a single held sentence, never for runs
+   of body copy. */
+.display-quiet {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--t-lede);
+  line-height: 1.42;
+  letter-spacing: -0.008em;
+  font-variation-settings: 'opsz' 24;
+  color: var(--text);
+}
+
+.lede {
+  font-size: var(--t-lede);
+  line-height: var(--lh-lede);
+  color: var(--text-secondary);
+  max-width: var(--measure-lede);
+  text-wrap: pretty;
+}
+
+.body {
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--text-secondary);
+  max-width: var(--measure-body);
+  text-wrap: pretty;
+}
+
+.body + .body {
+  margin-top: var(--s-5);
+}
+
+.fine {
+  font-size: var(--t-fine);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/*
+ * The drafting annotation. This is the notation a tailor writes in the margin
+ * of a pattern: short, set small, spaced so it reads as a mark rather than as a
+ * sentence. It is used for genuine notation only, never as decoration above
+ * every heading.
+ */
+.annotation {
+  font-size: var(--t-label);
+  line-height: 1;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Numerals used as index marks in a list. Tabular so columns line up. */
+.index-mark {
+  font-family: var(--font-text);
+  font-size: var(--t-fine);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/*
+ * Inline links inside prose. The underline sits below the baseline and thickens
+ * on interaction, which is quieter than a colour change and works on every
+ * surface.
+ */
+.prose-link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: var(--line-strong);
+  transition: text-decoration-color var(--dur-quick) var(--ease-out);
+}
+
+.prose-link:hover {
+  text-decoration-color: var(--text);
+}

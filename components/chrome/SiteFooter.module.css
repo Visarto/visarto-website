@@ -1,0 +1,141 @@
+.footer {
+  border-top: 1px solid var(--rule-strong);
+  background-color: var(--chalk);
+  padding-block: var(--section-tight) var(--s-6);
+}
+
+/*
+ * The wordmark is set once at masthead scale at the foot of the page. It is the
+ * only place on the site where the name is allowed to be large, which is what
+ * keeps it from becoming decoration.
+ */
+.masthead {
+  display: grid;
+  gap: var(--s-5);
+  padding-bottom: var(--s-8);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-variation-settings: 'opsz' 144;
+  font-size: clamp(2.75rem, 12vw, 9rem);
+  line-height: 0.9;
+  color: var(--ink);
+  margin-right: -0.06em;
+}
+
+.statement {
+  font-size: var(--t-small);
+  color: var(--ink-secondary);
+  max-width: 30ch;
+}
+
+@media (min-width: 48rem) {
+  .masthead {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+
+  .statement {
+    text-align: right;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.columns {
+  display: grid;
+  gap: var(--s-7);
+  padding-block: var(--s-7);
+  border-top: 1px solid var(--rule);
+}
+
+@media (min-width: 40rem) {
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .columns {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+}
+
+.columnHead {
+  display: block;
+  margin-bottom: var(--s-4);
+  color: var(--ink);
+}
+
+.stack {
+  display: grid;
+  gap: var(--s-1);
+  font-size: var(--t-small);
+  color: var(--ink-secondary);
+}
+
+/*
+ * Footer links are given their own height rather than sitting at the height of
+ * their text. A 15px line box is a 21px target, which is below the 24px floor
+ * and unpleasant on a phone whatever the specification says.
+ */
+.stack a {
+  display: inline-block;
+  padding-block: 0.4375rem;
+  transition: color var(--dur-quick) var(--ease-out);
+}
+
+@media (pointer: coarse) {
+  .stack a {
+    padding-block: 0.75rem;
+  }
+}
+
+.stack a:hover {
+  color: var(--ink);
+}
+
+.address {
+  font-style: normal;
+  display: grid;
+  gap: var(--s-3);
+  font-size: var(--t-small);
+  color: var(--ink-secondary);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-fine);
+  color: var(--ink-muted);
+}
+
+.legalLinks {
+  display: flex;
+  gap: var(--s-5);
+  margin-block: calc(var(--s-2) * -1);
+}
+
+.legalLinks a {
+  display: inline-block;
+  padding-block: var(--s-2);
+}
+
+.legalLinks a:hover {
+  color: var(--ink);
+}
+
+@media (pointer: coarse) {
+  .legalLinks a {
+    padding-block: 0.6875rem;
+  }
+}

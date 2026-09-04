@@ -1,0 +1,50 @@
+/*
+ * The lookbook runs as a column-balanced set rather than a fixed grid, so
+ * portrait and landscape photographs can sit together without being forced to
+ * one ratio. Captions belong to their photograph, not to a row.
+ */
+
+.grid {
+  display: grid;
+  gap: var(--s-7) var(--grid-gap);
+  padding-block: var(--section-tight) var(--section);
+}
+
+.caption {
+  margin-top: var(--s-3);
+  font-size: var(--t-fine);
+  color: var(--ink-muted);
+  max-width: 42ch;
+}
+
+.empty {
+  display: grid;
+  gap: var(--s-6);
+  justify-items: start;
+  padding-block: var(--section-tight) var(--section-loose);
+}
+
+@media (min-width: 40rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .item:nth-child(even) {
+    padding-top: clamp(1.5rem, 5vw, 4rem);
+  }
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-9) var(--grid-gap);
+  }
+
+  .item:nth-child(even) {
+    padding-top: 0;
+  }
+
+  .item:nth-child(3n + 2) {
+    padding-top: clamp(2rem, 6vw, 5rem);
+  }
+}

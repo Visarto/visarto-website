@@ -1,0 +1,62 @@
+# Visarto
+
+The website for Visarto, a made-to-measure and custom clothing house.
+
+## Running it
+
+```bash
+npm ci
+npm run dev
+```
+
+No environment variables are needed. With nothing configured the site runs on its authored
+baseline: the CMS returns nothing, every photograph slot draws a cloth field naming the
+photograph that belongs there, the appointment form is visibly switched off, and no analytics
+event is sent. Copy `.env.example` to `.env.local` to connect any of those.
+
+## Checks
+
+```bash
+npm run typecheck   # TypeScript, strict
+npm run lint        # ESLint
+npm run build       # production build
+npm test            # weave drafts and the appointment guarantees
+npm run copy-gate   # dashes and stock language in authored copy
+```
+
+Two browser checks run against a production build:
+
+```bash
+bash scripts/qa.sh "/,/collections,/appointments"      # screenshots at seven viewports
+bash scripts/audit.sh "/,/collections,/appointments"   # accessibility and layout
+```
+
+`qa.sh` writes to `qa/screenshots/` and reports console errors, failed requests and horizontal
+overflow. `audit.sh` checks heading order, landmarks, accessible names, form labels, computed
+contrast, target size, focus visibility and keyboard reachability.
+
+## Editing content
+
+The Sanity Studio is served at `/studio`. Set `NEXT_PUBLIC_SANITY_PROJECT_ID` and
+`NEXT_PUBLIC_SANITY_DATASET` first.
+
+Editors control content, never layout. There is no colour field, no spacing field and no page
+builder: the design system decides how something is placed, and the editor decides what it is.
+
+## Two rules this codebase holds to
+
+**Nothing about the business is invented.** Addresses, telephone numbers, mills, lead times,
+prices and client quotations are facts. Where the design needs one and the CMS has none, the site
+renders a visible "Content required" marker naming what is missing. There is no placeholder text
+anywhere that could be mistaken for a real claim, and there are no testimonials, press mentions or
+statistics of any kind.
+
+**The appointment path never lies.** `/api/appointments` refuses with 503 when no destination is
+configured, and the confirmation screen is reachable only from a confirmed acceptance by that
+destination. `tests/appointments.test.mjs` asserts both.
+
+## Documentation
+
+- `docs/visarto/design-package.md` is the source of truth for the visual system
+- `docs/visarto/build-audit.md` records the state of the project and what Visarto still has to supply
+- `docs/visarto/implementation-plan.md` tracks the build

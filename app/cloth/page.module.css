@@ -1,0 +1,68 @@
+.structures {
+  padding-block: var(--section-tight) var(--section);
+}
+
+.head {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 46rem;
+}
+
+.mills {
+  padding-block: var(--section);
+}
+
+.millsLayout {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.millList {
+  display: grid;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.mill {
+  display: grid;
+  gap: var(--s-2);
+  padding-block: var(--s-5);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.millName {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  line-height: 1.2;
+  font-variation-settings: 'opsz' 32;
+  color: var(--ink);
+}
+
+.millNote {
+  display: grid;
+  gap: var(--s-2);
+  font-size: var(--t-small);
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.millBody {
+  color: var(--ink-secondary);
+  max-width: 58ch;
+}
+
+.action {
+  margin-top: var(--s-3);
+}
+
+@media (min-width: 64rem) {
+  .millsLayout {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+
+  .millList,
+  .action {
+    grid-column: 2;
+  }
+}

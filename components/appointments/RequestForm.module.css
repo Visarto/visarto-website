@@ -1,0 +1,205 @@
+/*
+ * The request form.
+ *
+ * A first approach to a tailor should not read like a procurement portal, so
+ * the form is short and the fields are drawn as ruled lines rather than boxes.
+ * The line is the same drafting rule the rest of the site is built from, which
+ * is why a form here does not look like a component library.
+ */
+
+.form {
+  display: grid;
+  gap: var(--s-6);
+  max-width: 34rem;
+}
+
+.field {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.label {
+  font-size: var(--t-small);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.hint {
+  font-size: var(--t-fine);
+  color: var(--ink-muted);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  min-height: 2.875rem;
+  padding: 0.625rem 0;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  font-size: var(--t-body);
+  color: var(--ink);
+  transition: border-color var(--dur-quick) var(--ease-out);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 6rem;
+  line-height: 1.6;
+}
+
+.input:hover,
+.textarea:hover {
+  border-color: var(--ink-muted);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--ink);
+}
+
+.input[aria-invalid='true'],
+.textarea[aria-invalid='true'] {
+  border-color: var(--madder);
+  border-bottom-width: 2px;
+}
+
+.error {
+  font-size: var(--t-fine);
+  color: var(--madder);
+}
+
+/*
+ * The choice of place is a radio group drawn as a stack of ruled rows. Each row
+ * is a full-width target, which is what makes it comfortable on a phone.
+ */
+.choices {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  margin-top: var(--s-1);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-height: 3rem;
+  padding-block: var(--s-3);
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  font-size: var(--t-body);
+}
+
+.choice:hover {
+  color: var(--ink);
+}
+
+.radio {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+  flex: none;
+  transition: border-color var(--dur-quick) var(--ease-out);
+}
+
+.radio:checked {
+  border-color: var(--ink);
+  border-width: 5px;
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.foot {
+  display: grid;
+  gap: var(--s-4);
+  margin-top: var(--s-2);
+}
+
+.privacy {
+  font-size: var(--t-fine);
+  color: var(--ink-muted);
+  max-width: 46ch;
+}
+
+/* The same square, ink-filled action used everywhere else on the site. */
+.submit {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.875rem;
+  padding: 0.8125rem 1.5rem;
+  border: 1px solid var(--ink);
+  background-color: var(--ink);
+  color: var(--chalk);
+  font-size: var(--t-small);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background-color var(--dur-quick) var(--ease-out);
+}
+
+.submit:hover:not(:disabled) {
+  background-color: var(--midnight);
+  border-color: var(--midnight);
+}
+
+.submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/*
+ * Outcome. Success and failure are given the same weight and the same position,
+ * so a failure is never quieter than a success.
+ */
+.outcome {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border-left: 2px solid var(--ink);
+  background-color: var(--paper);
+  max-width: 34rem;
+}
+
+.outcomeFailed {
+  border-left-color: var(--madder);
+}
+
+.outcomeTitle {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  line-height: 1.25;
+  font-variation-settings: 'opsz' 32;
+  color: var(--ink);
+}
+
+.outcomeBody {
+  font-size: var(--t-small);
+  color: var(--ink-secondary);
+}
+
+.notice {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border-left: 2px solid var(--madder);
+  background-color: color-mix(in srgb, var(--madder) 7%, transparent);
+  max-width: 40rem;
+  margin-bottom: var(--s-7);
+}
+
+.disabled {
+  opacity: 0.5;
+}
