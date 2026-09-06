@@ -9,7 +9,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--text);
 }
 
 @media (min-width: 64rem) {
@@ -30,7 +30,7 @@
 .bars span {
   display: block;
   height: 1px;
-  background-color: var(--ink);
+  background-color: var(--text);
 }
 
 .bars span + span {
@@ -45,8 +45,8 @@
   margin: 0;
   padding: 0;
   border: 0;
-  background-color: var(--chalk);
-  color: var(--ink);
+  background-color: var(--ground);
+  color: var(--text);
 }
 
 .dialog::backdrop {
@@ -66,7 +66,7 @@
   justify-content: space-between;
   min-height: 3rem;
   padding-bottom: var(--s-5);
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--line);
 }
 
 .close {
@@ -85,7 +85,7 @@
 }
 
 .item {
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--line);
 }
 
 .link {
@@ -102,13 +102,13 @@
   font-size: 1.5rem;
   line-height: 1.15;
   letter-spacing: -0.015em;
-  font-variation-settings: 'opsz' 48;
-  color: var(--ink);
+  font-variation-settings: 'opsz' 40;
+  color: var(--text);
 }
 
 .linkNote {
   font-size: var(--t-fine);
-  color: var(--ink-muted);
+  color: var(--text-muted);
   line-height: 1.4;
 }
 

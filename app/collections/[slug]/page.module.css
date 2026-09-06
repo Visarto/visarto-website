@@ -1,19 +1,67 @@
-.layout {
+/*
+ * A collection page opens the way the homepage does: the photograph takes the
+ * screen and the title sits on it. Reading the two in sequence should feel like
+ * turning from the cover of a publication to a chapter of it, rather than
+ * arriving at a differently-built page.
+ */
+
+.opening {
+  position: relative;
+  isolation: isolate;
   display: grid;
-  gap: var(--s-7);
-  padding-block: var(--section-tight) var(--section);
+  align-items: end;
+  min-height: min(calc(100svh - var(--header-height)), 42rem);
+  padding-block: var(--s-9) var(--s-8);
+  overflow: hidden;
 }
 
-.hero {
-  /* Breaks the left margin, the way the fitting passage on the homepage does,
-     so an inner page keeps the same relationship between cloth and type. */
-  margin-left: calc(var(--gutter) * -1);
+.openingMedia {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  --frame-ratio: auto;
+  height: 100%;
+  width: 100%;
+}
+
+/* Bottom-up, because the title sits at the foot of the frame at every width. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--obsidian) 92%, transparent) 0%,
+    color-mix(in srgb, var(--obsidian) 70%, transparent) 38%,
+    transparent 78%
+  );
+}
+
+.openingCopy {
+  display: grid;
+  gap: var(--s-4);
+  position: relative;
+}
+
+.mark {
+  color: var(--text-muted);
+}
+
+.title {
+  max-width: 14ch;
+}
+
+.standfirst {
+  color: var(--text-secondary);
+  max-width: 40ch;
 }
 
 .body {
   display: grid;
   gap: var(--s-5);
-  align-content: center;
+  padding-block: var(--section-tight) var(--section);
+  max-width: 34rem;
 }
 
 .actions {
@@ -24,9 +72,13 @@
   margin-top: var(--s-3);
 }
 
+/*
+ * The gallery runs edge to edge with no gutter between frames. Photographs of
+ * one garment belong against each other, not in separate boxes.
+ */
 .gallery {
   display: grid;
-  gap: var(--grid-gap);
+  gap: 1px;
   padding-bottom: var(--section);
 }
 
@@ -37,24 +89,16 @@
 }
 
 @media (min-width: 64rem) {
-  .layout {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    column-gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: center;
-    padding-block: 0 var(--section);
+  .opening {
+    align-items: end;
+    padding-block: var(--s-10) var(--s-9);
   }
 
-  .hero {
-    margin-block: 0;
+  .openingCopy {
+    max-width: 46rem;
   }
 
   .gallery {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 47.99rem) {
-  .hero {
-    margin-inline: calc(var(--gutter) * -1);
   }
 }

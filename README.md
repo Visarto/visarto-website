@@ -24,19 +24,22 @@ npm test            # weave drafts and the appointment guarantees
 npm run copy-gate   # dashes and stock language in authored copy
 ```
 
-Three browser checks run against a production build:
+Four browser checks run against a production build:
 
 ```bash
 bash scripts/qa.sh "/,/collections,/appointments"      # screenshots at seven viewports
 bash scripts/audit.sh "/,/collections,/appointments"   # accessibility and layout
-bash scripts/behaviour.sh                              # reduced motion, no-JS, menu, booking
+bash scripts/behaviour.sh                              # reduced motion, no-JS, menu, curtain, booking
+bash scripts/lcp.sh                                    # LCP and CLS, with and without the curtain
 ```
 
 `qa.sh` writes to `qa/screenshots/` and reports console errors, failed requests and horizontal
 overflow. `audit.sh` checks heading order, landmarks, accessible names, form labels, computed
 contrast, target size, focus visibility and keyboard reachability. `behaviour.sh` starts a local
 receiver and a second application instance pointed at it, so the whole appointment journey is
-exercised: form, API, destination, and only then a confirmation.
+exercised: form, API, destination, and only then a confirmation. `lcp.sh` measures the first
+screen under throttling, twice, so the opening curtain can be judged on numbers rather than
+opinion.
 
 ## Sharing it for review
 

@@ -14,17 +14,17 @@
 }
 
 .body {
-  color: var(--ink-secondary);
+  color: var(--text-secondary);
   max-width: 58ch;
 }
 
 .aside {
-  color: var(--ink-muted);
+  color: var(--text-muted);
 }
 
 .mills {
   font-size: var(--t-small);
-  color: var(--ink-secondary);
+  color: var(--text-secondary);
   max-width: 50ch;
 }
 

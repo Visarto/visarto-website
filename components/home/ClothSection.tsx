@@ -16,7 +16,7 @@ import styles from './ClothSection.module.css';
  */
 export function ClothSection({ mills }: { mills: Mill[] }) {
   return (
-    <section className={`on-stone ${styles.section}`} aria-labelledby="cloth-heading">
+    <section className={`on-bone ${styles.section}`} aria-labelledby="cloth-heading">
       <div className="sheet">
         <Reveal className={styles.head}>
           <h2 id="cloth-heading" className="display-2">

@@ -10,8 +10,9 @@ Next.js 16 App Router on TypeScript with `strict` and `noUncheckedIndexedAccess`
 config. CSS Modules over a global token layer. Four runtime dependencies.
 
 ### Slice 2: design system
-Token layer with measured contrast. Fraunces and Manrope self-hosted, Fraunces subset to the
-optical size axis. Fluid type scale with measures held at the composition. Sheet, content and
+Token layer with measured contrast, in two layers: palette names for materials, role names for
+jobs, with components reading only the second. Display and text faces self-hosted and subset to
+the optical size axis. Fluid type scale with measures held at the composition. Sheet, content and
 reading widths. Twelve-column draft grid. Focus system with a surface-coloured halo. Four-behaviour
 motion vocabulary with a shared observer.
 
@@ -59,18 +60,37 @@ requests and horizontal overflow. `scripts/audit.sh` runs a real-browser accessi
 audit. `scripts/copy-gate.mjs` scans authored copy for dashes and stock language. All three run
 clean.
 
+### Slice 11: the art-direction pass
+
+The site read calm rather than expensive, and the palette was measurably the cause: every surface
+sat in a nineteen-point lightness band. Five changes, in the order they were judged:
+
+1. **Palette inverted to dark-dominant.** L\* 4 to 90 across five grounds. The role-token layer had
+   to be enforced first, because components were reaching for palette names and the surfaces did
+   not actually invert until they stopped.
+2. **Bodoni Moda replaces Fraunces.** A didone is the register a fashion house is set in, and it
+   ships 20 KB lighter.
+3. **Film grain.** A fractal-noise tile from the browser's own SVG filter, fixed, static, 3.8%.
+4. **Imagery made dominant.** Full-bleed hero with type on it, full-viewport collection openings,
+   an edge-to-edge lookbook, and a layered scrim rather than a blanket darkening.
+5. **An opening curtain.** Real-load, once per session, capped at 1.2s, bypassed under reduced
+   motion and without JavaScript. Measured at LCP 488ms against 496ms without it.
+
+Three bugs the work exposed and fixed: SVG patterns resolve custom properties at their definition
+site, so the cloth swatches kept the dark palette on the light passage; the photograph marker was
+buried under the hero scrim; and the marker collided with the call to action on phones.
+
 ## Next, and not blocked on Visarto
 
-### Slice 11: preview and revalidation
-Draft preview against the Sanity dataset, and a revalidation webhook so a publish appears without
-waiting out the sixty-second cache. The query layer already tags its reads.
+### Slice 12: deferred from the art-direction pass
 
-### Slice 12: a test suite worth having
-Currently only the pure logic is covered. Worth adding: a route-level test that the appointment
-API refuses when unconfigured, and a check that every route in the sitemap returns 200.
+Route transitions via the View Transitions API, masked line-by-line text reveals, parallax inside
+the image mask, a cursor treatment on collection frames, hover image exchange on the garment
+index, a pinned cloth sequence, a larger display scale, graded photography treatment, form
+micro-interactions, and a scroll-progress hairline.
 
-### Slice 13: production receipts
-Deploy to a preview target and measure LCP, CLS and INP against real media rather than localhost.
+Smooth scroll was evaluated and rejected: it hijacks native scrolling and risks keyboard, anchor,
+history and assistive behaviour for a gain that is purely taste.
 
 ## Blocked on Visarto
 
@@ -84,7 +104,7 @@ Ordered by how much each one changes the site.
    exists the primary conversion path on the site is switched off.
 4. **The practical answers.** Lead time, number of fittings, total time, how pricing works.
    These are the questions a client asks immediately after deciding they are interested.
-5. **Logo files.** The wordmark is currently set in Fraunces.
+5. **Logo files.** The wordmark is currently set in Bodoni Moda.
 6. **The house's own story**, for the About page.
 7. **Mills and bunches**, for the cloth room.
 8. **Client words with written permission**, which unblocks the proof passage that the homepage

@@ -1,4 +1,4 @@
-import { weavePatternId } from '@/components/primitives/WeaveDefs';
+import { weavePaint } from '@/components/primitives/WeaveDefs';
 import { weaveIndex } from '@/lib/weave';
 import styles from './SpecimenSheet.module.css';
 
@@ -20,7 +20,7 @@ export function SpecimenSheet({ className }: { className?: string }) {
             focusable="false"
             preserveAspectRatio="none"
           >
-            <rect width="100%" height="100%" fill={`url(#${weavePatternId(weave.id, 'coarse')})`} />
+            <rect width="100%" height="100%" fill={weavePaint(weave.id, 'coarse')} />
           </svg>
           <div className={styles.specimenBody}>
             <dt className={styles.name}>{weave.name}</dt>

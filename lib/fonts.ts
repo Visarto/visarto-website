@@ -1,22 +1,25 @@
-import { Fraunces, Manrope } from 'next/font/google';
+import { Bodoni_Moda, Manrope } from 'next/font/google';
 
 /**
- * Fraunces is Visarto's display voice; Manrope sets everything that has to be
- * read rather than looked at.
+ * Bodoni Moda is Visarto's display voice; Manrope sets everything that has to
+ * be read rather than looked at.
  *
- * Both appear in the first viewport, so both are preloaded and nothing else is.
- * Manrope is requested at the three weights the site actually uses.
+ * A didone is the right register for a tailoring house: extreme stroke
+ * contrast, hairline serifs and vertical stress are what a century of fashion
+ * mastheads are cut from. It is also the reason the optical size axis matters
+ * here more than anywhere. A didone set small with display proportions loses
+ * its hairlines entirely, so `opsz` is doing real work rather than decorating
+ * the config.
+ *
+ * The family is subset to that axis alone, which is the same discipline that
+ * kept the previous face at 66KB. Both appear in the first viewport, so both
+ * are preloaded and nothing else is.
  */
-export const fraunces = Fraunces({
+export const bodoni = Bodoni_Moda({
   subsets: ['latin'],
   display: 'swap',
-  // Variable, and subset to the optical size axis alone. `opsz` is the reason
-  // this family was chosen: it lets the display sizes take the high stroke
-  // contrast of a masthead while the same face at title size stays sturdy.
-  // Asking for SOFT and WONK as well nearly doubled the file for a difference
-  // that is invisible at these sizes, so they stay at their defaults.
   axes: ['opsz'],
-  variable: '--font-fraunces',
+  variable: '--font-bodoni',
   preload: true,
 });
 

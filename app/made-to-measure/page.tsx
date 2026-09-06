@@ -48,7 +48,7 @@ export default async function MadeToMeasurePage() {
         </ol>
       </div>
 
-      <section className={styles.practical} aria-labelledby="practical-heading">
+      <section className={`on-raised ${styles.practical}`} aria-labelledby="practical-heading">
         <div className={`sheet ${styles.practicalLayout}`}>
           <MediaFrame
             className={styles.media}

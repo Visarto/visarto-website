@@ -58,63 +58,106 @@ the reason the site has a texture that is specific to tailoring rather than to w
 
 Image behaviour: documentary and tactile. Real garments, real fittings, real people. Density:
 sparse at the top of a page, denser as the reader commits. Tension: precise but warm, and
-light rather than dark, with one dark passage held back for the close.
+predominantly dark, with light held back and spent once.
+
+The site is dark-grounded. The first build was not, and it was wrong: every surface sat between
+L\* 78 and 97, a nineteen-point band out of a hundred, which reads calm and well made rather than
+expensive. The page now runs from L\* 4 to L\* 90. Warmth is what keeps that out of the
+black-and-chrome register, so there is no pure black anywhere and no gold at all.
 
 **Luxury quality test.** Turn off every transition on the site and nothing is lost but the
 entrances. The page does not depend on motion, glow, blur or grain to look considered.
 
 ## 4. Palette
 
-Taken from the materials of a tailoring room. Implemented in `styles/tokens.css`.
+The materials of a tailoring room seen at night: a darkened fitting room, cloth under a single
+lamp, bone-white chalk on a dark ground. Implemented in `styles/tokens.css`.
 
-| Token | Value | What it is | Contrast |
-|---|---|---|---|
-| `--chalk` | `#f2eee6` | Pattern paper. The default ground | |
-| `--paper` | `#f8f5ef` | A half tone lighter, for raised passages | |
-| `--stone` | `#e4ded2` | Pressed cloth, for quiet blocks | |
-| `--midnight` | `#1a1f2b` | Evening cloth. Used once per page at most | |
-| `--ink` | `#191512` | Warm near-black | 15.7:1 on chalk |
-| `--ink-secondary` | `#4e463c` | Body copy | 8.0:1 on chalk |
-| `--ink-muted` | `#675e52` | Notes and captions | 5.5:1 on chalk, 4.8:1 on stone |
-| `--on-midnight` | `#ede8de` | Text on the dark passage | 13.5:1 |
-| `--on-midnight-muted` | `#a7a093` | | 6.4:1 |
-| `--rule` | `#d6cfc2` | The drafting line | Non-text |
-| `--rule-strong` | `#bdb4a4` | A stronger rule | Non-text |
-| `--control-line` | `#867b68` | The outline of a control | 3.6:1 on chalk, 3.1:1 on stone |
-| `--control-line-on-midnight` | `#6b7898` | | 3.7:1 |
-| `--madder` | `#7b3226` | Basting thread red | 7.8:1 on chalk |
-| `--madder-on-midnight` | `#c08573` | | 5.4:1 |
+| Token | Value | L* | What it is |
+|---|---|---:|---|
+| `--obsidian` | `#100e0c` | 4 | The hero, and the deepest passages |
+| `--ink` | `#16130f` | 6 | The default ground |
+| `--ink-raised` | `#1e1a16` | 10 | A passage lifted off the ground |
+| `--midnight` | `#161b24` | 10 | Evening cloth, the one cool passage |
+| `--bone` | `#e8e1d3` | 90 | Type on dark, and the one light passage |
+| `--stone` | `#d5ccbb` | 82 | Light passage secondary |
+
+Text, all measured:
+
+| Token | Value | Contrast |
+|---|---|---|
+| `--bone-1` | `#e8e1d3` | 14.2:1 on ink |
+| `--bone-2` | `#c4bba8` | 9.7:1 |
+| `--bone-muted` | `#9c9382` | 6.1:1 |
+| `--ink-1` | `#16130f` | 14.2:1 on bone |
+| `--ink-2` | `#4a423a` | 7.6:1 on bone |
+| `--ink-muted` | `#5a5246` | 5.9:1 on bone, 4.8:1 on stone |
+| `--control-dark` | `#6e6555` | 3.2:1 on ink |
+| `--control-light` | `#736a59` | 4.1:1 on bone, 3.4:1 on stone |
+| `--madder-dark` | `#c07a63` | 5.5:1 on ink |
+| `--madder-light` | `#7b3226` | 6.9:1 on bone |
 
 Notes.
 
-- There is no pure black and no pure white anywhere.
-- There is no gold. Midnight blue is used where a generic luxury site would reach for black,
-  for the reason a dinner jacket is midnight rather than black: black reads flat under light.
-- Madder is the only accent, and on the production site its only jobs are the content-required
-  markers and form error states. When Visarto's content is complete, madder will be almost
-  invisible on the site. That is intended. A rare colour has authority; a democratic one does not.
-- A rule and a control line are different things. A rule separates content and can be as quiet
-  as it likes; a control line is the outline of a button or the underside of an input, and it is
-  the only thing telling somebody a control is there, so it holds 3:1 against every surface it is
-  drawn on.
-- The palette is provisional until it can be checked against real Visarto photography.
+- No pure black and no pure white anywhere.
+- No gold. Midnight blue does the work a generic luxury site gives to black, for the reason a
+  dinner jacket is midnight rather than black: black reads flat under light.
+- On the dark ground the accent is really light itself, so madder keeps only its functional jobs:
+  the content-required markers and form error states. When Visarto's content is complete it will
+  be almost invisible on the site. A rare colour has authority; a democratic one does not.
+- A rule and a control line are different things. A rule separates content and can be as quiet as
+  it likes; a control line is the only thing telling somebody a control is there, so it holds 3:1
+  against every surface it is drawn on.
 
-Dark and stone passages are surfaces, not themes: `.on-midnight` and `.on-stone` re-point the
-role tokens, so any primitive placed inside adapts without knowing where it is.
+### Two layers, and why it matters
+
+The palette layer names materials. A **role layer** beneath it names jobs, and every component
+reads only from that: `--surface`, `--text`, `--line`, `--control`, `--accent`, `--action-fill`.
+A surface class re-points the roles, so a passage changes ground without a single component
+knowing where it is.
+
+The surfaces are `.on-obsidian`, `.on-raised`, `.on-midnight` and `.on-bone`. The primary action
+is a role rather than a rule per surface, which is why one button works on all four with no
+special case.
+
+This is what made the inversion a change to one file rather than a hundred call sites, and it is
+worth protecting: the first pass had components reaching for raw palette names, and the surfaces
+did not actually invert until that was fixed.
+
+### The weave patterns are the exception
+
+An SVG pattern referenced with `url(#id)` resolves its custom properties where it is *defined*,
+not where it is used. A single set painted with `var()` therefore keeps the root palette on every
+surface, which is invisible while the surfaces are close in tone and glaring the moment they are
+not. `WeaveDefs` emits one set per tone with literal colours and generates the `--weave-*` mapping
+per surface, so components still name only a weave and a scale.
 
 ## 5. Typography
 
-**Display: Fraunces.** Variable, subset to the optical size axis. SIL OFL.
+**Display: Bodoni Moda.** Variable, subset to the optical size axis. SIL OFL.
 **Text: Manrope**, at 400, 500 and 600. SIL OFL.
 
-Both self-hosted through `next/font` at build time. 90 KB preloaded for the first viewport.
+Both self-hosted through `next/font` at build time. 71 KB preloaded for the first viewport, down
+from 90 KB.
+
+A didone is the register a fashion house is set in: extreme stroke contrast, hairline serifs,
+vertical stress. The first build used Fraunces, which is a good typeface with the wrong
+temperament here, warm and faintly artisanal. The optical size axis matters more with a didone
+than with anything else, because a didone set small with display proportions loses its hairlines
+entirely, so `opsz` is doing real work rather than decorating the config.
+
+Two consequences, both learned by looking at it:
+
+- **The wordmark needs the text end of the axis.** At 17px with a display `opsz` it renders as a
+  broken font. It is set at `opsz` 11 and weight 600.
+- **Titles on a dark ground go to weight 500.** Thin strokes bloom away against near-black.
 
 | Role | Size | Line height | Tracking | `opsz` |
 |---|---|---|---|---|
-| Display 1 | `clamp(3.25rem, 1.55rem + 7vw, 6.25rem)` | 1.04 | -0.028em | 144 |
-| Display 2 | `clamp(2.2rem, 1.6rem + 2.6vw, 4rem)` | 1.12 | -0.02em | 96 |
-| Display 3 | `clamp(1.65rem, 1.36rem + 1.25vw, 2.5rem)` | 1.24 | -0.014em | 48 |
-| Title | `clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem)` | 1.24 | -0.01em | 32 |
+| Display 1 | `clamp(3.25rem, 1.55rem + 7vw, 6.25rem)` | 1.04 | -0.022em | 96 |
+| Display 2 | `clamp(2.2rem, 1.6rem + 2.6vw, 4rem)` | 1.12 | -0.018em | 72 |
+| Display 3 | `clamp(1.65rem, 1.36rem + 1.25vw, 2.5rem)` | 1.24 | -0.014em | 40 |
+| Title | `clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem)` | 1.24 | -0.01em | 28 |
 | Lede | `clamp(1.1rem, 1.03rem + 0.34vw, 1.35rem)` | 1.48 | 0 | text |
 | Body | `clamp(1rem, 0.975rem + 0.11vw, 1.0625rem)` | 1.66 | 0 | text |
 | Small | `0.9375rem` | 1.55 | 0 | text |
@@ -154,28 +197,42 @@ is how the page changes subject without a labelled band.
 
 ## 7. Hero
 
-**Mode C, still editorial composition.** Chosen, not defaulted to.
+**Mode C, still editorial composition, full bleed.**
 
 There is no Visarto footage. Generated film of a garment would misrepresent a product that
 exists, which the prompt laws forbid outright, and a scroll-scrub hero exists to carry a
-narrative that has not been shot. A still is the honest and the better choice here, and the
-composition is built so that a photograph dropped into it finishes the page rather than changing
-it.
+narrative that has not been shot. A still is both the honest and the better choice.
 
-- **Composition, desktop.** Two axes. Type holds the left gutter: masthead, standfirst indented
-  one step, the two actions, a fine practical note. The photograph occupies the right and runs
-  from the underside of the header to the foot of the composition and off the right edge of the
-  viewport. It takes the height of the row rather than dictating it, so the type stays on its
-  optical centre.
-- **Composition, phone.** Recomposed, not stacked: masthead, standfirst, both actions, note,
-  then the photograph full bleed below. The primary action stays above the fold at 375px.
-- **Short desktop windows.** Below 43rem of height the minimum height is released and the
-  photograph reverts to a 4:5 ratio, so the composition is not crushed.
-- **Text safety.** No type sits over the photograph at any width, so there is no scrim, no
-  darkening, and no worst-frame legibility problem to solve.
-- **Photograph required:** full length or three-quarter portrait of a finished Visarto garment
-  on a client, natural light, calm ground. Left third kept quiet. No crop through hands or the
-  shoe line. Hotspot centred on the figure.
+The photograph takes the viewport. It runs the full width and the full height of the first screen
+and the type sits on it rather than beside it, which is the clearest single difference between a
+fashion house and a business with a website. The first build placed the image in a 45% column
+next to the type; that reads as a page with a picture on it.
+
+- **Desktop.** Type on the left half, photograph behind and through it, scrim falling off to
+  nothing by 62% so the subject keeps its full tonal range on the right.
+- **Phone.** Recomposed, not stacked: the scrim runs bottom to top and the type sits at the foot
+  of the frame. The primary action stays above the fold at 375px.
+- **Short desktop windows.** Below 43rem of height the minimum height is released and the masthead
+  scales down, so the whole opening including the action fits one screen at 1280x600.
+
+### Legibility, in layers
+
+Overlaying type on a photograph creates a contrast problem that the previous composition did not
+have. It is solved the way the engineering standard asks, not by darkening the whole frame:
+
+1. the photograph is art-directed with a calm region, written into the brief the frame carries
+2. a **directional** scrim, opaque where the words are and gone by the middle of the frame
+3. bone type at 14:1, which survives a far worse backdrop than this one
+
+The `scripts/audit.sh` contrast check walks up to the nearest solid background, so it measures
+against the ground and not the scrim. Since the scrim only ever darkens, the reported figure is
+conservative rather than optimistic.
+
+The marker naming the missing photograph is placed by the page, above the scrim, rather than
+inside the frame. Inside the frame it is buried by the scrim, which is what happened first.
+
+**Photograph required:** full length or three-quarter portrait of a finished Visarto garment on a
+client, natural light, calm ground. Left third kept quiet. No crop through hands or the shoe line.
 
 ## 8. Scroll-band map
 
@@ -184,25 +241,24 @@ Not applicable. No scrub hero.
 ## 9. Homepage sequence
 
 Five passages, each answering the question the last one raises, with the ground changing
-underfoot: chalk, chalk, paper, stone, midnight.
+underfoot from the deepest tone on the site to its only light one.
 
-| # | Passage | Question it answers | Ground |
-|---|---|---|---|
-| 1 | The opening | Who is this and what do they make | Chalk |
-| 2 | What we make | Is what I need on the list | Chalk |
-| 3 | The fitting comes to you | Do I have to go somewhere | Paper |
-| 4 | How cloth is built | Do they know what they are talking about | Stone |
-| 5 | Book an appointment | How do I start | Midnight |
+| # | Passage | Question it answers | Ground | L* |
+|---|---|---|---|---:|
+| 1 | The opening | Who is this and what do they make | obsidian | 4 |
+| 2 | What we make | Is what I need on the list | ink | 6 |
+| 3 | The fitting comes to you | Do I have to go somewhere | raised | 10 |
+| 4 | How cloth is built | Do they know what they are talking about | **bone** | 90 |
+| 5 | Book an appointment | How do I start | midnight | 10 |
 
-The lookbook passage exists in code and renders only when at least three photographs exist in
-the CMS. There is no proof passage: testimonials, press and client names require real material
-and permissions, and inventing any of them is out of the question. That is the acknowledged
-hole in the sequence and the first thing to build once the material exists.
+The cloth room is the single light passage on the site. That is right on the merits rather than
+for variety: a specimen sheet is a paper object, the weave drafts were drawn to read on light, and
+one bright passage in a dark page carries far more weight than the reverse.
 
-Section 4 deserves a note. It is the passage that could not be reskinned for another business,
-and it exists because it can be written truthfully at full length today. Weave structure is a
-fact about textiles, so the page can be substantive about cloth without making a single claim
-about Visarto's stock.
+The lookbook passage exists in code and renders only when at least three photographs exist. There
+is no proof passage: testimonials, press and client names require real material and permissions.
+That is the acknowledged hole in the sequence and the first thing to build once the material
+exists.
 
 ## 10. Page system
 
@@ -265,30 +321,49 @@ it cannot be mistaken for a finished image.
 
 ## 13. Motion vocabulary
 
-Four behaviours for the whole site. Nothing loops, drifts, tilts, follows the pointer or parallaxes.
+Four behaviours and one opening. Nothing loops, drifts, tilts, follows the pointer or parallaxes.
 
-| Behaviour | Where | Duration | Easing |
-|---|---|---|---|
-| Mask | A media frame uncovers from its lower edge | 820ms | `cubic-bezier(.22,.61,.36,1)` |
-| Rise | The first block of a passage lifts 12px, once per section | 620ms | same |
-| Rule | A drafting line draws left to right | 620ms | same |
-| Exchange | Hover response on index rows, collection frames and links | 180 to 320ms | same |
+| Behaviour | Where | Duration |
+|---|---|---|
+| Mask | A media frame uncovers from its lower edge | 820ms |
+| Rise | The first block of a passage lifts 12px, once per section | 620ms |
+| Rule | A drafting line draws left to right | 620ms |
+| Exchange | Hover response on index rows, collection frames and links | 180 to 320ms |
 
-**One gesture per passage, and it lands on whatever the passage is about.** The homepage carries
-a rule draw under the opening, a mask on the fitting photograph, and a single rise on the cloth
-heading. Nothing else on the page moves. Giving every section the same lift on entry is the most
-recognisable tell of a generated page, and it was removed from this one after the first review.
+**One gesture per passage, and it lands on whatever the passage is about.** The homepage carries a
+rule draw under the opening, a mask on the fitting photograph, and a single rise on the cloth
+heading. Giving every section the same lift on entry is the most recognisable tell of a generated
+page, and it was removed after the first review.
 
-Engineering rules.
+### The opening curtain
 
-- One IntersectionObserver serves the page; each element is unobserved once it has entered.
-- Anything within 1.2 screens on mount is revealed immediately rather than animated in behind
-  the reader.
-- The pre-reveal state applies only under `[data-js='true']` and
-  `prefers-reduced-motion: no-preference`. Without JavaScript, and under reduced motion, the
-  page renders finished.
-- A print stylesheet forces every reveal to its final state.
-- The only hover that touches an image is the collection frame, and it is capped at 1.8% scale.
+Shown on the first page of a session only. The research on preloaders is unambiguous: a timed one
+on a fast page inflates LCP for nothing. This one is not timed.
+
+- **Real-load.** It waits on `document.fonts.ready`, which is the thing that actually makes the
+  first screen look unfinished, and lifts the moment they resolve.
+- **Capped at 1.2s**, and dismissed by any pointer, key, wheel or touch.
+- **Decided before paint** by an inline script in the head, which is what avoids a flash. The
+  curtain is in the server HTML but stays `display: none` unless that script marks it pending.
+- **Never shown** without JavaScript, under reduced motion, or on any page after the first in a
+  session. All four are asserted in `scripts/behaviour.sh`.
+
+Measured on the production build at 4x CPU throttle over 4Mbps, five runs each: **LCP 488ms with
+the curtain, 496ms without**, CLS 0.002 in both. It costs nothing.
+
+### Film grain
+
+A fractal-noise tile from the browser's own SVG filter, inlined as a data URI, fixed over
+everything at 3.8% opacity. It removes the flat-digital quality that makes large areas of solid
+colour read as a screen, and on a dark ground it does more than anything else of its size.
+
+Deliberately no blend mode: on a full-screen fixed layer a blend mode creates a stacking context
+that fights the sticky header and forces a repaint of everything beneath it on every scroll. Flat
+opacity looks the same here and costs nothing. It never animates.
+
+Engineering rules for the entrances are unchanged: one IntersectionObserver, unobserved once
+entered, anything within 1.2 screens revealed on mount, the pre-state gated behind `[data-js]`
+and a no-preference query, and a print stylesheet that forces final state.
 
 ## 14. Signature interaction
 
@@ -335,12 +410,18 @@ Target: WCAG 2.2 AA, verified rather than assumed. `scripts/audit.mjs` runs in a
 across every page at two viewports and checks heading order, one `h1` per page, landmarks, alt
 attributes, accessible names, form label association, computed contrast against the real
 rendered backdrop, target size, focus visibility across a full tab pass, and horizontal overflow.
-It currently reports clean.
+It currently reports clean, including against the dark palette, which is what it was mainly
+built for.
 
 `scripts/behaviour.sh` covers what a screenshot cannot: reduced motion leaving every element in
 its final state, a page with JavaScript switched off, the mobile menu's focus and scroll
-behaviour, the metadata and structured data, and the appointment path against both an
-unconfigured and a live destination. Twenty-seven checks, all passing.
+behaviour, the opening curtain's four bypass conditions, the metadata and structured data, and the
+appointment path against both an unconfigured and a live destination. Thirty-four checks, all
+passing.
+
+`scripts/lcp.sh` measures LCP, FCP and CLS on the production build under throttling, with and
+without the opening curtain, so a change to the first screen can be judged rather than argued
+about.
 
 Beyond the automated pass:
 
@@ -385,8 +466,8 @@ be made differently because of them.
 | Hosting | Any Next.js target. Vercel is the natural default and nothing depends on it |
 | Images | Next Image, `cdn.sanity.io` only |
 | Breakpoints | 40rem, 48rem, 60rem, 64rem, 75rem, plus a short-height query at 43rem |
-| Client JS | Four islands: primary nav, mobile menu, entrance observer, request form |
-| Budgets | LCP under 2.5s, CLS under 0.1, fonts 90 KB, no image request for an unfilled slot |
+| Client JS | Five islands: primary nav, mobile menu, entrance observer, request form, opening curtain |
+| Budgets | LCP under 2.5s, CLS under 0.1, fonts 71 KB, no image request for an unfilled slot. Measured: LCP 488ms, CLS 0.002 |
 
 Environment variables are declared in one place, `lib/env.ts`, each with an explicit
 "configured" flag, and `.env.example` documents every one.
@@ -406,5 +487,6 @@ Environment variables are declared in one place, `lib/env.ts`, each with an expl
 | CMS boundaries are defined | Met |
 | No decision depends on a plugin default | Met |
 | No component looks like a SaaS template | Met. No cards, no pills, no icon grid, no shadows, no radius above 1px |
+| The page has tonal range | Met. L* 4 to 90 across five grounds, against a 19-point band before |
 | Proof passage | **Not met.** Requires real client material |
 | Palette checked against real photography | **Not met.** Requires photographs |

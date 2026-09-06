@@ -26,11 +26,11 @@
 }
 
 .heading {
-  color: var(--on-midnight);
+  color: var(--text);
 }
 
 .body {
-  color: var(--on-midnight);
+  color: var(--text);
   opacity: 0.86;
 }
 

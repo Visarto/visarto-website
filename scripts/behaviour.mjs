@@ -88,6 +88,14 @@ const browser = await chromium.launch({
 // ---- Mobile menu ------------------------------------------------------------
 {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  // Started as a second visit in the session, so the opening curtain is not in
+  // the way. With it up, the click has to wait it out, and the retries move the
+  // scroll before the click lands, which measures the test rather than the menu.
+  await context.addInitScript(() => {
+    try {
+      sessionStorage.setItem('visarto:intro', '1');
+    } catch {}
+  });
   const page = await context.newPage();
   await page.goto(`${BASE}/`, { waitUntil: 'load' });
   await page.waitForTimeout(300);
@@ -214,6 +222,64 @@ const browser = await chromium.launch({
   );
 
   await context.close();
+}
+
+// ---- The opening curtain ----------------------------------------------------
+{
+  // A visitor who has asked for reduced motion must never see it at all.
+  const quiet = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    reducedMotion: 'reduce',
+  });
+  const quietPage = await quiet.newPage();
+  await quietPage.goto(`${BASE}/`, { waitUntil: 'load' });
+  await quietPage.waitForTimeout(250);
+  const quietState = await quietPage.evaluate(() => ({
+    marked: document.documentElement.dataset.intro ?? null,
+    covered: (() => {
+      const el = document.querySelector('[class*="intro"]');
+      return el ? getComputedStyle(el).display !== 'none' : false;
+    })(),
+  }));
+  check('reduced motion never marks the opening pending', quietState.marked === null, String(quietState.marked));
+  check('and the curtain is not displayed', !quietState.covered);
+  await quiet.close();
+
+  // A normal first visit shows it, and it lifts on its own.
+  const normal = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await normal.newPage();
+  await page.goto(`${BASE}/`, { waitUntil: 'commit' });
+  const markedEarly = await page
+    .waitForFunction(() => document.documentElement.dataset.intro === 'pending', { timeout: 2000 })
+    .then(() => true)
+    .catch(() => false);
+  check('a first visit runs the opening', markedEarly);
+
+  const lifted = await page
+    .waitForFunction(() => document.documentElement.dataset.intro === undefined, { timeout: 5000 })
+    .then(() => true)
+    .catch(() => false);
+  check('and it lifts without being dismissed', lifted);
+
+  // Second visit in the same session: never again.
+  await page.goto(`${BASE}/about`, { waitUntil: 'load' });
+  await page.waitForTimeout(250);
+  const second = await page.evaluate(() => document.documentElement.dataset.intro ?? null);
+  check('a second page in the session does not run it', second === null, String(second));
+  await normal.close();
+
+  // Without JavaScript the markup is present but never displayed.
+  const noJs = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
+  const noJsPage = await noJs.newPage();
+  await noJsPage.goto(`${BASE}/`, { waitUntil: 'load' });
+  const hiddenWithoutJs = await noJsPage.evaluate(() => {
+    const el = document.querySelector('[class*="intro"]');
+    return el ? getComputedStyle(el).display === 'none' : true;
+  });
+  check('without JavaScript the curtain never shows', hiddenWithoutJs);
+  const headlineVisible = await noJsPage.locator('h1').first().isVisible();
+  check('and the page underneath is readable', headlineVisible);
+  await noJs.close();
 }
 
 // ---- The appointment path, with a destination configured --------------------

@@ -1,40 +1,72 @@
 /*
  * The opening.
  *
- * Two axes. Type holds the left gutter and never moves off it; the photograph
- * breaks the right margin and runs to the edge of the viewport. The asymmetry
- * is the point: a pattern is drafted against one straight edge, and the cloth
- * runs off the other.
+ * The photograph is the page. It runs the full width of the viewport and the
+ * full height of the first screen, and the type sits on it rather than beside
+ * it. Giving an image the viewport is the single clearest difference between a
+ * fashion house and a business with a website.
+ *
+ * Legibility is handled the way it should be, in layers, and not by darkening
+ * the whole frame:
+ *
+ *   1. the photograph is art-directed with a calm region on the left, which is
+ *      written into the brief the frame carries
+ *   2. a directional scrim falls off to nothing by the middle of the frame, so
+ *      the subject is never veiled
+ *   3. the type itself is bone at 14:1, which survives a far worse backdrop
+ *      than this one
  */
 
 .section {
   position: relative;
-  padding-top: var(--s-7);
-  padding-bottom: var(--section-tight);
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: min(calc(100svh - var(--header-height)), 50rem);
+  padding-block: var(--s-8);
+  overflow: hidden;
 }
 
-.layout {
-  display: grid;
-  gap: var(--s-6);
+/* The frame fills the section rather than sitting in the flow. */
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  --frame-ratio: auto;
+  height: 100%;
+  width: 100%;
+}
+
+/*
+ * A directional scrim, not a blanket. It is opaque where the words are and
+ * gone by 62%, which is why the right of the frame keeps its full tonal range.
+ */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--obsidian) 92%, transparent) 0%,
+    color-mix(in srgb, var(--obsidian) 78%, transparent) 30%,
+    transparent 62%
+  );
 }
 
 .copy {
   display: grid;
-  align-content: start;
+  align-content: center;
   gap: var(--s-6);
+  position: relative;
 }
 
-/*
- * The masthead is held to ten characters so it breaks after "fit" at every
- * width. Two weighted halves, one above the other, is the composition; a single
- * long line running edge to edge is not.
- */
 .display {
   max-width: 10ch;
 }
 
 .lede {
-  color: var(--ink-secondary);
+  color: var(--text-secondary);
 }
 
 .actions {
@@ -45,19 +77,10 @@
 }
 
 .note {
-  color: var(--ink-muted);
-}
-
-.media {
-  /* Runs past the sheet margin to the right edge of the viewport. */
-  margin-right: calc(var(--gutter) * -1);
+  color: var(--text-muted);
 }
 
 @media (min-width: 48rem) {
-  .section {
-    padding-top: var(--s-8);
-  }
-
   .lede {
     /* Indented one step off the display axis: the standfirst of a spread sits
        inside the headline, not under it. */
@@ -66,39 +89,15 @@
 }
 
 @media (min-width: 64rem) {
-  /*
-   * The cloth column runs from the underside of the header to the foot of the
-   * composition, so the section itself carries no top padding and the copy
-   * holds its own. The photograph becomes a full-height edge for the type to
-   * sit against rather than a picture placed next to it.
-   */
   .section {
-    padding-top: 0;
-    padding-bottom: var(--section);
-  }
-
-  .layout {
-    grid-template-columns: minmax(0, 6.2fr) minmax(0, 5.8fr);
-    gap: clamp(2rem, 5vw, 5.5rem);
-    align-items: stretch;
-    min-height: min(calc(100svh - var(--header-height)), 44rem);
-  }
-
-  /*
-   * The photograph takes the height of the row rather than dictating it. A
-   * fixed ratio here would make the frame taller than the screen and push the
-   * type off its optical centre.
-   */
-  .media {
-    --frame-ratio: auto;
-    height: 100%;
-    min-height: 28rem;
+    padding-block: var(--s-9);
   }
 
   .copy {
     gap: var(--s-7);
-    align-content: center;
-    padding-block: var(--s-4) var(--s-6);
+    /* Held to the left half so the photograph keeps the rest of the frame. */
+    max-width: 46rem;
+    padding-right: var(--s-8);
   }
 
   .actions {
@@ -106,31 +105,36 @@
   }
 }
 
-/* Short desktop windows: release the minimum height so the composition is not
-   crushed vertically. */
+/*
+ * On a phone the scrim runs bottom to top instead of left to right, because the
+ * type sits at the foot of the frame rather than beside the subject.
+ */
+@media (max-width: 47.99rem) {
+  .section {
+    min-height: min(calc(100svh - var(--header-height)), 44rem);
+    align-items: end;
+    padding-block: var(--s-9) var(--s-7);
+  }
+
+  .scrim {
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--obsidian) 94%, transparent) 0%,
+      color-mix(in srgb, var(--obsidian) 80%, transparent) 42%,
+      color-mix(in srgb, var(--obsidian) 30%, transparent) 78%,
+      transparent 100%
+    );
+  }
+}
+
+/* Short desktop windows: release the minimum height and scale the masthead so
+   the whole opening, action included, still fits one screen. */
 @media (min-width: 64rem) and (max-height: 43rem) {
-  .layout {
+  .section {
     min-height: 0;
-    align-items: start;
+    padding-block: var(--s-7);
   }
 
-  .media {
-    --frame-ratio: 4 / 5;
-    height: auto;
-    min-height: 0;
-  }
-
-  /*
-   * A laptop with browser chrome open is a wide, short window. The masthead is
-   * scaled off viewport width alone, which at 1280 by 600 leaves it too tall
-   * for the space and pushes the action off the fold. Here it is scaled down
-   * so the whole opening, action included, fits in one screen.
-   */
-  /*
-   * Retuning the token rather than the property. `.display-1` reads
-   * `--t-display-1`, so setting the variable on the element wins regardless of
-   * which of the two stylesheets the browser happens to order first.
-   */
   .display {
     --t-display-1: clamp(2.75rem, 5vw, 4.25rem);
   }
@@ -138,30 +142,14 @@
   .copy {
     gap: var(--s-5);
   }
-
-  .section {
-    padding-top: var(--s-6);
-    padding-bottom: var(--s-8);
-  }
 }
 
 .footRule {
-  margin-top: var(--section-tight);
   display: grid;
   gap: var(--s-4);
 }
 
 .footRuleLine {
   height: 1px;
-  background-color: var(--rule);
-}
-
-/*
- * On a phone a photograph that breaks only one margin reads as a misalignment
- * rather than as a decision, so at this width it runs edge to edge.
- */
-@media (max-width: 47.99rem) {
-  .media {
-    margin-inline: calc(var(--gutter) * -1);
-  }
+  background-color: var(--line);
 }

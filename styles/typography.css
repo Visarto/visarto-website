@@ -28,14 +28,14 @@
   font-size: var(--t-display-1);
   line-height: var(--lh-display);
   letter-spacing: var(--track-display-large);
-  font-variation-settings: 'opsz' 144;
+  font-variation-settings: 'opsz' 96;
 }
 
 .display-2 {
   font-size: var(--t-display-2);
   line-height: var(--lh-display-small);
   letter-spacing: var(--track-display);
-  font-variation-settings: 'opsz' 96;
+  font-variation-settings: 'opsz' 72;
   max-width: 20ch;
 }
 
@@ -43,7 +43,7 @@
   font-size: var(--t-display-3);
   line-height: var(--lh-title);
   letter-spacing: -0.014em;
-  font-variation-settings: 'opsz' 48;
+  font-variation-settings: 'opsz' 40;
   max-width: 26ch;
 }
 
@@ -55,7 +55,7 @@
   font-size: var(--t-lede);
   line-height: 1.42;
   letter-spacing: -0.008em;
-  font-variation-settings: 'opsz' 24;
+  font-variation-settings: 'opsz' 18;
   color: var(--text);
 }
 

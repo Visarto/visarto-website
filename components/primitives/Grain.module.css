@@ -1,0 +1,40 @@
+/*
+ * Film grain.
+ *
+ * A large area of flat colour is the thing that makes a page read as a screen
+ * rather than as a printed or photographed surface. A little noise over
+ * everything removes that, and on a dark ground it does more work than any
+ * other single change of its size.
+ *
+ * It is fixed rather than scrolling, because grain belongs to the lens and not
+ * to the subject. It never animates: moving grain repaints the whole viewport
+ * every frame for no gain.
+ *
+ * Deliberately no blend mode. A blend mode on a full-screen fixed layer creates
+ * a stacking context that fights the sticky header, and forces a repaint of
+ * everything beneath it on every scroll. Flat opacity costs nothing and, at
+ * this strength, looks the same.
+ */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.038;
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* The light passage takes less: the same noise reads much stronger on bone. */
+@media (prefers-reduced-transparency: reduce) {
+  .grain {
+    display: none;
+  }
+}
+
+@media print {
+  .grain {
+    display: none;
+  }
+}

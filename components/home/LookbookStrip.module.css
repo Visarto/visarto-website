@@ -47,5 +47,5 @@
 .caption {
   margin-top: var(--s-3);
   font-size: var(--t-fine);
-  color: var(--ink-muted);
+  color: var(--text-muted);
 }

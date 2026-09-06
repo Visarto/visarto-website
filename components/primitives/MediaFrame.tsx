@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { focalPosition, imageUrl } from '@/sanity/lib/image';
 import type { SanityImageSource } from '@/sanity/lib/types';
 import type { WeaveId } from '@/lib/weave';
-import { weavePatternId, type WeaveScale } from './WeaveDefs';
+import { PhotographRequired } from './PhotographRequired';
+import { weavePaint, type WeaveScale } from './WeaveDefs';
 import styles from './MediaFrame.module.css';
 
 /**
@@ -87,20 +88,13 @@ export function MediaFrame({
       data-state="awaiting-photography"
     >
       <svg className={styles.cloth} aria-hidden="true" focusable="false" preserveAspectRatio="none">
-        <rect width="100%" height="100%" fill={`url(#${weavePatternId(weave, weaveScale)})`} />
+        <rect width="100%" height="100%" fill={weavePaint(weave, weaveScale)} />
       </svg>
       <span className={styles.marks} aria-hidden="true" />
       {brief ? (
-        <figcaption
-          className={briefTone === 'compact' ? styles.briefCompact : styles.brief}
-        >
-          <span className={`annotation ${styles.briefTitle}`}>Photograph required</span>
-          {briefTone === 'compact' ? (
-            <span className={styles.briefSlot}>{brief}</span>
-          ) : (
-            <p className={styles.briefBody}>{brief}</p>
-          )}
-        </figcaption>
+        <div className={styles.brief}>
+          <PhotographRequired tone={briefTone}>{brief}</PhotographRequired>
+        </div>
       ) : null}
     </figure>
   );

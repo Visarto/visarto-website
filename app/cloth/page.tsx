@@ -43,7 +43,7 @@ export default async function ClothPage() {
         </div>
       </section>
 
-      <section className={`on-stone ${styles.mills}`} aria-labelledby="mills-heading">
+      <section className={`on-bone ${styles.mills}`} aria-labelledby="mills-heading">
         <div className={`sheet ${styles.millsLayout}`}>
           <h2 id="mills-heading" className="display-3">
             {clothPage.millsHeading}

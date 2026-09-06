@@ -29,20 +29,20 @@
     color var(--dur-quick) var(--ease-out);
 }
 
+/*
+ * The primary action inverts whatever it is standing on: filled with the text
+ * colour, lettered in the ground. Because both come from role tokens, one rule
+ * serves every passage and there is no per-surface special case to keep in step.
+ */
 .solid {
-  background-color: var(--text);
-  color: var(--surface);
-  border: 1px solid var(--text);
+  background-color: var(--action-fill);
+  color: var(--action-text);
+  border: 1px solid var(--action-fill);
 }
 
 .solid:hover {
-  background-color: var(--midnight);
-  border-color: var(--midnight);
-}
-
-.on-midnight .solid:hover {
-  background-color: var(--paper);
-  border-color: var(--paper);
+  background-color: var(--action-fill-hover);
+  border-color: var(--action-fill-hover);
 }
 
 .outline {

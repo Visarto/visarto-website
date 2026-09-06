@@ -57,50 +57,13 @@
 }
 
 /*
- * The brief sits at the top of the frame, not the bottom. A tall editorial
- * frame often runs past the fold, and a note that says what is missing is
- * useless if it is the part that gets cut off.
+ * The marker sits at the top of the frame, not the bottom. A tall editorial
+ * frame often runs past the fold, and a note saying what is missing is useless
+ * if it is the part that gets cut off.
  */
 .brief {
   position: absolute;
   left: 0.75rem;
   top: 2.75rem;
   right: 2.75rem;
-  max-width: 30rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-  padding: 0.625rem 0.75rem;
-  background-color: color-mix(in srgb, var(--surface) 88%, transparent);
-  border-left: 2px solid var(--accent);
-}
-
-.briefTitle {
-  color: var(--accent);
-}
-
-.briefBody {
-  font-size: var(--t-fine);
-  line-height: 1.45;
-  color: var(--text-secondary);
-  margin: 0;
-}
-
-/* The compact marker: the label and the slot, on one line, in the corner. */
-.briefCompact {
-  position: absolute;
-  left: 0.75rem;
-  top: 2.75rem;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  padding: 0.375rem 0.625rem;
-  background-color: color-mix(in srgb, var(--surface) 88%, transparent);
-  border-left: 2px solid var(--accent);
-}
-
-.briefSlot {
-  font-size: var(--t-fine);
-  line-height: 1.2;
-  color: var(--text-secondary);
 }
