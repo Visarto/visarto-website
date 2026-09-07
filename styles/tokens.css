@@ -194,15 +194,33 @@
   --grid-gap: clamp(1rem, 2.2vw, 2.25rem);
 
   /* ---- Motion ------------------------------------------------------------
-   * Four durations and two easings for the whole site. A restricted vocabulary
-   * is what keeps motion from becoming decoration.
+   * A restricted vocabulary is what keeps motion from becoming decoration, so
+   * there are two sets of numbers and they do different jobs.
+   *
+   * Interaction: hover, focus, a menu opening. Answers the visitor, so it is
+   * fast, and it is measured from the moment they acted.
+   *
+   * Entrance: a passage arriving. Measured from a moment the visitor did not
+   * choose, which is why it has to be shorter than instinct suggests. An
+   * entrance that is still running when the reader arrives at the words reads
+   * as loading, not as composition.
    */
   --dur-quick: 180ms;
   --dur-normal: 300ms;
   --dur-slow: 520ms;
-  --dur-reveal: 720ms;
+
+  --dur-entrance: 480ms;
+  --dur-entrance-media: 660ms;
+  --dur-curtain: 560ms;
+  /* The interval between one element of a passage and the next. Small enough
+     to read as one movement, large enough to read as an order. */
+  --reveal-step: 70ms;
+  --reveal-lift: 0.75rem;
+
   --ease-out: cubic-bezier(0.16, 0.84, 0.28, 1);
   --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Leaves immediately and settles slowly. What makes 480ms feel unhurried. */
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ---- Chrome ------------------------------------------------------------ */
   --header-height: 4.5rem;

@@ -2,6 +2,7 @@ import { ContentRequired } from '@/components/primitives/ContentRequired';
 import { CtaLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
 import { PageOpening } from '@/components/primitives/PageOpening';
+import { Reveal } from '@/components/primitives/Reveal';
 import { calls } from '@/lib/content/site';
 import { aboutPage } from '@/lib/content/pages';
 import { pageMetadata } from '@/lib/seo';
@@ -32,7 +33,7 @@ export default async function AboutPage() {
       />
 
       <div className={`sheet ${styles.layout}`}>
-        <div className={styles.body}>
+        <Reveal stagger className={styles.body}>
           {page?.body && page.body.length > 0 ? (
             page.body.map((block, index) => (
               <p key={block._key ?? index} className="body">
@@ -46,18 +47,19 @@ export default async function AboutPage() {
           <div className={styles.action}>
             <CtaLink href={calls.primary.href}>{calls.primary.label}</CtaLink>
           </div>
-        </div>
+        </Reveal>
 
-        <MediaFrame
-          className={styles.media}
-          ratio="4 / 5"
-          image={page?.portrait}
-          fallbackSrc="/placeholders/about-portrait.jpg"
-          alt={page?.portrait?.alt ?? ''}
-          sizes="(min-width: 64rem) 40vw, 100vw"
-          weave="hopsack"
-          brief="The people who make the clothes, in the room they work in. A portrait or a working shot, not a staged team photograph."
-        />
+        <Reveal variant="mask" className={styles.media}>
+          <MediaFrame
+            ratio="4 / 5"
+            image={page?.portrait}
+            fallbackSrc="/placeholders/about-portrait.jpg"
+            alt={page?.portrait?.alt ?? ''}
+            sizes="(min-width: 64rem) 40vw, 100vw"
+            weave="hopsack"
+            brief="The people who make the clothes, in the room they work in. A portrait or a working shot, not a staged team photograph."
+          />
+        </Reveal>
       </div>
     </>
   );

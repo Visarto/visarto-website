@@ -1,16 +1,28 @@
 /*
- * Visarto motion vocabulary.
+ * Visarto entrance system.
  *
- * Four behaviours for the whole site. Every one of them is an entrance: nothing
- * on Visarto loops, drifts, bounces, or follows the pointer. A section does not
- * earn movement by scrolling into view; movement is applied where it clarifies
- * an order of reading.
+ * Every passage on the site arrives the same way, and it arrives in an order.
+ * That second half is the whole point. A block that fades in as one rectangle
+ * is a template; a passage whose heading, then body, then list, then photograph
+ * come to rest on a fixed step is a page composing itself. The difference
+ * between the two is not how much moves, it is whether the movement carries a
+ * reading order.
  *
- * 1. mask  a media frame uncovers from its lower edge, the way a length of
- *          cloth is unrolled
- * 2. rise  a short lift on the first block of a passage, once per section
- * 3. rule  a drafting line drawn across, left to right
- * 4. hover exchange, handled in the components that use it
+ * Three behaviours, and every one of them is an entrance. Nothing on Visarto
+ * loops, drifts, bounces, or follows the pointer.
+ *
+ *   rise    a short lift and fade, the default for text
+ *   mask    a frame uncovers from its lower edge and settles, the way a length
+ *           of cloth is unrolled and then laid flat
+ *   rule    a drafting line drawn across, left to right
+ *
+ * Applied to a container marked `data-stagger`, the pre-state moves to the
+ * container's direct children and each one waits an extra `--reveal-step`. One
+ * observed element per passage, not one per line.
+ *
+ * Timing is deliberately shorter than instinct suggests. An entrance is
+ * measured from a moment the visitor did not choose, so anything still running
+ * when they reach the words reads as loading rather than as composition.
  *
  * The pre-state applies only when JavaScript is available and the visitor has
  * not asked for reduced motion. Without either, the page is already finished.
@@ -18,42 +30,124 @@
 
 @media (prefers-reduced-motion: no-preference) {
   [data-js='true'] [data-reveal] {
+    /* Set by hand on the container, to hold one block behind another. */
     --reveal-delay: 0ms;
+    /* Set per child by the step rules below. Two properties rather than one
+       because a custom property cannot be defined in terms of itself, and a
+       staggered child has to add to the container's delay rather than replace
+       it. Both inherit, so the contents of a frame keep their item's timing. */
+    --reveal-offset: 0ms;
   }
 
-  [data-js='true'] [data-reveal='mask'] {
-    clip-path: inset(0 0 100% 0);
-    transition: clip-path var(--dur-reveal) var(--ease-out);
-    transition-delay: var(--reveal-delay);
-  }
+  /* ---- rise -------------------------------------------------------------- */
 
-  [data-js='true'] [data-reveal='mask'][data-revealed='true'] {
-    clip-path: inset(0 0 0 0);
-  }
-
-  [data-js='true'] [data-reveal='rise'] {
+  [data-js='true'] [data-reveal='rise']:not([data-stagger]),
+  [data-js='true'] [data-reveal='rise'][data-stagger] > * {
     opacity: 0;
-    transform: translate3d(0, 0.75rem, 0);
+    transform: translate3d(0, var(--reveal-lift), 0);
     transition:
-      opacity var(--dur-slow) var(--ease-out),
-      transform var(--dur-slow) var(--ease-out);
-    transition-delay: var(--reveal-delay);
+      opacity var(--dur-entrance) var(--ease-entrance),
+      transform var(--dur-entrance) var(--ease-entrance);
+    transition-delay: calc(var(--reveal-delay) + var(--reveal-offset));
   }
 
-  [data-js='true'] [data-reveal='rise'][data-revealed='true'] {
+  [data-js='true'] [data-reveal='rise'][data-revealed='true'],
+  [data-js='true'] [data-reveal='rise'][data-stagger][data-revealed='true'] > * {
     opacity: 1;
     transform: none;
   }
 
+  /*
+   * An element that has to paint on the very first frame regardless of the
+   * entrance. The hero headline is the page's Largest Contentful Paint
+   * candidate, and an element at zero opacity is not painted at all, so fading
+   * it in would push LCP out by the whole curtain. It lifts; it does not fade.
+   */
+  [data-js='true'] [data-reveal][data-stagger] > [data-reveal-opaque],
+  [data-js='true'] [data-reveal][data-reveal-opaque] {
+    opacity: 1;
+  }
+
+  /* ---- mask -------------------------------------------------------------- */
+
+  [data-js='true'] [data-reveal='mask']:not([data-stagger]),
+  [data-js='true'] [data-reveal='mask'][data-stagger] > * {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0.35;
+    transition:
+      clip-path var(--dur-entrance-media) var(--ease-entrance),
+      opacity var(--dur-entrance-media) var(--ease-entrance);
+    transition-delay: calc(var(--reveal-delay) + var(--reveal-offset));
+  }
+
+  [data-js='true'] [data-reveal='mask'][data-revealed='true'],
+  [data-js='true'] [data-reveal='mask'][data-stagger][data-revealed='true'] > * {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+
+  /*
+   * The frame's contents come to rest a little after the frame itself, which is
+   * what separates a photograph arriving from a progress bar filling. The crop
+   * marks are registration and deliberately do not move.
+   */
+  [data-js='true'] [data-reveal='mask'] figure > img,
+  [data-js='true'] [data-reveal='mask'] figure > svg {
+    transform: scale(1.04);
+    transition: transform calc(var(--dur-entrance-media) + 240ms) var(--ease-entrance);
+    transition-delay: calc(var(--reveal-delay) + var(--reveal-offset));
+  }
+
+  [data-js='true'] [data-reveal='mask'][data-revealed='true'] figure > img,
+  [data-js='true'] [data-reveal='mask'][data-revealed='true'] figure > svg {
+    transform: none;
+  }
+
+  /* ---- rule -------------------------------------------------------------- */
+
   [data-js='true'] [data-reveal='rule'] {
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform var(--dur-slow) var(--ease-out);
-    transition-delay: var(--reveal-delay);
+    transition: transform var(--dur-entrance) var(--ease-entrance);
+    transition-delay: calc(var(--reveal-delay) + var(--reveal-offset));
   }
 
   [data-js='true'] [data-reveal='rule'][data-revealed='true'] {
     transform: scaleX(1);
+  }
+
+  /* ---- the step ----------------------------------------------------------
+   * Seven positions and then a stop. A list that keeps adding delay trails off
+   * into something the reader is waiting for, so the eighth item onwards
+   * arrives with the seventh.
+   */
+
+  [data-js='true'] [data-reveal][data-stagger] > *:nth-child(2) {
+    --reveal-offset: var(--reveal-step);
+  }
+
+  [data-js='true'] [data-reveal][data-stagger] > *:nth-child(3) {
+    --reveal-offset: calc(var(--reveal-step) * 2);
+  }
+
+  [data-js='true'] [data-reveal][data-stagger] > *:nth-child(4) {
+    --reveal-offset: calc(var(--reveal-step) * 3);
+  }
+
+  [data-js='true'] [data-reveal][data-stagger] > *:nth-child(5) {
+    --reveal-offset: calc(var(--reveal-step) * 4);
+  }
+
+  [data-js='true'] [data-reveal][data-stagger] > *:nth-child(6) {
+    --reveal-offset: calc(var(--reveal-step) * 5);
+  }
+
+  [data-js='true'] [data-reveal][data-stagger] > *:nth-child(7) {
+    --reveal-offset: calc(var(--reveal-step) * 6);
+  }
+
+  [data-js='true'] [data-reveal][data-stagger] > *:nth-child(n + 8) {
+    --reveal-offset: calc(var(--reveal-step) * 7);
   }
 }
 
@@ -63,32 +157,12 @@
  * entrance never ran.
  */
 @media print {
-  [data-reveal] {
+  [data-reveal],
+  [data-reveal] > *,
+  [data-reveal] figure > img,
+  [data-reveal] figure > svg {
     clip-path: none !important;
     opacity: 1 !important;
     transform: none !important;
-  }
-}
-
-/*
- * Page entrance. A single, restrained fade on the main element every time the
- * router commits a new page. This is the difference between a site that
- * "loads" and one that "arrives" — nothing showy, just a held moment before
- * the composition settles. Skipped under reduced motion and without JS.
- */
-@media (prefers-reduced-motion: no-preference) {
-  [data-js='true'] main {
-    animation: visarto-page-in var(--dur-reveal) var(--ease-out) both;
-  }
-}
-
-@keyframes visarto-page-in {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 0.5rem, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }

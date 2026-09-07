@@ -21,7 +21,7 @@ export function ClothSection() {
   return (
     <section className={styles.section} aria-labelledby="cloth-heading">
       <div className="sheet">
-        <Reveal className={styles.head}>
+        <Reveal stagger className={styles.head}>
           <h2 id="cloth-heading" className="display-2">
             {home.cloth.heading}
           </h2>
@@ -29,22 +29,25 @@ export function ClothSection() {
         </Reveal>
       </div>
 
-      <MediaFrame
-        className={styles.band}
-        ratio="24 / 7"
-        sizes="100vw"
-        weave="glenCheck"
-        // Coarse, not fine. A glen check repeat is a few centimetres on a real
-        // suit length, so at the fine scale a band this wide shows forty of
-        // them and reads as gingham rather than as cloth.
-        weaveScale="coarse"
-        brief={home.cloth.imageBrief}
-        briefTone="compact"
-      />
+      {/* The band unrolls from its lower edge, which is the one gesture on the
+          site that is a description of the subject rather than a transition. */}
+      <Reveal variant="mask" className={styles.band}>
+        <MediaFrame
+          ratio="24 / 7"
+          sizes="100vw"
+          weave="glenCheck"
+          // Coarse, not fine. A glen check repeat is a few centimetres on a real
+          // suit length, so at the fine scale a band this wide shows forty of
+          // them and reads as gingham rather than as cloth.
+          weaveScale="coarse"
+          brief={home.cloth.imageBrief}
+          briefTone="compact"
+        />
+      </Reveal>
 
-      <div className={`sheet ${styles.foot}`}>
+      <Reveal className={`sheet ${styles.foot}`}>
         <QuietLink href="/cloth">{home.cloth.linkLabel}</QuietLink>
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -20,7 +20,7 @@
   place-items: center;
   background-color: var(--obsidian);
   transform: translateY(0);
-  transition: transform var(--dur-reveal) var(--ease-inout);
+  transition: transform var(--dur-curtain) var(--ease-inout);
 }
 
 /* The curtain lifts rather than fading: a fade reveals a half-visible page for
@@ -44,7 +44,7 @@
   color: var(--bone-1);
   margin-right: -0.22em;
   opacity: 0;
-  animation: settle 620ms var(--ease-out) forwards;
+  animation: settle 420ms var(--ease-entrance) forwards;
 }
 
 /*
@@ -58,7 +58,7 @@
   background-color: var(--bone-muted);
   transform: scaleX(0);
   transform-origin: center;
-  animation: draw 720ms var(--ease-out) 180ms forwards;
+  animation: draw 520ms var(--ease-entrance) 120ms forwards;
 }
 
 @keyframes settle {

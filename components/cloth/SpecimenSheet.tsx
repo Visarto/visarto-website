@@ -1,3 +1,4 @@
+import { Reveal } from '@/components/primitives/Reveal';
 import { weavePaint } from '@/components/primitives/WeaveDefs';
 import { weaveIndex } from '@/lib/weave';
 import styles from './SpecimenSheet.module.css';
@@ -11,7 +12,7 @@ import styles from './SpecimenSheet.module.css';
  */
 export function SpecimenSheet({ className }: { className?: string }) {
   return (
-    <dl className={[styles.specimens, className].filter(Boolean).join(' ')}>
+    <Reveal as="dl" stagger className={[styles.specimens, className].filter(Boolean).join(' ')}>
       {weaveIndex.map((weave) => (
         <div key={weave.id} className={styles.specimen}>
           <svg
@@ -28,6 +29,6 @@ export function SpecimenSheet({ className }: { className?: string }) {
           </div>
         </div>
       ))}
-    </dl>
+    </Reveal>
   );
 }

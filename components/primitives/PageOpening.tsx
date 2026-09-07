@@ -1,3 +1,4 @@
+import { Reveal } from './Reveal';
 import styles from './PageOpening.module.css';
 
 /**
@@ -19,13 +20,19 @@ export function PageOpening({
 }) {
   return (
     <div className={styles.opening}>
-      <div className={`sheet ${styles.layout}`}>
+      {/*
+        The opening composes in its reading order, the same way the homepage
+        does. The title carries `data-reveal-opaque` because on an inner page it
+        is the Largest Contentful Paint candidate: it lifts into place at full
+        opacity so the measurement is taken on the first frame.
+      */}
+      <Reveal stagger className={`sheet ${styles.layout}`}>
         <span className={`annotation ${styles.mark}`}>{mark}</span>
-        <h1 id={id} className={`display-2 ${styles.title}`}>
+        <h1 id={id} className={`display-2 ${styles.title}`} data-reveal-opaque="">
           {title}
         </h1>
         {standfirst ? <p className={`lede ${styles.standfirst}`}>{standfirst}</p> : null}
-      </div>
+      </Reveal>
     </div>
   );
 }

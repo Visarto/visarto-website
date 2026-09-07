@@ -33,7 +33,7 @@ export default async function ClothPage() {
 
       <section className={styles.structures} aria-labelledby="structures-heading">
         <div className="sheet">
-          <Reveal className={styles.head}>
+          <Reveal stagger className={styles.head}>
             <h2 id="structures-heading" className="display-3">
               {clothPage.structureHeading}
             </h2>
@@ -44,7 +44,7 @@ export default async function ClothPage() {
       </section>
 
       <section className={styles.mills} aria-labelledby="mills-heading">
-        <div className={`sheet ${styles.millsLayout}`}>
+        <Reveal stagger className={`sheet ${styles.millsLayout}`}>
           <h2 id="mills-heading" className="display-3">
             {clothPage.millsHeading}
           </h2>
@@ -68,7 +68,7 @@ export default async function ClothPage() {
           <div className={styles.action}>
             <CtaLink href={calls.primary.href}>{calls.primary.label}</CtaLink>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

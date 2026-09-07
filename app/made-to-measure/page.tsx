@@ -35,7 +35,7 @@ export default async function MadeToMeasurePage() {
       />
 
       <div className="sheet">
-        <ol className={styles.stages}>
+        <Reveal as="ol" stagger className={styles.stages}>
           {madeToMeasure.stages.map((stage, index) => (
             <li key={stage.title} className={styles.stage}>
               <span className={`index-mark ${styles.mark}`} aria-hidden="true">
@@ -45,22 +45,23 @@ export default async function MadeToMeasurePage() {
               <p className={styles.stageNote}>{stage.note}</p>
             </li>
           ))}
-        </ol>
+        </Reveal>
       </div>
 
       <section className={`on-raised ${styles.practical}`} aria-labelledby="practical-heading">
         <div className={`sheet ${styles.practicalLayout}`}>
-          <MediaFrame
-            className={styles.media}
-            ratio="4 / 3"
-            image={page?.fittingImage}
-            fallbackSrc="/placeholders/mtm-practical.jpg"
-            alt={page?.fittingImage?.alt ?? ''}
-            sizes="(min-width: 64rem) 46vw, 100vw"
-            weave="birdseye"
-            brief={home.fitting.imageBrief}
-          />
-          <Reveal className={styles.practicalCopy}>
+          <Reveal variant="mask" className={styles.media}>
+            <MediaFrame
+              ratio="4 / 3"
+              image={page?.fittingImage}
+              fallbackSrc="/placeholders/mtm-practical.jpg"
+              alt={page?.fittingImage?.alt ?? ''}
+              sizes="(min-width: 64rem) 46vw, 100vw"
+              weave="birdseye"
+              brief={home.fitting.imageBrief}
+            />
+          </Reveal>
+          <Reveal stagger className={styles.practicalCopy}>
             <h2 id="practical-heading" className="display-3">
               The practical questions
             </h2>

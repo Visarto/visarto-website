@@ -29,9 +29,11 @@
   color: var(--text);
 }
 
+/* The role token rather than the full text colour held back with an opacity:
+   an ad hoc opacity on type is an unmeasured colour, which is the thing the
+   two layer token system exists to stop. */
 .body {
-  color: var(--text);
-  opacity: 0.86;
+  color: var(--text-secondary);
 }
 
 .aside {

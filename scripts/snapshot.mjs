@@ -166,8 +166,10 @@ const routerScript = `
     arm();
   }
 
-  // The same entrance the site uses: one observer, and each element is dropped
-  // from it once it has arrived.
+  // The same entrance the application uses, reimplemented here because the
+  // snapshot is one static file with no React in it. The thresholds and the
+  // first-screen rule have to match components/primitives/Reveal.tsx: a
+  // preview that animates differently from the site is worse than no preview.
   var observer = null;
   function arm() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -182,14 +184,23 @@ const routerScript = `
           entry.target.setAttribute('data-revealed', 'true');
           observer.unobserve(entry.target);
         });
-      }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
     }
+    // Anything on the first screen belongs to the load: it composes on the next
+    // painted frame rather than waiting for an intersection it already
+    // satisfies. Everything below goes to the observer.
+    var first = [];
     document.querySelectorAll('[data-reveal]').forEach(function (element) {
-      if (element.getBoundingClientRect().top < window.innerHeight * 1.2) {
-        element.setAttribute('data-revealed', 'true');
-      } else {
-        observer.observe(element);
-      }
+      element.removeAttribute('data-revealed');
+      if (element.getBoundingClientRect().top < window.innerHeight) first.push(element);
+      else observer.observe(element);
+    });
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        first.forEach(function (element) {
+          element.setAttribute('data-revealed', 'true');
+        });
+      });
     });
   }
 

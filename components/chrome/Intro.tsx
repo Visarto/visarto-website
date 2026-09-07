@@ -2,12 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { ENTERED_EVENT } from '@/components/primitives/Reveal';
 import styles from './Intro.module.css';
 
 /** How long the curtain is allowed to hold before it lifts regardless. */
 const MAX_HOLD_MS = 1200;
-/** Must match the transition on `.intro`. */
-const LIFT_MS = 820;
+/** Must match the transition on `.intro`, which reads `--dur-curtain`. */
+const LIFT_MS = 560;
+/**
+ * How far into the lift the page beneath is told to compose itself. The two
+ * movements overlap on purpose: the first screen is arriving as the curtain
+ * clears it, rather than waiting behind a closed door and then starting from
+ * nothing.
+ */
+const ENTRANCE_AT_MS = 240;
 const SESSION_KEY = 'visarto:intro';
 
 /**
@@ -38,6 +46,7 @@ export function Intro() {
 
     let cancelled = false;
     let liftTimer: number | undefined;
+    let entranceTimer: number | undefined;
 
     const events = ['pointerdown', 'keydown', 'wheel', 'touchstart'] as const;
     const stopListening = () => {
@@ -50,6 +59,13 @@ export function Intro() {
       window.clearTimeout(holdTimer);
       stopListening();
       setLifting(true);
+      entranceTimer = window.setTimeout(() => {
+        // The attribute is what a component mounting mid-lift reads; the event
+        // is what the components already mounted are waiting on. Both, because
+        // an entrance that never fires leaves the page blank.
+        root.dataset.entered = 'true';
+        window.dispatchEvent(new Event(ENTERED_EVENT));
+      }, ENTRANCE_AT_MS);
       liftTimer = window.setTimeout(() => {
         delete root.dataset.intro;
       }, LIFT_MS);
@@ -78,6 +94,7 @@ export function Intro() {
       cancelled = true;
       window.clearTimeout(holdTimer);
       window.clearTimeout(liftTimer);
+      window.clearTimeout(entranceTimer);
       stopListening();
     };
   }, []);

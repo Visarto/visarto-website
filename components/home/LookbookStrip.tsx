@@ -1,5 +1,6 @@
 import { QuietLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
+import { Reveal } from '@/components/primitives/Reveal';
 import type { LookbookItem } from '@/sanity/lib/types';
 import styles from './LookbookStrip.module.css';
 
@@ -12,14 +13,17 @@ export function LookbookStrip({ items }: { items: LookbookItem[] }) {
   return (
     <section className={styles.section} aria-labelledby="lookbook-heading">
       <div className="sheet">
-        <div className={styles.head}>
+        <Reveal stagger className={styles.head}>
           <h2 id="lookbook-heading" className="display-2">
             Recent work
           </h2>
           <QuietLink href="/lookbook">The full lookbook</QuietLink>
-        </div>
+        </Reveal>
 
-        <div className={styles.grid}>
+        {/* Three frames, uncovering left to right. The passage is gated on real
+            photography, and it must behave like the rest of the site on the day
+            that photography lands rather than becoming the one exception. */}
+        <Reveal stagger variant="mask" className={styles.grid}>
           {shown.map((item, index) => (
             <figure key={item._id} className={styles.item}>
               <MediaFrame
@@ -33,7 +37,7 @@ export function LookbookStrip({ items }: { items: LookbookItem[] }) {
               ) : null}
             </figure>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );
