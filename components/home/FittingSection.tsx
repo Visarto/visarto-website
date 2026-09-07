@@ -29,7 +29,7 @@ export function FittingSection({
           <MediaFrame
             ratio="5 / 6"
             image={image}
-            fallbackSrc="/placeholders/home-fitting.png"
+            fallbackSrc="/placeholders/home-fitting.jpg"
             alt={image?.alt ?? ''}
             sizes="(min-width: 64rem) 44vw, 100vw"
             weave="herringbone"
