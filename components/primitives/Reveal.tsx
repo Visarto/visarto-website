@@ -104,7 +104,7 @@ export function Reveal({
         active.unobserve(element);
         pending.delete(element);
       }
-    }, 600);
+    }, 250);
 
     return () => {
       window.clearTimeout(safety);

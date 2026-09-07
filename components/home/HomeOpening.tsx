@@ -18,7 +18,7 @@ export function HomeOpening({ image }: { image?: SanityImageSource | undefined }
         className={styles.media}
         ratio="auto"
         image={image}
-        fallbackSrc="/placeholders/home-hero.png"
+        fallbackSrc="/placeholders/home-hero.jpg"
         alt={image?.alt ?? ''}
         sizes="100vw"
         priority
