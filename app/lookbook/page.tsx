@@ -1,5 +1,6 @@
 import { MediaFrame } from '@/components/primitives/MediaFrame';
 import { PageOpening } from '@/components/primitives/PageOpening';
+import { PhotographRequired } from '@/components/primitives/PhotographRequired';
 import { Reveal } from '@/components/primitives/Reveal';
 import { lookbookPage } from '@/lib/content/pages';
 import { pageMetadata } from '@/lib/seo';
@@ -32,8 +33,12 @@ const PLACEHOLDER_TILES = [
 ];
 
 /**
- * The lookbook shows real work or it shows a designed placeholder that is
- * marked as such. Until Sanity supplies items the five tiles below stand in.
+ * The lookbook shows real work or it shows a placeholder that is marked as such.
+ *
+ * The marking is the whole of the second half. A lookbook is a claim that these
+ * are garments this house made, and five photographs under that heading with
+ * nothing beside them make the claim silently. The note above the grid is what
+ * keeps the page honest until the commissioned work replaces it.
  */
 export default async function LookbookPage() {
   const items = await getLookbook();
@@ -66,20 +71,25 @@ export default async function LookbookPage() {
             ))}
           </Reveal>
         ) : (
-          <Reveal as="ul" stagger variant="mask" className={styles.grid}>
-            {PLACEHOLDER_TILES.map((src) => (
-              <li key={src} className={styles.item}>
-                <figure>
-                  <MediaFrame
-                    ratio="4 / 5"
-                    fallbackSrc={src}
-                    alt=""
-                    sizes="(min-width: 64rem) 32vw, (min-width: 40rem) 48vw, 100vw"
-                  />
-                </figure>
-              </li>
-            ))}
-          </Reveal>
+          <>
+            <PhotographRequired tone="compact" className={styles.placeholderNote}>
+              {lookbookPage.placeholderNote}
+            </PhotographRequired>
+            <Reveal as="ul" stagger variant="mask" className={styles.grid}>
+              {PLACEHOLDER_TILES.map((src) => (
+                <li key={src} className={styles.item}>
+                  <figure>
+                    <MediaFrame
+                      ratio="4 / 5"
+                      fallbackSrc={src}
+                      alt=""
+                      sizes="(min-width: 64rem) 32vw, (min-width: 40rem) 48vw, 100vw"
+                    />
+                  </figure>
+                </li>
+              ))}
+            </Reveal>
+          </>
         )}
       </div>
     </>

@@ -4,7 +4,7 @@ Everything a photographer needs to shoot for this site, and everything an editor
 before uploading. Nothing here is a preference: every ratio and every pixel figure is read off the
 composition that will hold the picture.
 
-Seven placeholder files currently stand in for this shoot. They are placeholders. They are not
+Twelve placeholder files currently stand in for this shoot. They are placeholders. They are not
 Visarto's work, they do not show Visarto's garments, and none of them may be used in anything that
 represents the house.
 
@@ -67,11 +67,14 @@ compressed masters, not web exports.
 | Made to measure, practical | 4 / 3 | 46vw desktop | **1900 x 1425** | high |
 | Appointments, the studio | 4 / 3 | 32vw desktop | **1400 x 1050** | high |
 | About, the workroom | 4 / 5 | 40vw desktop | **1700 x 2125** | medium |
-| Lookbook | 4/5 portrait, 4/3 landscape, 1/1 square | 32vw desktop | **1400 x 1750** | blocked on real work |
-| Home lookbook strip | 4/5, 3/4, 5/7 | 40vw | **1400 x 1750** | blocked on real work |
+| Lookbook | 4/5 portrait, 4/3 landscape, 1/1 square | 32vw desktop | **1400 x 1750** | high, at least 5 |
+| Home lookbook strip | 4/5, 3/4, 5/7 | 40vw | **1400 x 1750** | high, 3 of the above |
 
-The homepage lookbook strip renders only when three real items exist, and `/lookbook` shows an
-empty state rather than filler, by design. Neither will accept stand-in imagery.
+Both lookbook surfaces currently run on marked placeholders and switch to real work automatically
+the moment the CMS holds three items or more. **The placeholder note above each grid is not
+optional.** A lookbook is a claim that these are garments this house made; five photographs under
+that heading with nothing beside them make the claim on Visarto's behalf, and it is not true yet.
+The note comes off with the placeholders, in the same change.
 
 ## 4. Crop-safe zones
 
@@ -126,9 +129,12 @@ hands, and cloth under tension.
 
 ## 7. What the placeholders currently do
 
-Seven files in `public/placeholders`, re-encoded to between 34KB and 161KB with a 900px variant
-each, plus one art-directed portrait crop for the hero. They are wired to the home opening, the
-home fitting, the collection opening, the made to measure practical block, the appointments aside
-and the about workroom. There was an eighth, a length of cloth for the homepage band, and it has
-been removed: that band is drawn from the weave draft rather than photographed, and always will
-be.
+Twelve files in `public/placeholders`, re-encoded with a 900px variant each, plus one
+art-directed portrait crop for the hero. Six are wired to the home opening, the home fitting, the
+collection opening, the made to measure practical block, the appointments aside and the about
+workroom; five are the lookbook tiles, which carry a visible placeholder note wherever they appear.
+
+Two files were removed rather than kept. A length of cloth for the homepage band, because that band
+is drawn from its weave draft rather than photographed and always will be. And `_new.html`, a
+contact sheet that had been committed into `public/`, which means it was being served at
+`/placeholders/_new.html` to anyone who guessed the path.

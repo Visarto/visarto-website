@@ -70,6 +70,15 @@ export const lookbookPage = {
   standfirst: 'Garments made by Visarto, photographed after they were delivered.',
   emptyRequires:
     'Photographs of finished Visarto garments, with permission from the clients wearing them. Until they exist this page stays empty rather than showing stock imagery.',
+  /*
+   * The frames below are placeholders and have to say so.
+   *
+   * A lookbook is a claim: these are garments this house made. Photographs that
+   * are not Visarto's work, shown under that heading without a word, make that
+   * claim on the house's behalf and it is not true yet.
+   */
+  placeholderNote:
+    'These frames are placeholders while photography is commissioned. They are not Visarto garments.',
 } as const;
 
 export const aboutPage = {

@@ -1,4 +1,6 @@
 import { QuietLink } from '@/components/primitives/Cta';
+import { PhotographRequired } from '@/components/primitives/PhotographRequired';
+import { lookbookPage } from '@/lib/content/pages';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
 import { Reveal } from '@/components/primitives/Reveal';
 import type { LookbookItem } from '@/sanity/lib/types';
@@ -31,6 +33,14 @@ export function LookbookStrip({ items }: { items: LookbookItem[] }) {
           </h2>
           <QuietLink href="/lookbook">The full lookbook</QuietLink>
         </Reveal>
+
+        {/* This passage is headed "Recent work", which is the strongest claim on
+            the homepage. It does not get to make it with stand-in frames. */}
+        {usePlaceholders ? (
+          <PhotographRequired tone="compact" className={styles.placeholderNote}>
+            {lookbookPage.placeholderNote}
+          </PhotographRequired>
+        ) : null}
 
         {/* Three frames, uncovering left to right. */}
         <Reveal stagger variant="mask" className={styles.grid}>

@@ -41,3 +41,15 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* Sits above the grid, on the text column, so it is read before the frames
+   rather than found after them. Wide enough that the label does not break
+   across two lines, which made a plain note look like an error state. */
+.placeholderNote {
+  margin-top: var(--s-5);
+  max-width: 46rem;
+}
+
+.placeholderNote > :first-child {
+  white-space: nowrap;
+}
