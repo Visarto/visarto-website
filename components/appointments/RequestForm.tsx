@@ -101,7 +101,7 @@ export function RequestForm({
     <div>
       {!deliveryConfigured ? (
         <div className={styles.notice} role="note">
-          <span className="annotation" style={{ color: 'var(--madder)' }}>
+          <span className="annotation" style={{ color: 'var(--accent)' }}>
             Not connected
           </span>
           <span className={styles.outcomeTitle}>{copy.unavailable.title}</span>

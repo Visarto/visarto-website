@@ -48,12 +48,13 @@ export default async function MadeToMeasurePage() {
         </ol>
       </div>
 
-      <section className={styles.practical} aria-labelledby="practical-heading">
+      <section className={`on-raised ${styles.practical}`} aria-labelledby="practical-heading">
         <div className={`sheet ${styles.practicalLayout}`}>
           <MediaFrame
             className={styles.media}
             ratio="4 / 3"
             image={page?.fittingImage}
+            fallbackSrc="/placeholders/mtm-practical.png"
             alt={page?.fittingImage?.alt ?? ''}
             sizes="(min-width: 64rem) 46vw, 100vw"
             weave="birdseye"

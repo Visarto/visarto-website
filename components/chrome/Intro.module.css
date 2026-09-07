@@ -1,0 +1,87 @@
+/*
+ * The opening.
+ *
+ * Hidden by default and shown only when the inline script in the document head
+ * has decided it should run. That ordering is the whole design: a visitor
+ * without JavaScript, a visitor who has asked for reduced motion, and a visitor
+ * who has already seen it this session never receive the markup in a visible
+ * state, so there is no flash and nothing to dismiss.
+ */
+
+.intro {
+  display: none;
+}
+
+:root[data-intro='pending'] .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: grid;
+  place-items: center;
+  background-color: var(--obsidian);
+  transform: translateY(0);
+  transition: transform var(--dur-reveal) var(--ease-inout);
+}
+
+/* The curtain lifts rather than fading: a fade reveals a half-visible page for
+   the length of the transition, a lift keeps the reveal clean. */
+:root[data-intro='pending'] .intro[data-state='lifting'] {
+  transform: translateY(-100%);
+}
+
+.mark {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-5);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 3.5vw, 2rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-1);
+  margin-right: -0.22em;
+  opacity: 0;
+  animation: settle 620ms var(--ease-out) forwards;
+}
+
+/*
+ * The drafting rule, drawn across under the name. It is the same mark the whole
+ * site is built from, which is why the opening belongs to Visarto rather than
+ * being a loading screen that could sit in front of anything.
+ */
+.rule {
+  width: clamp(6rem, 18vw, 12rem);
+  height: 1px;
+  background-color: var(--bone-muted);
+  transform: scaleX(0);
+  transform-origin: center;
+  animation: draw 720ms var(--ease-out) 180ms forwards;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(0.375rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Belt and braces. The script should never mark the intro pending under
+   reduced motion, but if it somehow does, nothing moves. */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-intro='pending'] .intro {
+    display: none;
+  }
+}

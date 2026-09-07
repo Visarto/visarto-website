@@ -18,7 +18,7 @@ export function FittingSection({
   settings: SiteSettings | null;
 }) {
   return (
-    <section className={styles.section} aria-labelledby="fitting-heading">
+    <section className={`on-raised ${styles.section}`} aria-labelledby="fitting-heading">
       <div className={`sheet ${styles.layout}`}>
         {/*
           The photograph is the subject of this passage, so it carries the
@@ -29,6 +29,7 @@ export function FittingSection({
           <MediaFrame
             ratio="5 / 6"
             image={image}
+            fallbackSrc="/placeholders/home-fitting.png"
             alt={image?.alt ?? ''}
             sizes="(min-width: 64rem) 44vw, 100vw"
             weave="herringbone"

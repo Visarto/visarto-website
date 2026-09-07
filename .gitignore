@@ -28,3 +28,4 @@ qa/*.png
 .behaviour-server.pid
 .snapshot-server.pid
 visarto-system/
+pics/

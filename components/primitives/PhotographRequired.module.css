@@ -1,0 +1,57 @@
+/*
+ * The marker naming a photograph that has not been supplied.
+ *
+ * Deliberately not styled to blend in: a placeholder that looks like finished
+ * artwork is worse than an empty frame, because someone eventually publishes it.
+ */
+
+.marker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0.625rem 0.75rem;
+  background-color: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-left: 2px solid var(--accent);
+  max-width: 30rem;
+}
+
+.compact {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.375rem 0.625rem;
+}
+
+.title {
+  color: var(--accent);
+}
+
+.body {
+  font-size: var(--t-fine);
+  line-height: 1.45;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/*
+ * Placed inside a frame that has type running over it. It sits at the corner
+ * opposite the type: beside the subject on a wide screen, and above it on a
+ * narrow one, where overlaid type is always set at the foot of the frame.
+ */
+.overlay {
+  position: absolute;
+  right: var(--gutter);
+  bottom: var(--s-5);
+  z-index: 2;
+  background-color: var(--surface);
+}
+
+@media (max-width: 47.99rem) {
+  .overlay {
+    left: var(--gutter);
+    right: var(--gutter);
+    top: var(--s-5);
+    bottom: auto;
+    max-width: none;
+  }
+}

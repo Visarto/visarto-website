@@ -1,70 +1,131 @@
 /*
  * Visarto design tokens.
  *
- * The palette is taken from the materials of a tailoring room: pattern paper,
- * tailor's chalk, worsted wool, espresso, and the midnight blue used for
- * evening cloth because true black reads flat under light. Nothing here is a
- * generic "luxury" colour. Accent is madder, the red of a basting thread, and
- * it is used rarely so that it keeps its authority.
+ * The palette comes from the materials of a tailoring room seen at night: a
+ * darkened fitting room, cloth under a single lamp, bone-white chalk on a dark
+ * ground. Nothing here is a generic "luxury" colour. There is no gold, no glow,
+ * and no pure black: the warmth in the near-blacks is what separates this from
+ * the black-and-chrome register, and it is the whole point.
  *
- * Contrast has been measured. Every text token meets WCAG 2.2 AA against the
- * surfaces it is allowed to sit on.
+ * Two layers.
+ *
+ * The palette layer names materials and never changes per passage. The role
+ * layer beneath it names jobs, and every component reads only from that. A
+ * surface class re-points the roles, so a passage can change ground without a
+ * single component knowing where it is. That is what makes a change like this
+ * one a change to this file rather than to a hundred call sites.
+ *
+ * Contrast is measured, not estimated. Every text token clears WCAG 2.2 AA
+ * against each surface it is allowed to sit on, and every control boundary
+ * clears the 3:1 asked of non-text. `scripts/audit.sh` re-checks this against
+ * the real rendered backdrop on every page.
  */
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* ---- Surfaces --------------------------------------------------------- */
-  --chalk: #f2eee6; /* pattern paper, the default ground */
-  --paper: #f8f5ef; /* a half tone lighter, for raised passages */
-  --stone: #e4ded2; /* pressed cloth, for quiet blocks */
-  --midnight: #1a1f2b; /* evening cloth */
-  --midnight-raised: #242a38;
+  /* ---- Grounds -----------------------------------------------------------
+   * Perceptual lightness in comments, because the whole point of this palette
+   * is that the page has range: it runs from L* 4 to L* 90.
+   */
+  --obsidian: #100e0c; /* L* 4,  the hero */
+  --ink: #16130f; /* L* 6,  the default ground */
+  --ink-raised: #1e1a16; /* L* 10, a passage lifted off the ground */
+  --midnight: #161b24; /* L* 10, evening cloth, the one cool passage */
+  --bone: #e8e1d3; /* L* 90, the rare light passage, and type on dark */
+  --stone: #d5ccbb; /* L* 82, light passage secondary */
 
-  /* ---- Ink -------------------------------------------------------------- */
-  --ink: #191512; /* 15.7:1 on chalk */
-  --ink-secondary: #4e463c; /* 8.0:1 on chalk */
-  --ink-muted: #675e52; /* 5.5:1 on chalk, 4.8:1 on stone */
+  /* ---- Ink on a dark ground ---------------------------------------------- */
+  --bone-1: #e8e1d3; /* 14.2:1 on ink */
+  --bone-2: #c4bba8; /*  9.7:1 */
+  --bone-muted: #9c9382; /*  6.1:1 */
 
-  --on-midnight: #ede8de; /* 13.5:1 on midnight */
-  --on-midnight-muted: #a7a093; /* 6.4:1 on midnight */
+  /* ---- Ink on a light ground --------------------------------------------- */
+  --ink-1: #16130f; /* 14.2:1 on bone */
+  --ink-2: #4a423a; /*  7.6:1 on bone */
+  --ink-muted: #5a5246; /*  5.9:1 on bone, 4.8:1 on stone */
 
-  /* ---- Line -------------------------------------------------------------
-   * Two kinds of line, and the difference matters.
-   *
+  /* ---- Line ---------------------------------------------------------------
    * A rule separates content and is decoration, so it can be as quiet as it
    * likes. A control line is the outline of a button or the underside of an
    * input, and it is the only thing telling somebody a control is there, so it
-   * has to hold 3:1 against every surface it is drawn on.
+   * holds 3:1 against every surface it is drawn on.
    */
-  --rule: #d6cfc2; /* the drafting line */
-  --rule-strong: #bdb4a4;
-  --rule-on-midnight: #3a4152;
+  --rule-dark: #2e2922;
+  --rule-dark-strong: #3d372e;
+  --control-dark: #6e6555; /* 3.2:1 on ink */
 
-  --control-line: #867b68; /* 3.6:1 on chalk, 3.8:1 on paper, 3.1:1 on stone */
-  --control-line-on-midnight: #6b7898; /* 3.7:1 on midnight */
+  --rule-light: #c6bca9;
+  --rule-light-strong: #ada291;
+  --control-light: #736a59; /* 4.1:1 on bone, 3.4:1 on stone */
 
-  /* ---- Accent ----------------------------------------------------------- */
-  --madder: #7b3226; /* 7.8:1 on chalk */
-  --madder-on-midnight: #c08573; /* 5.4:1 on midnight */
+  /* ---- Accent -------------------------------------------------------------
+   * Madder, the red of a basting thread. On the dark ground the accent is
+   * really light itself, so madder is left with only its functional jobs:
+   * the content-required markers and form error states.
+   */
+  --madder-dark: #c07a63; /* 5.5:1 on ink */
+  --madder-light: #7b3226; /* 6.9:1 on bone */
 
-  /* ---- Surface-aware roles ---------------------------------------------- */
-  --surface: var(--chalk);
-  --text: var(--ink);
-  --text-secondary: var(--ink-secondary);
-  --text-muted: var(--ink-muted);
-  --line: var(--rule);
-  --line-strong: var(--rule-strong);
-  --control: var(--control-line);
-  --accent: var(--madder);
-  --focus: var(--ink);
-  --focus-halo: var(--chalk);
-  --selection-bg: #d9d0be;
-  --selection-fg: var(--ink);
+  /* ---- Cloth --------------------------------------------------------------
+   * The weave fields are drawn from real draft notation, so they need a warp
+   * tone, a weft tone and a dark band tone for the checked structures.
+   *
+   * On a dark ground the field is set *lighter* than the surface it sits on,
+   * not darker. That is both how the frame gets an edge and what is true of the
+   * subject: cloth in a dark room is the lit thing. Setting it darker made the
+   * whole frame disappear even though the warp-to-weft separation was correct.
+   */
+  --cloth-ground-dark: #241f19; /* L* 13, above every dark ground */
+  --cloth-warp-dark: #3a3126;
+  --cloth-weft-dark: #241f19;
+  --cloth-band-dark: #4d4234;
+
+  --cloth-ground-light: #ded6c5;
+  --cloth-warp-light: #c6bca6;
+  --cloth-weft-light: #e1daca;
+  --cloth-band-light: #aca089;
+
+  /* ======================================================================
+   * Roles. Everything a component is allowed to reference.
+   * ====================================================================== */
+
+  /* The page's own ground. Chrome that sits outside any passage, such as the
+     header, the footer and the mobile menu, uses this rather than --surface. */
+  --ground: var(--ink);
+
+  --surface: var(--ink);
+  --surface-raised: var(--ink-raised);
+
+  --text: var(--bone-1);
+  --text-secondary: var(--bone-2);
+  --text-muted: var(--bone-muted);
+
+  --line: var(--rule-dark);
+  --line-strong: var(--rule-dark-strong);
+  --control: var(--control-dark);
+
+  --accent: var(--madder-dark);
+
+  /* The primary action inverts the surface: filled with the text colour,
+     lettered in the ground. Declaring it as a role is what lets one button
+     work on every passage without a special case per surface. */
+  --action-fill: var(--text);
+  --action-fill-hover: var(--bone-2);
+  --action-text: var(--surface);
+
+  --focus: var(--bone-1);
+  --focus-halo: var(--surface);
+  --selection-bg: #3a332a;
+  --selection-fg: var(--bone-1);
+
+  --cloth-ground: var(--cloth-ground-dark);
+  --cloth-warp: var(--cloth-warp-dark);
+  --cloth-weft: var(--cloth-weft-dark);
+  --cloth-dark: var(--cloth-band-dark);
 
   /* ---- Type families ----------------------------------------------------- */
-  --font-display: var(--font-fraunces), 'Iowan Old Style', 'Palatino Linotype',
-    'Times New Roman', serif;
+  --font-display: 'Times New Roman', Times, 'Nimbus Roman', serif;
   --font-text: var(--font-manrope), 'Helvetica Neue', Arial, sans-serif;
 
   /* ---- Type scale --------------------------------------------------------
@@ -88,10 +149,10 @@
   --lh-lede: 1.48;
   --lh-body: 1.66;
 
-  --track-display: -0.02em;
-  --track-display-large: -0.028em;
+  --track-display: -0.018em;
+  --track-display-large: -0.022em;
   --track-body: 0;
-  --track-label: 0.13em;
+  --track-label: 0.14em;
 
   /* ---- Measure -----------------------------------------------------------
    * Display measure is set by the composition, not here: a masthead on a hero
@@ -143,17 +204,6 @@
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* ---- Cloth -------------------------------------------------------------
-   * The weave fields are drawn from real draft notation, so they need a warp
-   * tone, a weft tone and a dark band tone for the checked structures. The
-   * contrast between them is low on purpose: cloth at arm's length is a
-   * texture, not a pattern.
-   */
-  --cloth-ground: #e7e1d4;
-  --cloth-warp: #c9c0aa;
-  --cloth-weft: #e6e0d3;
-  --cloth-dark: #b0a58e;
-
   /* ---- Chrome ------------------------------------------------------------ */
   --header-height: 4.5rem;
 }
@@ -165,45 +215,79 @@
 }
 
 /*
- * Dark passages are a surface, not a theme. Applying this class re-points the
- * role tokens so that every primitive inside adapts without knowing where it is.
+ * Passages.
+ *
+ * Each class re-points the roles and paints its own ground. A primitive placed
+ * inside adapts without knowing where it is, which is why the buttons, rules,
+ * form fields and cloth fields all work on every one of these without a single
+ * per-surface override.
  */
+
+.on-obsidian {
+  --surface: var(--obsidian);
+  --surface-raised: var(--ink);
+  --action-text: var(--obsidian);
+  --focus-halo: var(--obsidian);
+  background-color: var(--obsidian);
+}
+
+.on-raised {
+  --surface: var(--ink-raised);
+  --surface-raised: #262119;
+  --action-text: var(--ink-raised);
+  --focus-halo: var(--ink-raised);
+  background-color: var(--ink-raised);
+}
+
 .on-midnight {
   --surface: var(--midnight);
-  --text: var(--on-midnight);
-  --text-secondary: var(--on-midnight);
-  --text-muted: var(--on-midnight-muted);
-  --line: var(--rule-on-midnight);
-  --line-strong: #4a5266;
-  --control: var(--control-line-on-midnight);
-  --accent: var(--madder-on-midnight);
-  --focus: var(--on-midnight);
+  --surface-raised: #1f2632;
+  --line: #262d3a;
+  --line-strong: #333b4b;
+  --control: #6b7898; /* 3.7:1 on midnight */
+  --action-text: var(--midnight);
   --focus-halo: var(--midnight);
-  --selection-bg: #3d4557;
-  --selection-fg: var(--on-midnight);
 
-  --cloth-ground: #212736;
-  --cloth-warp: #2c3345;
-  --cloth-weft: #242b3a;
-  --cloth-dark: #38405a;
+  --cloth-ground: #222a38;
+  --cloth-warp: #38445a;
+  --cloth-weft: #222a38;
+  --cloth-dark: #4a5872;
 
   background-color: var(--midnight);
+}
+
+/*
+ * The one light passage. Everything flips: it is the only place on the site
+ * where ink sits on paper, which is what gives it its authority.
+ */
+.on-bone {
+  --surface: var(--bone);
+  --surface-raised: #f0ebe0;
+
+  --text: var(--ink-1);
+  --text-secondary: var(--ink-2);
+  --text-muted: var(--ink-muted);
+
+  --line: var(--rule-light);
+  --line-strong: var(--rule-light-strong);
+  --control: var(--control-light);
+
+  --accent: var(--madder-light);
+
+  --action-fill: var(--ink-1);
+  --action-fill-hover: var(--ink-2);
+  --action-text: var(--bone);
+
+  --focus: var(--ink-1);
+  --focus-halo: var(--bone);
+  --selection-bg: #cfc5b2;
+  --selection-fg: var(--ink-1);
+
+  --cloth-ground: var(--cloth-ground-light);
+  --cloth-warp: var(--cloth-warp-light);
+  --cloth-weft: var(--cloth-weft-light);
+  --cloth-dark: var(--cloth-band-light);
+
   color: var(--text);
-}
-
-.on-stone {
-  --surface: var(--stone);
-  --line: var(--rule-strong);
-
-  --cloth-ground: #ded7c8;
-  --cloth-warp: #cbc2ae;
-  --cloth-weft: #d9d2c3;
-  --cloth-dark: #ada288;
-
-  background-color: var(--stone);
-}
-
-.on-paper {
-  --surface: var(--paper);
-  background-color: var(--paper);
+  background-color: var(--bone);
 }

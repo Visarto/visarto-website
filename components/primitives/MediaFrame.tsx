@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { focalPosition, imageUrl } from '@/sanity/lib/image';
 import type { SanityImageSource } from '@/sanity/lib/types';
 import type { WeaveId } from '@/lib/weave';
-import { weavePatternId, type WeaveScale } from './WeaveDefs';
+import { PhotographRequired } from './PhotographRequired';
+import { weavePaint, type WeaveScale } from './WeaveDefs';
 import styles from './MediaFrame.module.css';
 
 /**
@@ -22,6 +23,12 @@ import styles from './MediaFrame.module.css';
 export type MediaFrameProps = {
   ratio: string;
   image?: SanityImageSource | undefined;
+  /**
+   * Local static URL (served from `/public`) used only when no Sanity `image`
+   * is present. Development / pre-launch placeholder path — a real photograph
+   * uploaded in the studio always wins.
+   */
+  fallbackSrc?: string;
   /**
    * Required whenever an image is present. Decorative cloth fields are hidden
    * from assistive technology instead.
@@ -45,6 +52,7 @@ export type MediaFrameProps = {
 export function MediaFrame({
   ratio,
   image,
+  fallbackSrc,
   alt,
   sizes,
   priority = false,
@@ -54,7 +62,8 @@ export function MediaFrame({
   briefTone = 'full',
   className,
 }: MediaFrameProps) {
-  const src = image ? imageUrl(image, 2000) : null;
+  const usingFallback = !image && Boolean(fallbackSrc);
+  const src = image ? imageUrl(image, 2000) : fallbackSrc ?? null;
   const classes = [styles.frame, className].filter(Boolean).join(' ');
 
   if (src) {
@@ -64,18 +73,34 @@ export function MediaFrame({
         style={
           {
             ['--frame-ratio']: ratio,
-            ['--focal']: focalPosition(image),
+            ['--focal']: image ? focalPosition(image) : '50% 50%',
           } as React.CSSProperties
         }
       >
-        <Image
-          src={src}
-          alt={alt ?? image?.alt ?? ''}
-          fill
-          sizes={sizes}
-          priority={priority}
-          className={styles.image}
-        />
+        {usingFallback ? (
+          /* Placeholder path: a plain <img>. Bypasses next/image's optimizer
+             and its measurement cache, which was pinning the previous encoded
+             copy across client-side navigations. Also means overwriting the
+             PNG in `public/placeholders` shows up on the next reload with no
+             cache dance. */
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={src}
+            alt={alt ?? ''}
+            className={styles.image}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+        ) : (
+          <Image
+            src={src}
+            alt={alt ?? image?.alt ?? ''}
+            fill
+            sizes={sizes}
+            priority={priority}
+            className={styles.image}
+          />
+        )}
       </figure>
     );
   }
@@ -87,20 +112,13 @@ export function MediaFrame({
       data-state="awaiting-photography"
     >
       <svg className={styles.cloth} aria-hidden="true" focusable="false" preserveAspectRatio="none">
-        <rect width="100%" height="100%" fill={`url(#${weavePatternId(weave, weaveScale)})`} />
+        <rect width="100%" height="100%" fill={weavePaint(weave, weaveScale)} />
       </svg>
       <span className={styles.marks} aria-hidden="true" />
       {brief ? (
-        <figcaption
-          className={briefTone === 'compact' ? styles.briefCompact : styles.brief}
-        >
-          <span className={`annotation ${styles.briefTitle}`}>Photograph required</span>
-          {briefTone === 'compact' ? (
-            <span className={styles.briefSlot}>{brief}</span>
-          ) : (
-            <p className={styles.briefBody}>{brief}</p>
-          )}
-        </figcaption>
+        <div className={styles.brief}>
+          <PhotographRequired tone={briefTone}>{brief}</PhotographRequired>
+        </div>
       ) : null}
     </figure>
   );

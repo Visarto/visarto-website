@@ -17,7 +17,8 @@ nothing to discard.
 
 Second, the provisional typography direction named in the directive (Fraunces with Manrope,
 against a DM Serif Display and Inter foil) is not locked by any decision record in the repository.
-It has been treated as the standing direction and adopted, not replaced. See section 6.
+It was adopted rather than replaced for the first build, and later changed with the owner's
+explicit approval. See section 6.
 
 ## 2. Stack as built
 
@@ -64,7 +65,8 @@ Established from scratch, so there is no inherited debt. Current state of the ch
 | Build | `npm run build` | Clean. Every route prerendered except the two conversion pages and the API |
 | Copy gate | `npm run copy-gate` | Clean |
 | Unit tests | `npm test` | Clean, 10 assertions |
-| Behaviour | `bash scripts/behaviour.sh` | Clean, 27 checks including the appointment journey end to end |
+| Behaviour | `bash scripts/behaviour.sh` | Clean, 34 checks including the appointment journey end to end and the opening curtain's bypass conditions |
+| Performance | `bash scripts/lcp.sh` | LCP 488ms, CLS 0.002 at 4x CPU throttle over 4Mbps |
 | Browser audit | `bash scripts/audit.sh <paths>` | Clean: headings, landmarks, accessible names, form labels, contrast, target size, focus visibility, horizontal overflow |
 | Screenshots | `bash scripts/qa.sh <paths>` | No console errors, no failed requests, no horizontal overflow at any of seven viewports |
 
@@ -72,10 +74,10 @@ Established from scratch, so there is no inherited debt. Current state of the ch
 
 | Item | State |
 |---|---|
-| Logo and wordmark | **Missing.** The wordmark is currently set in Fraunces, letterspaced. A real mark will replace it |
+| Logo and wordmark | **Missing.** The wordmark is currently set in Bodoni Moda, letterspaced. A real mark will replace it |
 | Photography | **Missing.** No Visarto photograph of any kind exists |
 | Video | **Missing**, and not needed for the chosen hero |
-| Brand colours | **Not supplied.** The palette was derived from tailoring materials and is provisional until measured against real photography |
+| Brand colours | **Not supplied.** The palette was derived from tailoring materials seen at night and is provisional until measured against real photography |
 | Written copy | **Not supplied.** All viewer-facing copy was authored for this build and is provisional |
 | Business facts | **Not supplied.** See section 7 |
 
@@ -85,15 +87,21 @@ garment, and no stock or generated imagery has been used.
 
 ## 6. Typography decision
 
-Adopted: **Fraunces** for display, **Manrope** for text. Both are SIL Open Font Licence, so
+Adopted: **Bodoni Moda** for display, **Manrope** for text. Both are SIL Open Font Licence, so
 production web use is licensed. Both are self-hosted at build time through `next/font`.
 
-Fraunces is loaded as a variable font subset to the optical size axis alone. Requesting `SOFT`
-and `WONK` as well took the file from 66 KB to 118 KB for a difference invisible at the sizes
-used, so they sit at their defaults. `opsz` is the reason the family was chosen: the display
-sizes take the high stroke contrast of a masthead while the same face at title size stays sturdy.
+The first build used Fraunces, which the original brief named as the standing direction. It was
+replaced with the owner's explicit approval: Fraunces is a good typeface with the wrong
+temperament for this, warm and faintly artisanal where a fashion house wants a didone. Bodoni is
+subset to the optical size axis alone, which is the same discipline that had kept Fraunces to
+66 KB, and it ships at **46 KB**. Preloaded font weight for the first viewport is now **71 KB**
+across both families, down from 90 KB.
 
-Preloaded font weight for the first viewport is 90 KB across both families.
+Two adjustments the swap forced, both found by looking at the rendered page:
+
+- the wordmark needs the text end of the optical size axis (`opsz` 11, weight 600). At 17px with a
+  display `opsz` a didone renders as a broken font
+- titles on a dark ground go to weight 500, because thin strokes bloom away against near-black
 
 ## 7. What Visarto has to supply
 
@@ -129,6 +137,9 @@ visible "Content required" marker until an editor fills the matching CMS field.
 - The token layer in `styles/tokens.css`. The contrast figures in the comments were measured,
   not estimated.
 - The four-behaviour motion vocabulary. It is deliberately small.
+- The two-layer token system. Components read role tokens only, never palette names, which is what
+  made a total palette inversion a change to one file. The first pass did not hold this line and
+  the surfaces did not actually invert until it was fixed.
 
 ## 9. Known gaps in this build
 

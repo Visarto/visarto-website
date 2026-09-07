@@ -52,6 +52,7 @@ export default async function AboutPage() {
           className={styles.media}
           ratio="4 / 5"
           image={page?.portrait}
+          fallbackSrc="/placeholders/about-portrait.png"
           alt={page?.portrait?.alt ?? ''}
           sizes="(min-width: 64rem) 40vw, 100vw"
           weave="hopsack"

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { ContentRequired } from '@/components/primitives/ContentRequired';
 import { CtaLink, QuietLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
-import { PageOpening } from '@/components/primitives/PageOpening';
+import { PhotographRequired } from '@/components/primitives/PhotographRequired';
 import { collectionEntries } from '@/lib/content/collections';
 import { collectionsPage } from '@/lib/content/pages';
 import { calls } from '@/lib/content/site';
@@ -79,24 +79,33 @@ export default async function CollectionPage({ params }: Params) {
 
   return (
     <>
-      <PageOpening
-        mark="Collections"
-        title={collection.title}
-        standfirst={collection.standfirst ?? undefined}
-      />
-
-      <div className={`sheet ${styles.layout}`}>
+      <section className={`on-obsidian ${styles.opening}`} aria-labelledby="collection-heading">
         <MediaFrame
-          className={styles.hero}
-          ratio="4 / 5"
+          className={styles.openingMedia}
+          ratio="auto"
           image={collection.heroImage}
           alt={collection.heroImage?.alt ?? ''}
-          sizes="(min-width: 64rem) 48vw, 100vw"
+          sizes="100vw"
           priority
           weave="herringbone"
-          brief={`Lead photograph for ${collection.title.toLowerCase()}. A finished garment on a client, portrait, natural light.`}
         />
+        <div className={styles.scrim} aria-hidden="true" />
+        <PhotographRequired overlay>
+          {`Lead photograph for ${collection.title.toLowerCase()}. A finished garment on a client, natural light. The foot of the frame is kept calm so the title sits on it.`}
+        </PhotographRequired>
 
+        <div className={`sheet ${styles.openingCopy}`}>
+          <span className={`annotation ${styles.mark}`}>Collections</span>
+          <h1 id="collection-heading" className={`display-2 ${styles.title}`}>
+            {collection.title}
+          </h1>
+          {collection.standfirst ? (
+            <p className={`lede ${styles.standfirst}`}>{collection.standfirst}</p>
+          ) : null}
+        </div>
+      </section>
+
+      <div className="sheet">
         <div className={styles.body}>
           {collection.description ? (
             collection.description

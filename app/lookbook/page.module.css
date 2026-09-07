@@ -1,19 +1,25 @@
 /*
- * The lookbook runs as a column-balanced set rather than a fixed grid, so
- * portrait and landscape photographs can sit together without being forced to
- * one ratio. Captions belong to their photograph, not to a row.
+ * The lookbook runs edge to edge with a hairline between frames, and breaks the
+ * sheet margin to do it. A gallery of finished garments should read as one
+ * continuous surface: gutters around each photograph turn a lookbook into a
+ * product listing.
+ *
+ * Portrait and landscape sit together without being forced to one ratio, and a
+ * caption belongs to its photograph rather than to a row.
  */
 
 .grid {
   display: grid;
-  gap: var(--s-7) var(--grid-gap);
+  gap: 1px;
+  margin-inline: calc(var(--gutter) * -1);
   padding-block: var(--section-tight) var(--section);
 }
 
 .caption {
   margin-top: var(--s-3);
+  padding-inline: var(--s-4);
   font-size: var(--t-fine);
-  color: var(--ink-muted);
+  color: var(--text-muted);
   max-width: 42ch;
 }
 
@@ -28,23 +34,10 @@
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .item:nth-child(even) {
-    padding-top: clamp(1.5rem, 5vw, 4rem);
-  }
 }
 
 @media (min-width: 64rem) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--s-9) var(--grid-gap);
-  }
-
-  .item:nth-child(even) {
-    padding-top: 0;
-  }
-
-  .item:nth-child(3n + 2) {
-    padding-top: clamp(2rem, 6vw, 5rem);
   }
 }

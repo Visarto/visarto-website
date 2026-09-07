@@ -11,6 +11,14 @@ import { glenCheck, weaveMatrices, type WeaveId } from '@/lib/weave';
  * seen across a room and is used behind large compositions; `coarse` is the
  * draft itself and is used at swatch size, where the structure is the subject.
  *
+ * A pattern referenced with `url(#id)` resolves its custom properties where it
+ * is *defined*, not where it is used, so a single set painted with `var()`
+ * silently keeps the root palette on every surface. That is invisible while the
+ * surfaces are close in tone and glaring the moment they are not. So each tone
+ * is emitted as its own set with literal colours, and a generated style block
+ * points `--weave-*` at the right set per surface. Components still name only a
+ * weave and a scale, and never learn where they are.
+ *
  * The thread size is set per structure rather than once for all six, because
  * the repeats are not the same size in the cloth. A plain weave repeats over
  * two threads and a glen check over sixteen, so drawing both at one cell size
@@ -43,8 +51,31 @@ const SCALES: Record<WeaveScale, Record<WeaveId, number>> = {
 
 export type WeaveScale = 'fine' | 'coarse';
 
-export function weavePatternId(id: WeaveId, scale: WeaveScale): string {
-  return `visarto-weave-${id}-${scale}`;
+/** The surfaces a cloth field can be drawn on, and the threads it takes there. */
+const TONES = {
+  dark: { ground: '#241f19', warp: '#3a3126', weft: '#241f19', band: '#4d4234' },
+  bone: { ground: '#ded6c5', warp: '#c6bca6', weft: '#e1daca', band: '#aca089' },
+  midnight: { ground: '#222a38', warp: '#38445a', weft: '#222a38', band: '#4a5872' },
+} as const;
+
+type Tone = keyof typeof TONES;
+
+const TONE_SELECTOR: Record<Tone, string> = {
+  dark: ':root',
+  bone: '.on-bone',
+  midnight: '.on-midnight',
+};
+
+function patternId(id: WeaveId, scale: WeaveScale, tone: Tone): string {
+  return `visarto-weave-${id}-${scale}-${tone}`;
+}
+
+/**
+ * What a component asks for. It names a weave and a scale; the surface it is
+ * standing on decides which set of threads that resolves to.
+ */
+export function weavePaint(id: WeaveId, scale: WeaveScale): string {
+  return `var(--weave-${id}-${scale})`;
 }
 
 /** Squares for every intersection where `predicate` holds, as one path. */
@@ -66,7 +97,15 @@ function cellsToPath(
   return d;
 }
 
-function MonochromeWeave({ id, scale }: { id: Exclude<WeaveId, 'glenCheck'>; scale: WeaveScale }) {
+function MonochromeWeave({
+  id,
+  scale,
+  tone,
+}: {
+  id: Exclude<WeaveId, 'glenCheck'>;
+  scale: WeaveScale;
+  tone: Tone;
+}) {
   const matrix = weaveMatrices[id];
   const rows = matrix.length;
   const cols = matrix[0]?.length ?? 0;
@@ -75,18 +114,18 @@ function MonochromeWeave({ id, scale }: { id: Exclude<WeaveId, 'glenCheck'>; sca
 
   return (
     <pattern
-      id={weavePatternId(id, scale)}
+      id={patternId(id, scale, tone)}
       width={cols * cell}
       height={rows * cell}
       patternUnits="userSpaceOnUse"
     >
-      <rect width={cols * cell} height={rows * cell} fill="var(--cloth-weft)" />
-      <path d={path} fill="var(--cloth-warp)" />
+      <rect width={cols * cell} height={rows * cell} fill={TONES[tone].weft} />
+      <path d={path} fill={TONES[tone].warp} />
     </pattern>
   );
 }
 
-function GlenCheckWeave({ scale }: { scale: WeaveScale }) {
+function GlenCheckWeave({ scale, tone }: { scale: WeaveScale; tone: Tone }) {
   const { band, ground } = glenCheck;
   const size = band * 2;
   const cell = SCALES[scale].glenCheck;
@@ -105,16 +144,16 @@ function GlenCheckWeave({ scale }: { scale: WeaveScale }) {
 
   return (
     <pattern
-      id={weavePatternId('glenCheck', scale)}
+      id={patternId('glenCheck', scale, tone)}
       width={size * cell}
       height={size * cell}
       patternUnits="userSpaceOnUse"
     >
-      <rect width={size * cell} height={size * cell} fill="var(--cloth-weft)" />
-      <path d={cellsToPath(size, size, cell, isDark)} fill="var(--cloth-dark)" />
+      <rect width={size * cell} height={size * cell} fill={TONES[tone].weft} />
+      <path d={cellsToPath(size, size, cell, isDark)} fill={TONES[tone].band} />
       <path
         d={cellsToPath(size, size, cell, (x, y) => !isDark(x, y))}
-        fill="var(--cloth-warp)"
+        fill={TONES[tone].warp}
         opacity="0.55"
       />
     </pattern>
@@ -131,26 +170,47 @@ const MONOCHROME: Exclude<WeaveId, 'glenCheck'>[] = [
 
 const SCALE_KEYS: WeaveScale[] = ['fine', 'coarse'];
 
+const ALL: WeaveId[] = [...MONOCHROME, 'glenCheck'];
+const TONE_KEYS = Object.keys(TONES) as Tone[];
+
+/**
+ * The mapping from what a component asks for to the set it gets, generated from
+ * the same lists the patterns are, so the two cannot drift apart.
+ */
+function toneStyles(): string {
+  return TONE_KEYS.map((tone) => {
+    const declarations = ALL.flatMap((id) =>
+      SCALE_KEYS.map((scale) => `--weave-${id}-${scale}:url(#${patternId(id, scale, tone)});`),
+    ).join('');
+    return `${TONE_SELECTOR[tone]}{${declarations}}`;
+  }).join('');
+}
+
 export function WeaveDefs() {
   return (
-    <svg
-      aria-hidden="true"
-      focusable="false"
-      width="0"
-      height="0"
-      style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}
-    >
-      <defs>
-        {SCALE_KEYS.map((scale) => (
-          <Fragmented key={scale}>
-            {MONOCHROME.map((id) => (
-              <MonochromeWeave key={`${id}-${scale}`} id={id} scale={scale} />
-            ))}
-            <GlenCheckWeave key={`glen-${scale}`} scale={scale} />
-          </Fragmented>
-        ))}
-      </defs>
-    </svg>
+    <>
+      <style dangerouslySetInnerHTML={{ __html: toneStyles() }} />
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        width="0"
+        height="0"
+        style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}
+      >
+        <defs>
+          {TONE_KEYS.map((tone) =>
+            SCALE_KEYS.map((scale) => (
+              <Fragmented key={`${tone}-${scale}`}>
+                {MONOCHROME.map((id) => (
+                  <MonochromeWeave key={`${id}-${scale}-${tone}`} id={id} scale={scale} tone={tone} />
+                ))}
+                <GlenCheckWeave key={`glen-${scale}-${tone}`} scale={scale} tone={tone} />
+              </Fragmented>
+            )),
+          )}
+        </defs>
+      </svg>
+    </>
   );
 }
 
