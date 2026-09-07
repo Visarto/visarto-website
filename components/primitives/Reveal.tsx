@@ -73,10 +73,17 @@ export function Reveal({
 
     // Anything already at or near the first screen is revealed on mount rather
     // than waiting for a callback, so the opening of the page never animates in
-    // behind the reader.
-    if (element.getBoundingClientRect().top < window.innerHeight * 1.2) {
-      element.dataset.revealed = 'true';
-      return;
+    // behind the reader. This also covers elements already scrolled past (top
+    // is negative), which the observer would otherwise miss on client-side
+    // navigation back to a page.
+    const rect = element.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 1.5) {
+      // One frame's delay so the initial pre-reveal state paints and the
+      // transition plays, rather than snapping to the finished state.
+      const raf = window.requestAnimationFrame(() => {
+        element.dataset.revealed = 'true';
+      });
+      return () => window.cancelAnimationFrame(raf);
     }
 
     const active = ensureObserver();
@@ -88,7 +95,19 @@ export function Reveal({
     active.observe(element);
     pending.add(element);
 
+    // Safety net. The observer occasionally misses its first callback on
+    // client-side navigations because of the scroll-reset timing. Unconditional
+    // reveal after a short window. Fast paths never see this timer fire.
+    const safety = window.setTimeout(() => {
+      if (element.dataset.revealed !== 'true') {
+        element.dataset.revealed = 'true';
+        active.unobserve(element);
+        pending.delete(element);
+      }
+    }, 600);
+
     return () => {
+      window.clearTimeout(safety);
       active.unobserve(element);
       pending.delete(element);
     };

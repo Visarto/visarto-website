@@ -54,6 +54,7 @@ export default async function MadeToMeasurePage() {
             className={styles.media}
             ratio="4 / 3"
             image={page?.fittingImage}
+            fallbackSrc="/placeholders/mtm-practical.png"
             alt={page?.fittingImage?.alt ?? ''}
             sizes="(min-width: 64rem) 46vw, 100vw"
             weave="birdseye"

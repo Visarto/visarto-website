@@ -26,20 +26,20 @@
 /* Edge to edge. The band is the only element on the page that touches both
    margins without being a hero. */
 .band {
-  margin-top: var(--s-8);
+  margin-top: var(--s-9);
 }
 
 .foot {
   display: flex;
   justify-content: flex-end;
-  margin-top: var(--s-6);
+  margin-top: var(--s-7);
 }
 
 @media (max-width: 47.99rem) {
   /* A 24:7 band is a letterbox slot on a phone. It squares up instead. */
   .band {
     --frame-ratio: 5 / 4;
-    margin-top: var(--s-7);
+    margin-top: var(--s-8);
   }
 
   .foot {

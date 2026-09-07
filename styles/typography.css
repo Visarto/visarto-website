@@ -1,14 +1,13 @@
 /*
  * Visarto typography.
  *
- * Fraunces carries the identity. It is a variable serif with a true optical
- * size axis, so display sizes can take the high stroke contrast of a fashion
- * masthead while the same family at text size stays sturdy. WONK is held at 0
- * and SOFT low: the terminals stay cut rather than rounded, which is the right
- * temperament for a tailoring house.
+ * Cormorant Garamond carries the identity. It is a Garamond in the humanist
+ * tradition — softer contrast than a didone, calligraphic terminals, an
+ * italic that behaves like a second voice rather than a slanted version of
+ * the first. Set light at display size, regular at text size.
  *
- * Manrope sets everything that has to be read rather than looked at. It is kept
- * small, quiet, and slightly tracked so it never competes with the serif.
+ * Manrope sets everything that has to be read rather than looked at. It is
+ * kept small, quiet, and slightly tracked so it never competes with the serif.
  *
  * These classes set type and nothing else. Measure is the business of the
  * composition using them, so a headline's line length is decided where the
@@ -19,31 +18,30 @@
 .display-2,
 .display-3 {
   font-family: var(--font-display);
-  font-weight: 400;
   color: var(--text);
   text-wrap: balance;
 }
 
 .display-1 {
+  font-weight: 300;
   font-size: var(--t-display-1);
   line-height: var(--lh-display);
   letter-spacing: var(--track-display-large);
-  font-variation-settings: 'opsz' 96;
 }
 
 .display-2 {
+  font-weight: 400;
   font-size: var(--t-display-2);
   line-height: var(--lh-display-small);
   letter-spacing: var(--track-display);
-  font-variation-settings: 'opsz' 72;
   max-width: 20ch;
 }
 
 .display-3 {
+  font-weight: 500;
   font-size: var(--t-display-3);
   line-height: var(--lh-title);
   letter-spacing: -0.014em;
-  font-variation-settings: 'opsz' 40;
   max-width: 26ch;
 }
 
@@ -55,7 +53,6 @@
   font-size: var(--t-lede);
   line-height: 1.42;
   letter-spacing: -0.008em;
-  font-variation-settings: 'opsz' 18;
   color: var(--text);
 }
 

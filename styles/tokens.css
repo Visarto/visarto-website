@@ -125,7 +125,7 @@
   --cloth-dark: var(--cloth-band-dark);
 
   /* ---- Type families ----------------------------------------------------- */
-  --font-display: var(--font-bodoni), 'Didot', 'Bodoni MT', 'Times New Roman', serif;
+  --font-display: 'Times New Roman', Times, 'Nimbus Roman', serif;
   --font-text: var(--font-manrope), 'Helvetica Neue', Arial, sans-serif;
 
   /* ---- Type scale --------------------------------------------------------

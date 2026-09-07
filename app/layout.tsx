@@ -9,7 +9,7 @@ import { Grain } from '@/components/primitives/Grain';
 import { WeaveDefs } from '@/components/primitives/WeaveDefs';
 import { brand } from '@/lib/content/site';
 import { siteUrl } from '@/lib/env';
-import { bodoni, manrope } from '@/lib/fonts';
+import { display, manrope } from '@/lib/fonts';
 import { getSiteSettings } from '@/sanity/lib/queries';
 
 import '@/styles/tokens.css';
@@ -60,7 +60,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const settings = await getSiteSettings();
 
   return (
-    <html lang="en" className={`${bodoni.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${display.variable} ${manrope.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: BOOT }} />
       </head>

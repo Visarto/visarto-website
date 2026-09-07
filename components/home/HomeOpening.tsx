@@ -1,6 +1,5 @@
 import { CtaLink, QuietLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
-import { PhotographRequired } from '@/components/primitives/PhotographRequired';
 import { calls } from '@/lib/content/site';
 import { home } from '@/lib/content/home';
 import type { SanityImageSource } from '@/sanity/lib/types';
@@ -19,15 +18,13 @@ export function HomeOpening({ image }: { image?: SanityImageSource | undefined }
         className={styles.media}
         ratio="auto"
         image={image}
+        fallbackSrc="/placeholders/home-hero.png"
         alt={image?.alt ?? ''}
         sizes="100vw"
         priority
         weave="herringbone"
       />
       <div className={styles.scrim} aria-hidden="true" />
-      {/* Placed here rather than inside the frame: the scrim sits over the
-          frame, and anything drawn under it is buried. */}
-      <PhotographRequired overlay>{home.opening.imageBrief}</PhotographRequired>
 
       <div className={`sheet ${styles.copy}`}>
         <h1 id="opening-heading" className={`display-1 ${styles.display}`}>

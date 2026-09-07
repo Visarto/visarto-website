@@ -81,6 +81,16 @@
 }
 
 @media (min-width: 48rem) {
+  .copy {
+    /* Held to the left half from tablet up, so the photograph keeps the rest
+       of the frame. The `.sheet` class this element also carries sets
+       `margin-inline: auto`, which would centre it — override the start margin
+       so it stays pinned to the left gutter. */
+    max-width: 40rem;
+    margin-inline: 0 auto;
+    padding-right: var(--s-7);
+  }
+
   .lede {
     /* Indented one step off the display axis: the standfirst of a spread sits
        inside the headline, not under it. */
@@ -95,8 +105,8 @@
 
   .copy {
     gap: var(--s-7);
-    /* Held to the left half so the photograph keeps the rest of the frame. */
     max-width: 46rem;
+    margin-inline: 0 auto;
     padding-right: var(--s-8);
   }
 

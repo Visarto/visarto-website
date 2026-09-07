@@ -23,20 +23,12 @@ export const metadata = pageMetadata({
  * mills Visarto buys from is a fact about the business, and stays empty until
  * Visarto supplies it. The page is designed so that it reads as finished in
  * either state.
- *
- * This is the one page on the site set on light, and it is set on light all the
- * way through. A whole page may change world: arrived at through navigation, it
- * reads as a chapter. A section that changes ground inside a page reads as a
- * seam, which is what this page used to have halfway down it.
- *
- * The ground is also the right one for the subject. The weave drafts were drawn
- * to read on paper, and a bunch of swatches is a paper object.
  */
 export default async function ClothPage() {
   const mills = await getMills();
 
   return (
-    <div className="on-bone">
+    <>
       <PageOpening mark={clothPage.mark} title={clothPage.title} standfirst={clothPage.standfirst} />
 
       <section className={styles.structures} aria-labelledby="structures-heading">
@@ -78,6 +70,6 @@ export default async function ClothPage() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
