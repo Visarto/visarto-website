@@ -1,9 +1,6 @@
-import { ContentRequired } from '@/components/primitives/ContentRequired';
-import { CtaLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
 import { PageOpening } from '@/components/primitives/PageOpening';
 import { Reveal } from '@/components/primitives/Reveal';
-import { calls } from '@/lib/content/site';
 import { lookbookPage } from '@/lib/content/pages';
 import { pageMetadata } from '@/lib/seo';
 import { getLookbook } from '@/sanity/lib/queries';
@@ -22,9 +19,21 @@ const RATIO = {
 } as const;
 
 /**
- * The lookbook shows real work or it shows nothing. There is no stock imagery
- * standing in for garments Visarto has not photographed, and the empty state
- * says plainly what is missing rather than filling the page.
+ * Fallback grid used while real photography is being commissioned. All five
+ * tiles are portrait — the mixed-orientation layout returns automatically once
+ * the CMS supplies items with an explicit `orientation` field.
+ */
+const PLACEHOLDER_TILES = [
+  '/placeholders/lookbook-tile-01.jpg',
+  '/placeholders/lookbook-tile-02.jpg',
+  '/placeholders/lookbook-tile-03.jpg',
+  '/placeholders/lookbook-tile-04.jpg',
+  '/placeholders/lookbook-tile-05.jpg',
+];
+
+/**
+ * The lookbook shows real work or it shows a designed placeholder that is
+ * marked as such. Until Sanity supplies items the five tiles below stand in.
  */
 export default async function LookbookPage() {
   const items = await getLookbook();
@@ -57,9 +66,19 @@ export default async function LookbookPage() {
             ))}
           </Reveal>
         ) : (
-          <Reveal stagger className={styles.empty}>
-            <ContentRequired>{lookbookPage.emptyRequires}</ContentRequired>
-            <CtaLink href={calls.primary.href}>{calls.primary.label}</CtaLink>
+          <Reveal as="ul" stagger variant="mask" className={styles.grid}>
+            {PLACEHOLDER_TILES.map((src) => (
+              <li key={src} className={styles.item}>
+                <figure>
+                  <MediaFrame
+                    ratio="4 / 5"
+                    fallbackSrc={src}
+                    alt=""
+                    sizes="(min-width: 64rem) 32vw, (min-width: 40rem) 48vw, 100vw"
+                  />
+                </figure>
+              </li>
+            ))}
           </Reveal>
         )}
       </div>
