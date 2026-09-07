@@ -51,11 +51,19 @@ const SCALES: Record<WeaveScale, Record<WeaveId, number>> = {
 
 export type WeaveScale = 'fine' | 'coarse';
 
-/** The surfaces a cloth field can be drawn on, and the threads it takes there. */
+/**
+ * The surfaces a cloth field can be drawn on, and the threads it takes there.
+ *
+ * The dark set used to hold warp and weft 1.28:1 apart, which is a difference
+ * you can measure and cannot see: six structures drawn at that separation are
+ * six identical rectangles, and a page about texture showed none. Warp against
+ * ground is now 2:1 and the check bands 2.9:1, which is where a weave starts to
+ * read as cloth rather than as a slightly uneven fill.
+ */
 const TONES = {
-  dark: { ground: '#241f19', warp: '#3a3126', weft: '#241f19', band: '#4d4234' },
-  bone: { ground: '#ded6c5', warp: '#c6bca6', weft: '#e1daca', band: '#aca089' },
-  midnight: { ground: '#222a38', warp: '#38445a', weft: '#222a38', band: '#4a5872' },
+  dark: { ground: '#241f19', warp: '#5c4d3c', weft: '#241f19', band: '#77644b' },
+  bone: { ground: '#ded6c5', warp: '#b8ab90', weft: '#e1daca', band: '#9c8d70' },
+  close: { ground: '#221810', warp: '#57452e', weft: '#221810', band: '#705737' },
 } as const;
 
 type Tone = keyof typeof TONES;
@@ -63,7 +71,7 @@ type Tone = keyof typeof TONES;
 const TONE_SELECTOR: Record<Tone, string> = {
   dark: ':root',
   bone: '.on-bone',
-  midnight: '.on-midnight',
+  close: '.on-close',
 };
 
 function patternId(id: WeaveId, scale: WeaveScale, tone: Tone): string {

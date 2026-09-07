@@ -1,0 +1,77 @@
+/*
+ * Six plates, each with its caption.
+ *
+ * The plate breaks both sheet margins because cloth comes off a roll and does
+ * not have edges; the caption stays inside them, because a caption is a piece
+ * of writing and belongs on the text column with everything else.
+ */
+
+.sequence {
+  display: grid;
+  gap: var(--section-tight);
+  padding-top: var(--s-7);
+}
+
+.plate {
+  display: grid;
+  gap: var(--s-5);
+}
+
+/* Three to one, not twenty one to nine: at full sheet width the taller ratio
+   made one plate most of a screen, and six of them a scroll rather than a
+   sequence. */
+.frame {
+  margin-inline: calc(var(--gutter) * -1);
+  --field-ratio: 3 / 1;
+  --field-ratio-mobile: 5 / 4;
+}
+
+.caption {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  column-gap: var(--s-4);
+  row-gap: 0.375rem;
+  align-items: baseline;
+}
+
+.mark {
+  grid-row: 1 / span 2;
+  padding-top: 0.35em;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--t-display-3);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: var(--track-display-3);
+  color: var(--text);
+}
+
+.note {
+  font-size: var(--t-small);
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 62ch;
+}
+
+/*
+ * On a wide sheet the caption sits beside the plate's lower edge rather than
+ * under its full width, so the eye returns to the left margin between plates
+ * instead of travelling the whole way across.
+ */
+@media (min-width: 64rem) {
+  .caption {
+    grid-template-columns: 2.5rem minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .name {
+    grid-row: 1;
+  }
+
+  .note {
+    grid-row: 1;
+    padding-top: 0.5rem;
+  }
+}

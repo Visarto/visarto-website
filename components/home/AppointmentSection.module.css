@@ -7,10 +7,16 @@
  * carries more weight than a page of contrast.
  */
 
+/*
+ * The close is marked by a hairline in the accent rather than by a change of
+ * hue in the ground. A rule at the top edge says "a new chapter" in one pixel;
+ * a different colour underfoot says "a different website".
+ */
 .section {
   padding-block: var(--section-loose);
   position: relative;
   overflow: hidden;
+  border-top: 1px solid var(--accent);
 }
 
 .layout {

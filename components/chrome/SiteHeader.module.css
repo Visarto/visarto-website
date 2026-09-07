@@ -14,15 +14,23 @@
   min-height: var(--header-height);
 }
 
+/*
+ * The logotype.
+ *
+ * Regular, never bold: Times' bold is a newspaper weight and this used to ask
+ * for 600, which rounds up to it. Set small and tracked wide instead, which is
+ * where Times caps are genuinely good, and let the space around the mark do the
+ * work the weight was doing.
+ */
 .wordmark {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.0625rem;
-  letter-spacing: 0.16em;
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--text);
   /* Optical: tracking adds a trailing gap that pulls the mark off the margin. */
-  margin-right: -0.16em;
+  margin-right: -0.3em;
   white-space: nowrap;
 }
 

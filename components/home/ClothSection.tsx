@@ -1,4 +1,4 @@
-import { MediaFrame } from '@/components/primitives/MediaFrame';
+import { WeaveField } from '@/components/cloth/WeaveField';
 import { QuietLink } from '@/components/primitives/Cta';
 import { Reveal } from '@/components/primitives/Reveal';
 import { home } from '@/lib/content/home';
@@ -29,20 +29,15 @@ export function ClothSection() {
         </Reveal>
       </div>
 
-      {/* The band unrolls from its lower edge, which is the one gesture on the
-          site that is a description of the subject rather than a transition. */}
+      {/*
+        The signature, in miniature.
+        The cloth room's field and its lens, one structure, so the idea is met
+        on the homepage rather than only behind a link. It unrolls from its
+        lower edge, which is the one gesture on the site that describes its
+        subject rather than transitioning it.
+      */}
       <Reveal variant="mask" className={styles.band}>
-        <MediaFrame
-          ratio="24 / 7"
-          sizes="100vw"
-          weave="glenCheck"
-          // Coarse, not fine. A glen check repeat is a few centimetres on a real
-          // suit length, so at the fine scale a band this wide shows forty of
-          // them and reads as gingham rather than as cloth.
-          weaveScale="coarse"
-          brief={home.cloth.imageBrief}
-          briefTone="compact"
-        />
+        <WeaveField weave="glenCheck" label="Glen check" />
       </Reveal>
 
       <Reveal className={`sheet ${styles.foot}`}>

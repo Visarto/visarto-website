@@ -8,7 +8,7 @@ import styles from './AppointmentSection.module.css';
 
 export function AppointmentSection({ settings }: { settings: AppointmentSettings | null }) {
   return (
-    <section className={`on-midnight ${styles.section}`} aria-labelledby="appointment-heading">
+    <section className={`on-close ${styles.section}`} aria-labelledby="appointment-heading">
       <div className={`sheet ${styles.layout}`}>
         <Reveal stagger className={styles.copy}>
           <h2 id="appointment-heading" className={`display-2 ${styles.heading}`}>

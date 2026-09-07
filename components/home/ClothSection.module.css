@@ -28,6 +28,10 @@
    frame itself, so the ratio below is set on the frame directly. */
 .band {
   margin-top: var(--s-9);
+  --field-ratio: 24 / 7;
+  --field-ratio-mobile: 5 / 4;
+  /* Held back: this is a passage in a page, not the cloth room. */
+  --field-dim: 0.46;
 }
 
 .foot {
@@ -42,10 +46,6 @@
      writes that property into its own style attribute, which no stylesheet
      rule can outrank, so the override has to be made on the resolved
      declaration instead. */
-  .band figure {
-    aspect-ratio: 5 / 4;
-  }
-
   .band {
     margin-top: var(--s-8);
   }

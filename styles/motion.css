@@ -91,15 +91,13 @@
    * what separates a photograph arriving from a progress bar filling. The crop
    * marks are registration and deliberately do not move.
    */
-  [data-js='true'] [data-reveal='mask'] figure > img,
-  [data-js='true'] [data-reveal='mask'] figure > svg {
+  [data-js='true'] [data-reveal='mask'] figure :is(img, svg) {
     transform: scale(1.04);
     transition: transform calc(var(--dur-entrance-media) + 240ms) var(--ease-entrance);
     transition-delay: calc(var(--reveal-delay) + var(--reveal-offset));
   }
 
-  [data-js='true'] [data-reveal='mask'][data-revealed='true'] figure > img,
-  [data-js='true'] [data-reveal='mask'][data-revealed='true'] figure > svg {
+  [data-js='true'] [data-reveal='mask'][data-revealed='true'] figure :is(img, svg) {
     transform: none;
   }
 
@@ -159,8 +157,7 @@
 @media print {
   [data-reveal],
   [data-reveal] > *,
-  [data-reveal] figure > img,
-  [data-reveal] figure > svg {
+  [data-reveal] figure :is(img, svg) {
     clip-path: none !important;
     opacity: 1 !important;
     transform: none !important;

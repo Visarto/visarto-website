@@ -1,0 +1,132 @@
+/*
+ * The cloth field and its lens.
+ *
+ * The lens has a resting position and does not begin at the pointer, because a
+ * visitor who never moves a mouse, has JavaScript switched off, or has asked
+ * for reduced motion still has to be shown the thing this passage exists for.
+ * It moves only once `data-tracking` says a pointer or a key has moved it.
+ */
+
+.field {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--field-ratio, 21 / 9);
+  background-color: var(--cloth-ground);
+  cursor: crosshair;
+}
+
+.cloth {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * The cloth can be held back without being redrawn.
+ *
+ * In the cloth room the structure is the subject and the field runs at full
+ * strength. On the homepage the same field is a moment in a sequence, and at
+ * full strength a full-bleed glen check is the brightest thing on the page,
+ * which is the tonal mistake this site has already made once with a light
+ * block dropped into a dark page. It is dimmed there instead, and the glass
+ * sits above the veil, so the bright object is the draft rather than the cloth.
+ */
+.field::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--surface);
+  opacity: var(--field-dim, 0);
+  pointer-events: none;
+}
+
+.lens {
+  z-index: 1;
+}
+
+/*
+ * The glass. Square-cornered rather than round: this is a linen tester over a
+ * draft sheet, not a magnifying glass in an illustration, and the site has no
+ * other rounded corner on it.
+ */
+.lens {
+  position: absolute;
+  top: var(--lens-y, 42%);
+  left: var(--lens-x, 30%);
+  width: clamp(8rem, 15vw, 13rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px var(--line-strong),
+    0 1.5rem 3rem color-mix(in srgb, var(--obsidian) 55%, transparent);
+  pointer-events: none;
+}
+
+/* Once a pointer or a key has taken hold of it, it follows without lag. */
+.field[data-tracking='true'] .lens {
+  transition: none;
+}
+
+.draft {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/*
+ * A draft sheet is ink on paper, and it is drawn here the way a mill draws one:
+ * the ground is the cloth's own colour lifted well clear of it, the filled
+ * squares are the warp passing over the weft, and the grid is the paper.
+ *
+ * The contrast is deliberately far higher than the field underneath. The field
+ * is cloth seen across a room and should be quiet; the lens is cloth under
+ * glass and is the only place on the site where the structure is the subject.
+ */
+.draftGround {
+  fill: color-mix(in srgb, var(--surface) 78%, var(--obsidian));
+}
+
+.draftFill {
+  fill: var(--text);
+  opacity: 0.82;
+}
+
+.draftGrid {
+  fill: none;
+  stroke: color-mix(in srgb, var(--surface) 40%, transparent);
+  stroke-width: 1;
+}
+
+/* The focus ring belongs on the field, because the field is what is focusable. */
+.field:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+@media (max-width: 47.99rem) {
+  .field {
+    aspect-ratio: var(--field-ratio-mobile, 4 / 3);
+  }
+
+  .lens {
+    width: clamp(7rem, 38vw, 10rem);
+  }
+}
+
+/*
+ * Reduced motion keeps the lens exactly where it starts. Following a pointer is
+ * direct manipulation rather than decoration, but it is still the screen moving
+ * without being asked, and the passage reads perfectly well with the glass held
+ * still over one part of the cloth.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .field[data-tracking='true'] .lens {
+    top: 42%;
+    left: 30%;
+  }
+}

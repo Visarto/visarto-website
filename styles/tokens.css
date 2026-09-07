@@ -31,7 +31,7 @@
   --obsidian: #100e0c; /* L* 4,  the hero */
   --ink: #16130f; /* L* 6,  the default ground */
   --ink-raised: #1e1a16; /* L* 10, a passage lifted off the ground */
-  --midnight: #161b24; /* L* 10, evening cloth, the one cool passage */
+  --close: #17100a; /* L* 5, the darkest ground on the site, warm */
   --bone: #e8e1d3; /* L* 90, the rare light passage, and type on dark */
   --stone: #d5ccbb; /* L* 82, light passage secondary */
 
@@ -125,7 +125,7 @@
   --cloth-dark: var(--cloth-band-dark);
 
   /* ---- Type families ----------------------------------------------------- */
-  --font-display: 'Times New Roman', Times, 'Nimbus Roman', serif;
+  --font-display: var(--font-display-face), 'Times New Roman', Times, serif;
   --font-text: var(--font-manrope), 'Helvetica Neue', Arial, sans-serif;
 
   /* ---- Type scale --------------------------------------------------------
@@ -133,9 +133,9 @@
    * descends so that a page can hold three levels of hierarchy without
    * shouting.
    */
-  --t-display-1: clamp(3.25rem, 1.55rem + 7vw, 6.25rem);
-  --t-display-2: clamp(2.2rem, 1.6rem + 2.6vw, 4rem);
-  --t-display-3: clamp(1.65rem, 1.36rem + 1.25vw, 2.5rem);
+  --t-display-1: clamp(3.5rem, 0.85rem + 10.6vw, 9rem);
+  --t-display-2: clamp(2.4rem, 1.5rem + 3.9vw, 5rem);
+  --t-display-3: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
   --t-title: clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem);
   --t-lede: clamp(1.1rem, 1.03rem + 0.34vw, 1.35rem);
   --t-body: clamp(1rem, 0.975rem + 0.11vw, 1.0625rem);
@@ -143,14 +143,19 @@
   --t-fine: 0.8125rem;
   --t-label: 0.6875rem;
 
-  --lh-display: 1.04;
-  --lh-display-small: 1.12;
+  /* Times has a large x-height and short descenders, so display lines can sit
+     closer together than a didone's without the ascenders colliding. */
+  --lh-display: 0.95;
+  --lh-display-small: 1.06;
   --lh-title: 1.24;
   --lh-lede: 1.48;
   --lh-body: 1.66;
 
-  --track-display: -0.018em;
-  --track-display-large: -0.022em;
+  /* One tracking value cannot serve 144px and 28px. Times at display size is
+     set loose by default and has to be pulled in; at title size it does not. */
+  --track-display-1: -0.03em;
+  --track-display-2: -0.02em;
+  --track-display-3: -0.012em;
   --track-body: 0;
   --track-label: 0.14em;
 
@@ -257,21 +262,32 @@
   background-color: var(--ink-raised);
 }
 
-.on-midnight {
-  --surface: var(--midnight);
-  --surface-raised: #1f2632;
-  --line: #262d3a;
-  --line-strong: #333b4b;
-  --control: #6b7898; /* 3.7:1 on midnight */
-  --action-text: var(--midnight);
-  --focus-halo: var(--midnight);
-
-  --cloth-ground: #222a38;
-  --cloth-warp: #38445a;
-  --cloth-weft: #222a38;
-  --cloth-dark: #4a5872;
-
-  background-color: var(--midnight);
+.on-close {
+  /*
+   * The close.
+   *
+   * This used to be a cold blue at L* 10, which is the same lightness as the
+   * raised ground two passages above it. A hue change with no change of value
+   * does not read as a tonal event, it reads as a panel from another site, and
+   * it was the last thing anyone saw.
+   *
+   * It is now the darkest ground on the site and a warm one, so the page opens
+   * at L* 4, rises through 6 and 10, and closes at 5: the lights going down
+   * rather than a different room. Every text token gains contrast on it, and
+   * the accent hairline at its top edge is what marks the chapter instead.
+   */
+  --surface: var(--close);
+  --surface-raised: #211710;
+  --line: #2e2117;
+  --line-strong: #3d2d20;
+  --control: #7a6a55; /* 3.6:1 on the close */
+  --action-text: var(--close);
+  --focus-halo: var(--close);
+  --cloth-ground: #221810;
+  --cloth-warp: #3a2c1e;
+  --cloth-weft: #221810;
+  --cloth-dark: #4d3a26;
+  background-color: var(--close);
 }
 
 /*

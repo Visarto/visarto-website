@@ -57,6 +57,8 @@
   max-width: 40ch;
 }
 
+/* The body was a single column of markers adrift in the sheet. It reads as a
+   held column against the margin instead, with the actions bound to it. */
 .body {
   display: grid;
   gap: var(--s-5);

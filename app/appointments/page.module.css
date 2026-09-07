@@ -10,72 +10,128 @@
   gap: var(--section-tight);
   padding-block: var(--section-tight) var(--section);
 }
-
 .main {
   min-width: 0;
 }
-
 .external {
   display: grid;
   gap: var(--s-5);
   justify-items: start;
   max-width: 34rem;
 }
-
 .aside {
   display: grid;
   gap: var(--s-5);
   align-content: start;
   min-width: 0;
 }
-
 .asideHeading {
   font-family: var(--font-display);
   font-size: var(--t-title);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.25;
   letter-spacing: -0.01em;
-  font-variation-settings: 'opsz' 28;
   color: var(--text);
 }
-
 .places {
   display: grid;
   border-top: 1px solid var(--line);
 }
-
 .place {
   display: grid;
   gap: var(--s-2);
   padding-block: var(--s-4);
   border-bottom: 1px solid var(--line);
 }
-
 .placeTitle {
   font-size: var(--t-small);
   font-weight: 600;
   color: var(--text);
 }
-
 .placeNote {
   font-size: var(--t-small);
   line-height: 1.55;
   color: var(--text-muted);
   margin: 0;
 }
-
 .closing {
   color: var(--text-muted);
 }
-
 .practical {
   margin-top: var(--s-3);
 }
-
 @media (min-width: 64rem) {
   .layout {
     grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
     column-gap: clamp(3rem, 8vw, 8rem);
     padding-block: var(--s-9) var(--section);
+  }
+}
+
+/* The studio sits between the places list and the practical note, at a width
+   that supports the column rather than competing with the form beside it. */
+.media {
+  margin-top: var(--s-2);
+}
+
+/*
+ * What happens next.
+ *
+ * The page used to end at the foot of the form, with the right column dying
+ * halfway down and nothing telling a visitor what they were agreeing to. This
+ * closes it, on the same ground as the homepage close so the two pages end in
+ * the same key.
+ */
+.next {
+  padding-block: var(--section);
+  border-top: 1px solid var(--accent);
+}
+
+.nextLayout {
+  display: grid;
+  gap: var(--s-7);
+}
+
+.steps {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  column-gap: var(--s-4);
+  row-gap: 0.375rem;
+  padding-block: var(--s-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.stepMark {
+  grid-row: 1 / span 2;
+  padding-top: 0.4em;
+}
+
+.stepTitle {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.stepNote {
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 56ch;
+}
+
+@media (min-width: 64rem) {
+  .nextLayout {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
   }
 }

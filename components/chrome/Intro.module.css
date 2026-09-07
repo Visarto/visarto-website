@@ -11,7 +11,6 @@
 .intro {
   display: none;
 }
-
 :root[data-intro='pending'] .intro {
   position: fixed;
   inset: 0;
@@ -22,22 +21,19 @@
   transform: translateY(0);
   transition: transform var(--dur-curtain) var(--ease-inout);
 }
-
 /* The curtain lifts rather than fading: a fade reveals a half-visible page for
    the length of the transition, a lift keeps the reveal clean. */
 :root[data-intro='pending'] .intro[data-state='lifting'] {
   transform: translateY(-100%);
 }
-
 .mark {
   display: grid;
   justify-items: center;
   gap: var(--s-5);
 }
-
 .wordmark {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 400;
   font-size: clamp(1.25rem, 3.5vw, 2rem);
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -46,7 +42,6 @@
   opacity: 0;
   animation: settle 420ms var(--ease-entrance) forwards;
 }
-
 /*
  * The drafting rule, drawn across under the name. It is the same mark the whole
  * site is built from, which is why the opening belongs to Visarto rather than
@@ -60,7 +55,6 @@
   transform-origin: center;
   animation: draw 520ms var(--ease-entrance) 120ms forwards;
 }
-
 @keyframes settle {
   from {
     opacity: 0;
@@ -71,13 +65,11 @@
     transform: none;
   }
 }
-
 @keyframes draw {
   to {
     transform: scaleX(1);
   }
 }
-
 /* Belt and braces. The script should never mark the intro pending under
    reduced motion, but if it somehow does, nothing moves. */
 @media (prefers-reduced-motion: reduce) {

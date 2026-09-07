@@ -70,6 +70,15 @@ export const lookbookPage = {
   standfirst: 'Garments made by Visarto, photographed after they were delivered.',
   emptyRequires:
     'Photographs of finished Visarto garments, with permission from the clients wearing them. Until they exist this page stays empty rather than showing stock imagery.',
+  /*
+   * The frames below are placeholders and have to say so.
+   *
+   * A lookbook is a claim: these are garments this house made. Photographs that
+   * are not Visarto's work, shown under that heading without a word, make that
+   * claim on the house's behalf and it is not true yet.
+   */
+  placeholderNote:
+    'These frames are placeholders while photography is commissioned. They are not Visarto garments.',
 } as const;
 
 export const aboutPage = {
@@ -85,6 +94,32 @@ export const appointmentsPage = {
   title: 'Book an appointment',
   standfirst:
     'Tell us what you are having made and where you would like to be measured. We reply to confirm a time.',
+
+  /*
+   * What happens after the form is sent.
+   *
+   * Every line here is drawn from copy already written elsewhere on the site:
+   * the standfirst above, and the first stage of the process on the made to
+   * measure page. Nothing is added about how long any of it takes, because that
+   * has not been supplied, and a booking flow is the last place to guess.
+   */
+  next: {
+    heading: 'What happens next',
+    steps: [
+      {
+        title: 'You send the request',
+        note: 'What you are having made, where you would like to be measured, and any date it has to be ready for.',
+      },
+      {
+        title: 'We reply to confirm',
+        note: 'We confirm the time and the place with you, and answer anything you asked in the request.',
+      },
+      {
+        title: 'The first appointment',
+        note: 'We talk about what the garment is for, how you expect to wear it, and what it has to sit alongside in your wardrobe. Cloth comes into the conversation here rather than at the end.',
+      },
+    ],
+  },
   form: {
     nameLabel: 'Your name',
     emailLabel: 'Email',

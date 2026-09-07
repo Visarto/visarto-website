@@ -1,4 +1,4 @@
-import { SpecimenSheet } from '@/components/cloth/SpecimenSheet';
+import { StructureSequence } from '@/components/cloth/StructureSequence';
 import { ContentRequired } from '@/components/primitives/ContentRequired';
 import { CtaLink } from '@/components/primitives/Cta';
 import { PageOpening } from '@/components/primitives/PageOpening';
@@ -39,7 +39,7 @@ export default async function ClothPage() {
             </h2>
             <p className="body">{clothPage.structureBody}</p>
           </Reveal>
-          <SpecimenSheet />
+          <StructureSequence />
         </div>
       </section>
 

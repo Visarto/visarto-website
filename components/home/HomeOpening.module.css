@@ -65,8 +65,15 @@
   max-width: 10ch;
 }
 
+/*
+ * The italic voice, sized for the length it actually carries. `display-voice`
+ * is cut for a single held line; this passage is four sentences, so it takes a
+ * step down and a wider measure or the opening stops fitting one screen.
+ */
 .lede {
   color: var(--text-secondary);
+  font-size: clamp(1.15rem, 0.95rem + 0.85vw, 1.55rem);
+  max-width: 36ch;
 }
 
 .actions {
@@ -126,14 +133,29 @@
     padding-block: var(--s-9) var(--s-7);
   }
 
+  /*
+   * On a phone the type sits over the figure rather than beside it, because
+   * there is no room for two columns. The scrim therefore has to hold most of
+   * the frame rather than just its foot: the previous ramp fell away by the
+   * middle of the screen, which is exactly where the standfirst runs across a
+   * lit face and a white shirt.
+   */
   .scrim {
     background: linear-gradient(
       to top,
-      color-mix(in srgb, var(--obsidian) 94%, transparent) 0%,
-      color-mix(in srgb, var(--obsidian) 80%, transparent) 42%,
-      color-mix(in srgb, var(--obsidian) 30%, transparent) 78%,
-      transparent 100%
+      color-mix(in srgb, var(--obsidian) 96%, transparent) 0%,
+      color-mix(in srgb, var(--obsidian) 90%, transparent) 46%,
+      color-mix(in srgb, var(--obsidian) 72%, transparent) 74%,
+      color-mix(in srgb, var(--obsidian) 40%, transparent) 92%,
+      color-mix(in srgb, var(--obsidian) 25%, transparent) 100%
     );
+  }
+
+  /* The standfirst is a held line on a phone, not a paragraph: six lines of
+     italic over a portrait leaves the figure nowhere to be. */
+  .lede {
+    font-size: 1.05rem;
+    max-width: 30ch;
   }
 }
 

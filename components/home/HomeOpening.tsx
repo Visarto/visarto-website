@@ -20,6 +20,13 @@ export function HomeOpening({ image }: { image?: SanityImageSource | undefined }
         ratio="auto"
         image={image}
         fallbackSrc="/placeholders/home-hero.jpg"
+        /* The phone frame is roughly 0.56:1 against a 1.8:1 source. Centred,
+           it lands on the backdrop and loses the figure entirely, so the small
+           screen gets its own crop rather than a cleverer focal point. */
+        fallbackSrcMobile="/placeholders/home-hero-portrait.jpg"
+        focal="62% 50%"
+        /* Pushed right so the figure clears the type column. */
+        focalMobile="16% 50%"
         alt={image?.alt ?? ''}
         sizes="100vw"
         priority
@@ -38,7 +45,7 @@ export function HomeOpening({ image }: { image?: SanityImageSource | undefined }
         <h1 id="opening-heading" className={`display-1 ${styles.display}`} data-reveal-opaque="">
           {home.opening.display}
         </h1>
-        <p className={`lede ${styles.lede}`}>{home.opening.lede}</p>
+        <p className={`display-voice ${styles.lede}`}>{home.opening.lede}</p>
         <div className={styles.actions}>
           <CtaLink href={calls.primary.href}>{calls.primary.label}</CtaLink>
           <QuietLink href={calls.secondary.href}>{calls.secondary.label}</QuietLink>
