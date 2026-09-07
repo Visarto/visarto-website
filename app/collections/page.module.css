@@ -20,7 +20,6 @@
   font-size: var(--t-display-3);
   line-height: 1.2;
   letter-spacing: -0.014em;
-  font-variation-settings: 'opsz' 40;
   color: var(--text);
   margin-top: var(--s-2);
 }

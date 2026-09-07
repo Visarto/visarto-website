@@ -31,7 +31,9 @@ export function PageOpening({
         <h1 id={id} className={`display-2 ${styles.title}`} data-reveal-opaque="">
           {title}
         </h1>
-        {standfirst ? <p className={`lede ${styles.standfirst}`}>{standfirst}</p> : null}
+        {standfirst ? (
+          <p className={`display-voice ${styles.standfirst}`}>{standfirst}</p>
+        ) : null}
       </Reveal>
     </div>
   );

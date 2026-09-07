@@ -364,6 +364,85 @@ const browser = await chromium.launch({
   await context.close();
 }
 
+// ---- The cloth room's lens --------------------------------------------------
+//
+// The one piece of direct manipulation on the site, so the three ways of
+// arriving at it are all asserted: a pointer, a keyboard, and neither.
+{
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  await context.addInitScript(() => {
+    try {
+      sessionStorage.setItem('visarto:intro', '1');
+    } catch {}
+  });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/cloth`, { waitUntil: 'load' });
+  await page.waitForTimeout(400);
+
+  const field = page.locator('[class*="WeaveField"][class*="field"]').first();
+  check('the cloth room draws a weave field', (await field.count()) > 0);
+
+  // Keyboard. The field takes focus and the arrow keys move the glass.
+  await field.focus();
+  const before = await field.evaluate((el) => el.style.getPropertyValue('--lens-x'));
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowRight');
+  await page.waitForTimeout(120);
+  const after = await field.evaluate((el) => el.style.getPropertyValue('--lens-x'));
+  check('the lens is reachable and movable by keyboard', before !== after, `${before || 'unset'} then ${after}`);
+
+  // The glass is never cut in half by the frame it sits in.
+  const whole = await field.evaluate((el) => {
+    const lens = el.querySelector('[class*="lens"]');
+    if (!lens) return false;
+    const f = el.getBoundingClientRect();
+    const g = lens.getBoundingClientRect();
+    return g.left >= f.left - 1 && g.right <= f.right + 1 && g.top >= f.top - 1 && g.bottom <= f.bottom + 1;
+  });
+  check('and stays inside the cloth', whole);
+
+  await context.close();
+}
+
+{
+  // Reduced motion holds the glass still: following a pointer is direct
+  // manipulation, but it is still the screen moving without being asked.
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/cloth`, { waitUntil: 'load' });
+  await page.waitForTimeout(300);
+  const field = page.locator('[class*="WeaveField"][class*="field"]').first();
+  const box = await field.boundingBox();
+  const at = async () =>
+    field.evaluate((el) => {
+      const lens = el.querySelector('[class*="lens"]');
+      const s = lens ? getComputedStyle(lens) : null;
+      return s ? `${s.left}/${s.top}` : '';
+    });
+  const rest = await at();
+  if (box) await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.7);
+  await page.waitForTimeout(250);
+  check('reduced motion holds the lens still', (await at()) === rest, rest);
+  await context.close();
+}
+
+{
+  // Without JavaScript the detail is simply there to be read.
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    javaScriptEnabled: false,
+  });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/cloth`, { waitUntil: 'load' });
+  const drawn = await page.locator('[class*="WeaveField"][class*="lens"]').first().isVisible();
+  const structures = await page.locator('[class*="StructureSequence"][class*="plate"]').count();
+  check('without JavaScript the cloth room is still complete', drawn && structures === 6, `${structures} plates`);
+  await context.close();
+}
+
 // ---- The appointment path, with a destination configured --------------------
 //
 // Started only when a receiver is running. `scripts/behaviour.sh` starts one on

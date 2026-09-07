@@ -10,73 +10,61 @@
   padding-block: var(--section-loose);
   border-block: 1px solid var(--line);
 }
-
 .layout {
   display: grid;
   gap: var(--s-7);
 }
-
 .media {
   margin-left: calc(var(--gutter) * -1);
   min-width: 0;
 }
-
 .copy {
   display: grid;
   align-content: center;
   gap: var(--s-5);
 }
-
 .body {
   color: var(--text-secondary);
 }
-
 .places {
   display: grid;
   gap: 0;
   margin-top: var(--s-3);
   border-top: 1px solid var(--line);
 }
-
 .place {
   display: grid;
   gap: var(--s-3);
   padding-block: var(--s-5);
   border-bottom: 1px solid var(--line);
 }
-
 .placeTitle {
   font-family: var(--font-display);
   font-size: var(--t-title);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: var(--text);
 }
-
 .placeNote {
   font-size: var(--t-small);
   color: var(--text-muted);
   max-width: 44ch;
 }
-
 .closing {
   margin-top: var(--s-2);
   color: var(--text-muted);
 }
-
 @media (min-width: 64rem) {
   .layout {
     grid-template-columns: minmax(0, 5.4fr) minmax(0, 6.6fr);
     gap: clamp(2.5rem, 6vw, 6rem);
     align-items: center;
   }
-
   .copy {
     padding-block: var(--s-5);
   }
 }
-
 /*
  * On a phone a photograph that breaks only one margin reads as a misalignment
  * rather than as a decision, so at this width it runs edge to edge.

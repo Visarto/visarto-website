@@ -16,6 +16,15 @@
   object-position: var(--focal, 50% 50%);
 }
 
+/* A frame whose crop changes shape between breakpoints can name a second focal
+   point, because the part of the subject worth keeping is not the same in a
+   letterbox and in a portrait. */
+@media (max-width: 47.99rem) {
+  .image {
+    object-position: var(--focal-mobile, var(--focal, 50% 50%));
+  }
+}
+
 /* The cloth field stands in for a photograph that has not been supplied. */
 .cloth {
   position: absolute;

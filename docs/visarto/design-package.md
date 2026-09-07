@@ -78,7 +78,7 @@ lamp, bone-white chalk on a dark ground. Implemented in `styles/tokens.css`.
 | `--obsidian` | `#100e0c` | 4 | The hero, and the deepest passages |
 | `--ink` | `#16130f` | 6 | The default ground |
 | `--ink-raised` | `#1e1a16` | 10 | A passage lifted off the ground |
-| `--midnight` | `#161b24` | 10 | Evening cloth, the one cool passage |
+| `--close` | `#17100a` | 5 | The close, the darkest ground on the site |
 | `--bone` | `#e8e1d3` | 90 | Type on dark, and the one light passage |
 | `--stone` | `#d5ccbb` | 82 | Light passage secondary |
 
@@ -100,8 +100,12 @@ Text, all measured:
 Notes.
 
 - No pure black and no pure white anywhere.
-- No gold. Midnight blue does the work a generic luxury site gives to black, for the reason a
-  dinner jacket is midnight rather than black: black reads flat under light.
+- No gold. The close does the work a generic luxury site gives to black, and it does it with
+  value rather than hue. It was a cold midnight blue at L\* 10 for one build, which is the same
+  lightness as the raised ground two passages above it: a change of hue with no change of value
+  does not read as a tonal event, it reads as a panel from another site. It is now the darkest
+  ground on the site and a warm one, so the page opens at L\* 4, rises through 6 and 10, and
+  closes at 5. The accent hairline at its top edge is what marks the chapter.
 - On the dark ground the accent is really light itself, so madder keeps only its functional jobs:
   the content-required markers and form error states. When Visarto's content is complete it will
   be almost invisible on the site. A rare colour has authority; a democratic one does not.
@@ -116,7 +120,7 @@ reads only from that: `--surface`, `--text`, `--line`, `--control`, `--accent`, 
 A surface class re-points the roles, so a passage changes ground without a single component
 knowing where it is.
 
-The surfaces are `.on-obsidian`, `.on-raised`, `.on-midnight` and `.on-bone`. The primary action
+The surfaces are `.on-obsidian`, `.on-raised`, `.on-close` and `.on-bone`. The primary action
 is a role rather than a rule per surface, which is why one button works on all four with no
 special case.
 
@@ -137,35 +141,52 @@ per surface, so components still name only a weave and a scale.
 
 ## 5. Typography
 
-**Display: Bodoni Moda.** Variable, subset to the optical size axis. SIL OFL.
+**Display: Times, shipped as Tinos.** Roman and italic, 400 only. Apache 2.0.
 **Text: Manrope**, at 400, 500 and 600. SIL OFL.
 
-Both self-hosted through `next/font` at build time. 71 KB preloaded for the first viewport, down
-from 90 KB.
+Both self-hosted through `next/font` at build time, both preloaded for the first viewport.
 
-A didone is the register a fashion house is set in: extreme stroke contrast, hairline serifs,
-vertical stress. The first build used Fraunces, which is a good typeface with the wrong
-temperament here, warm and faintly artisanal. The optical size axis matters more with a didone
-than with anything else, because a didone set small with display proportions loses its hairlines
-entirely, so `opsz` is doing real work rather than decorating the config.
+Times is a decision here, and it has to be set like one, because out of the box it is the register
+of a word processor rather than a house. Three things do that work, and all three run against how
+Times arrives:
 
-Two consequences, both learned by looking at it:
+- **Scale.** It was cut for nine point newsprint. At a hundred pixels it reads as a document; the
+  masthead runs to 144.
+- **Tracking.** It is loose at every size and is pulled in hard at display, by an amount that
+  changes with the size, because one value cannot serve 144px and 28px.
+- **The italic**, which is the best thing in the family: a genuine old style cursive with
+  calligraphic terminals and a narrower fit, not a slanted roman. It carries every standfirst on
+  the site, as `.display-voice`, and it is the clearest available signal that the face was chosen.
 
-- **The wordmark needs the text end of the axis.** At 17px with a display `opsz` it renders as a
-  broken font. It is set at `opsz` 11 and weight 600.
-- **Titles on a dark ground go to weight 500.** Thin strokes bloom away against near-black.
+Two things it is shipped for rather than borrowed:
 
-| Role | Size | Line height | Tracking | `opsz` |
-|---|---|---|---|---|
-| Display 1 | `clamp(3.25rem, 1.55rem + 7vw, 6.25rem)` | 1.04 | -0.022em | 96 |
-| Display 2 | `clamp(2.2rem, 1.6rem + 2.6vw, 4rem)` | 1.12 | -0.018em | 72 |
-| Display 3 | `clamp(1.65rem, 1.36rem + 1.25vw, 2.5rem)` | 1.24 | -0.014em | 40 |
-| Title | `clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem)` | 1.24 | -0.01em | 28 |
-| Lede | `clamp(1.1rem, 1.03rem + 0.34vw, 1.35rem)` | 1.48 | 0 | text |
-| Body | `clamp(1rem, 0.975rem + 0.11vw, 1.0625rem)` | 1.66 | 0 | text |
-| Small | `0.9375rem` | 1.55 | 0 | text |
-| Fine | `0.8125rem` | 1.55 | 0 | text |
-| Annotation | `0.6875rem` uppercase | 1 | 0.13em | text |
+- **Consistency.** The system stack resolves to four different typefaces: Times New Roman on
+  Windows, Times on macOS, Nimbus Roman on Linux, Tinos or Noto on Android. A wordmark that changes
+  shape by operating system is not a wordmark. Tinos is metrically identical to Times New Roman,
+  which is why those systems already substitute it.
+- **Real cuts.** A loaded family brings the actual italic and the actual bold instead of letting
+  the browser synthesise them.
+
+**Everything display is set at 400.** Times has no light, so the old `300` was silently rendering
+regular; its bold is a newspaper weight, and the old `600` on the wordmark was handing the heaviest
+and least elegant cut in the family to the one word that had to carry the house.
+
+| Role | Size | Line height | Tracking |
+|---|---|---|---|
+| Display 1 | `clamp(3.5rem, 0.85rem + 10.6vw, 9rem)` | 0.95 | -0.03em |
+| Display 2 | `clamp(2.4rem, 1.5rem + 3.9vw, 5rem)` | 1.06 | -0.02em |
+| Display 3 | `clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem)` | 1.24 | -0.012em |
+| Voice (italic) | `clamp(1.25rem, 1.02rem + 0.98vw, 1.85rem)` | 1.34 | -0.014em |
+| Title | `clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem)` | 1.24 | -0.01em |
+| Lede | `clamp(1.1rem, 1.03rem + 0.34vw, 1.35rem)` | 1.48 | 0 |
+| Body | `clamp(1rem, 0.975rem + 0.11vw, 1.0625rem)` | 1.66 | 0 |
+| Small | `0.9375rem` | 1.55 | 0 |
+| Fine | `0.8125rem` | 1.55 | 0 |
+| Annotation | `0.6875rem` uppercase | 1 | 0.13em |
+
+The logotype is set rather than drawn, which is a gap: a house eventually wants a wordmark with
+its own optical corrections. Until then it is Times caps at 400, tracked to 0.3em with the trailing
+space compensated, which is where Times capitals are genuinely good.
 
 Rules the system holds to.
 
@@ -173,6 +194,8 @@ Rules the system holds to.
   want different line lengths, and a global `max-width` on `.display-1` is a bug waiting to be
   overridden by stylesheet order.
 - Body copy is capped at 62 characters, a lede at 44, a display at whatever the composition sets.
+- The italic voice is one held passage per page. An italic paragraph is harder to read and the
+  effect spends itself.
 - The uppercase tracked annotation is used for genuine notation only: section marks, column
   headings, and the content-required label. It is never used as an eyebrow above every heading.
 - Numerals in index positions are tabular so columns line up.
@@ -252,7 +275,7 @@ from the opening to the close; what changes between passages is the composition,
 | 2 | What we make | Is what I need on the list | ink | Sticky intro left, index right |
 | 3 | The fitting comes to you | Do I have to go somewhere | raised | Image left, type right |
 | 4 | How cloth is built | Do they know what they are talking about | ink | Horizontal band, full width |
-| 5 | Book an appointment | How do I start | midnight | The only real tonal event |
+| 5 | Book an appointment | How do I start | the close | The darkest ground, and an accent hairline |
 
 Every passage answers one of the homepage's four jobs: establish the house, show the range, kill
 the "do I have to go to a shop" objection, get to an appointment.
@@ -315,6 +338,13 @@ Boundaries held.
 - Every component tolerates a missing field, a long title, a short title, and zero documents.
 
 ## 12. Image direction
+
+The full brief, with per-slot delivery pixels, crop-safe zones and the shot list, is
+`docs/visarto/photography.md`. Two findings from it belong here because they changed the code:
+every full-bleed slot needs **two** files, a landscape master and a portrait crop, because no
+single frame survives a 1.8:1 desktop crop and a 0.56:1 phone crop; and the shot list was missing
+**craft at macro distance** entirely, which for made to measure is not a gap in the gallery but a
+gap in the argument.
 
 | Slot | Subject | Ratio | Focal note |
 |---|---|---|---|
@@ -395,8 +425,10 @@ on a fast page inflates LCP for nothing. This one is not timed.
 The lift itself is **560ms**, down from 820ms. The hold is font gated and usually far shorter than
 its cap, so the lift was where the dead time actually was.
 
-Measured on the production build at 4x CPU throttle over 4Mbps, five runs each: **LCP 472ms with
-the curtain, 444ms without**, CLS 0.002 in both.
+Measured on the production build at 4x CPU throttle over 4Mbps, five runs each: **LCP 688ms with
+the curtain, 684ms without**, CLS 0.000 in both. The number rose from 472ms when real photography
+replaced the drawn cloth field in the opening: the LCP element is now a 64KB JPEG rather than an
+SVG pattern, which is the correct trade for a house that sells what things look like.
 
 ### Film grain
 
@@ -415,12 +447,37 @@ ever missed, and a print stylesheet that forces final state. `scripts/behaviour.
 every homepage passage carries an entrance, that the first screen composes inside two seconds, and
 that nothing is left hidden once the page has been read.
 
-## 14. Signature interaction
+## 14. Signature interaction: the cloth, drawn
 
-There is deliberately none beyond the motion vocabulary. A fabric explorer or a construction
-hotspot needs real cloth data and real garment photography, and building either against
-placeholder content would be building an interaction with nothing in it. The cloth room's
-specimen sheet carries the material story for now, and it needs no interaction to do it.
+The one thing on this site that nobody else in made to measure has, and the only thing on it that
+needs neither a photograph nor a business fact to be completely true.
+
+`lib/weave.ts` holds real weave drafts: grids of filled and empty squares, where a filled square is
+a warp thread passing over a weft thread. That binary, repeated, is the entire structure of a
+cloth. `WeaveField` puts two scales of it on the screen at once. The field is the structure at the
+size it has on a suit length. The glass over it is the same structure at the size it has under a
+linen tester, with the weaver's own notation drawn on top and in register, so you can watch the
+grid produce the cloth.
+
+`/cloth` runs six of them as a sequence of plates, each captioned the way a plate is captioned in a
+book, and moving through them is scrolling. The homepage carries one, dimmed, so the idea is met
+before the link rather than behind it.
+
+Three ways in, all asserted in `scripts/behaviour.sh`:
+
+| Arriving with | The glass |
+|---|---|
+| a pointer | follows it, clamped so it never leaves the cloth |
+| a keyboard | takes focus on the field, moves on the arrow keys |
+| neither, or reduced motion | sits still, off centre, and is simply there to be read |
+
+Without JavaScript the page is complete: six plates, six fields, six drafts. The pointer path
+writes two custom properties and touches no React state, so crossing a field costs a style
+recalculation and nothing else.
+
+**Why this and not a fabric explorer.** An explorer needs real cloth data and a construction
+hotspot needs real garment photography, and building either against placeholder content is building
+an interaction with nothing in it. This is built against something that is already real.
 
 ## 15. Copy system
 
@@ -476,7 +533,7 @@ about.
 Beyond the automated pass:
 
 - Focus is a two-part indicator, a ring plus a halo in the surface colour, so it survives any
-  background. The ring colour is a role token, so it inverts inside the midnight passage.
+  background. The ring colour is a role token, so it inverts inside the closing passage.
 - The mobile menu is a native `<dialog>`, which gives focus containment and Escape handling
   without a hand-rolled trap. Body scroll is locked by position, and restored to the same place.
 - A viewport growing past the desktop breakpoint closes the menu.

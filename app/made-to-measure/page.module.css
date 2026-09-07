@@ -33,7 +33,6 @@
   font-size: var(--t-display-3);
   line-height: 1.2;
   letter-spacing: -0.014em;
-  font-variation-settings: 'opsz' 40;
   font-weight: 400;
   color: var(--text);
 }
@@ -82,10 +81,20 @@
 }
 
 @media (min-width: 64rem) {
+  /*
+   * The photograph breaks the left margin and takes rather more than half, and
+   * the gap between it and the copy is closed to a column rather than a field.
+   * Vertically centred copy against a tall frame floats; it starts where the
+   * frame starts instead.
+   */
   .practicalLayout {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
-    gap: clamp(2.5rem, 6vw, 6rem);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
     align-items: center;
+  }
+
+  .practicalCopy {
+    gap: var(--s-6);
   }
 }
 

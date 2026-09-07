@@ -85,6 +85,32 @@ export const appointmentsPage = {
   title: 'Book an appointment',
   standfirst:
     'Tell us what you are having made and where you would like to be measured. We reply to confirm a time.',
+
+  /*
+   * What happens after the form is sent.
+   *
+   * Every line here is drawn from copy already written elsewhere on the site:
+   * the standfirst above, and the first stage of the process on the made to
+   * measure page. Nothing is added about how long any of it takes, because that
+   * has not been supplied, and a booking flow is the last place to guess.
+   */
+  next: {
+    heading: 'What happens next',
+    steps: [
+      {
+        title: 'You send the request',
+        note: 'What you are having made, where you would like to be measured, and any date it has to be ready for.',
+      },
+      {
+        title: 'We reply to confirm',
+        note: 'We confirm the time and the place with you, and answer anything you asked in the request.',
+      },
+      {
+        title: 'The first appointment',
+        note: 'We talk about what the garment is for, how you expect to wear it, and what it has to sit alongside in your wardrobe. Cloth comes into the conversation here rather than at the end.',
+      },
+    ],
+  },
   form: {
     nameLabel: 'Your name',
     emailLabel: 'Email',

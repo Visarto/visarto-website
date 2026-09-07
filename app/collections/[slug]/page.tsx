@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { ContentRequired } from '@/components/primitives/ContentRequired';
 import { CtaLink, QuietLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
-import { PhotographRequired } from '@/components/primitives/PhotographRequired';
 import { Reveal } from '@/components/primitives/Reveal';
 import { collectionEntries } from '@/lib/content/collections';
 import { collectionsPage } from '@/lib/content/pages';
@@ -85,15 +84,13 @@ export default async function CollectionPage({ params }: Params) {
           className={styles.openingMedia}
           ratio="auto"
           image={collection.heroImage}
+          fallbackSrc="/placeholders/collection-hero.jpg"
           alt={collection.heroImage?.alt ?? ''}
           sizes="100vw"
           priority
           weave="herringbone"
         />
         <div className={styles.scrim} aria-hidden="true" />
-        <PhotographRequired overlay>
-          {`Lead photograph for ${collection.title.toLowerCase()}. A finished garment on a client, natural light. The foot of the frame is kept calm so the title sits on it.`}
-        </PhotographRequired>
 
         <Reveal stagger className={`sheet ${styles.openingCopy}`}>
           <span className={`annotation ${styles.mark}`}>Collections</span>

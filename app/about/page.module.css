@@ -20,11 +20,23 @@
 }
 
 @media (min-width: 64rem) {
+  /*
+   * The photograph takes the larger half and the copy the smaller one, which is
+   * the reverse of how this started. The house has nothing written about it
+   * yet, so the column that carries the words is the short one: a text column
+   * holding a single marker against a seven hundred pixel void reads as a page
+   * that failed to load, and the same marker in a held column reads as a page
+   * waiting for one paragraph.
+   */
   .layout {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    column-gap: clamp(3rem, 8vw, 8rem);
-    align-items: start;
-    padding-block: var(--s-9) var(--section);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+    padding-block: var(--s-9) var(--s-9);
+  }
+
+  .body {
+    padding-block: var(--s-6);
   }
 }
 

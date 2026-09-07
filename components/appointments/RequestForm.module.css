@@ -18,6 +18,13 @@
   gap: var(--s-2);
 }
 
+/* Tight, so the label reads as belonging to the field under it rather than
+   floating above a rule. */
+.field .label + .input,
+.field .label + .textarea {
+  margin-top: 0.125rem;
+}
+
 .label {
   font-size: var(--t-small);
   font-weight: 600;
@@ -29,18 +36,27 @@
   color: var(--text-muted);
 }
 
+/*
+ * A ruled line is the right character for this form, but a hairline with a
+ * transparent ground and a wide gap under the label is not a field: there is
+ * nothing to tell you where to put the cursor. The rule stays; it is given a
+ * ground to sit on, a taller target, and a padded inset so the text starts
+ * inside the field rather than on its left edge.
+ */
 .input,
 .textarea {
   width: 100%;
-  min-height: 2.875rem;
-  padding: 0.625rem 0;
-  background-color: transparent;
+  min-height: 3.25rem;
+  padding: 0.75rem 0.875rem;
+  background-color: color-mix(in srgb, var(--text) 4%, transparent);
   border: 0;
   border-bottom: 1px solid var(--control);
   border-radius: 0;
   font-size: var(--t-body);
   color: var(--text);
-  transition: border-color var(--dur-quick) var(--ease-out);
+  transition:
+    border-color var(--dur-quick) var(--ease-out),
+    background-color var(--dur-quick) var(--ease-out);
 }
 
 .textarea {
@@ -52,11 +68,13 @@
 .input:hover,
 .textarea:hover {
   border-color: var(--text-muted);
+  background-color: color-mix(in srgb, var(--text) 7%, transparent);
 }
 
 .input:focus,
 .textarea:focus {
   border-color: var(--text);
+  background-color: color-mix(in srgb, var(--text) 9%, transparent);
 }
 
 .input[aria-invalid='true'],

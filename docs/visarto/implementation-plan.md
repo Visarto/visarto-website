@@ -138,9 +138,57 @@ Principle recorded so it is not undone again: **an entrance is applied to every 
 none. What separates a composed page from a template is order within a passage, not scarcity of
 passages that move.**
 
+### Slice 14: the critique pass
+
+A fresh look at every page at 1440 and 390 against the standard the site is meant to meet. Six
+things were costing it the impression, and all six are fixed.
+
+**Times, executed rather than defaulted.** The display face was left to the system stack, which
+resolves to four different typefaces by operating system, and the wordmark was set at 600, which
+on Times is the newspaper bold. It is now shipped as Tinos, metrically identical, roman and italic
+at 400 only. Display scale roughly doubled and tracking pulled in per size, because Times was cut
+for nine point newsprint and reads as a document until it is big and tight. The italic became the
+site's second voice and carries every standfirst. Four dead `opsz` declarations removed: Times has
+no axes.
+
+**The hero.** On a phone the subject was cropped out entirely: a blank wall, a hand with a glass, a
+shoe. One landscape source through a centred cover, spanning a 1.8:1 desktop frame and a 0.56:1
+phone frame. `MediaFrame` gained a focal point on the fallback path and an art-directed second
+source, so the phone gets its own crop, and the scrim was rebuilt to hold the middle of the frame
+rather than just its foot.
+
+**Image weight.** 3.5MB of unoptimised placeholders had taken LCP from 472ms to 1240ms. Re-encoded
+with width variants and a media-scoped preload: 1.4MB total, LCP 688ms, CLS 0.000.
+
+**Five voids closed.** `/about`, `/made-to-measure`, `/cloth` mills, `/collections/[slug]` and
+`/appointments` all ended in several hundred pixels of nothing. Luxury emptiness is a small thing
+placed precisely in a large field; this was a heading with nothing under it.
+
+**The close stopped being cold.** `--midnight` was `#161b24` at L\* 10, the same lightness as the
+raised ground two passages above it, so it read as a panel from another site rather than a tonal
+event. Replaced by `--close` at `#17100a`, L\* 5: the darkest ground on the site, warm, with the
+accent as a hairline. The page now opens at 4, rises through 6 and 10, and closes at 5.
+
+**The booking page** got a photograph, a three-step "what happens next" drawn entirely from copy
+already written elsewhere, and fields with a visible ground instead of a hairline under a wide gap.
+
+### Slice 15: the signature
+
+`/cloth` was six swatches whose warp and ground sat 1.28:1 apart, which is a difference you can
+measure and cannot see: a page about texture showed none of it. The dark weave tones now hold warp
+at 2:1 and check bands at 2.9:1, which also fixes six identical brown rectangles on `/collections`.
+
+`WeaveField` is the new piece. Two scales of one structure at once: the cloth at the size it has on
+a suit length, and a glass over it showing the same structure at thread scale with the weaver's own
+draft drawn on top and in register. Pointer, keyboard, and a resting position for reduced motion
+and no JavaScript, all asserted. `/cloth` runs six as a captioned sequence; the homepage carries
+one, dimmed, so the idea arrives before the link. `SpecimenSheet` was deleted at its last use.
+
+The photography brief that had been outstanding is written: `docs/visarto/photography.md`.
+
 ## Next, and not blocked on Visarto
 
-### Slice 14: deferred from the art-direction pass
+### Slice 16: deferred from the art-direction pass
 
 Route transitions via the View Transitions API, masked line-by-line text reveals, parallax inside
 the image mask, a cursor treatment on collection frames, hover image exchange on the garment
@@ -154,8 +202,10 @@ history and assistive behaviour for a gain that is purely taste.
 
 Ordered by how much each one changes the site.
 
-1. **Photography.** Every image slot. The homepage opening is designed around a full-height
-   portrait and is the single highest-value asset.
+1. **Photography.** Every image slot, briefed in full in `docs/visarto/photography.md`. Two
+   findings there are load-bearing: every full-bleed slot needs a landscape master and a portrait
+   crop, and the shot list is missing craft at macro distance, which is the proof mechanism for the
+   whole proposition.
 2. **House details.** Address, telephone, email, hours, service area, social. Unblocks the
    footer, the contact page, the appointments aside and the structured data.
 3. **Appointment destination.** `APPOINTMENT_ENDPOINT`, or a booking system URL. Until one
@@ -180,4 +230,5 @@ Ordered by how much each one changes the site.
 - **A fabric explorer or construction hotspot.** Both need real cloth data and real garment
   photography to be anything other than a demonstration.
 - **A component catalogue.** Primitives were extracted when a second real use appeared, not in
-  advance. `SpecimenSheet` was extracted at its second use; nothing else has been.
+  advance. `SpecimenSheet` was extracted at its second use and deleted at its last; `WeaveField`
+  was extracted when the cloth room and the homepage band needed the same thing.

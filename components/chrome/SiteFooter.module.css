@@ -15,15 +15,20 @@
   padding-bottom: var(--s-8);
 }
 
+/*
+ * The masthead. Regular weight, set as large as the sheet allows and tracked
+ * just enough to open the caps: Times capitals set solid look like a title
+ * page, and set airy they look like a house.
+ */
 .name {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   font-size: clamp(2.75rem, 12vw, 9rem);
   line-height: 0.9;
   color: var(--text);
-  margin-right: -0.06em;
+  margin-right: -0.1em;
 }
 
 .statement {

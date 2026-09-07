@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { preload } from 'react-dom';
 
 import { focalPosition, imageUrl } from '@/sanity/lib/image';
 import type { SanityImageSource } from '@/sanity/lib/types';
@@ -20,6 +21,16 @@ import styles from './MediaFrame.module.css';
  * mistaken for a finished photograph of a Visarto garment.
  */
 
+/**
+ * The width variant every placeholder ships alongside its full size file, so a
+ * phone is not made to download a desktop photograph. Convention rather than
+ * configuration: `foo.jpg` is accompanied by `foo@900.jpg`.
+ */
+function fallbackSrcSet(src: string): string | undefined {
+  if (!src.endsWith('.jpg')) return undefined;
+  return `${src.replace(/\.jpg$/, '@900.jpg')} 900w, ${src} 1800w`;
+}
+
 export type MediaFrameProps = {
   ratio: string;
   image?: SanityImageSource | undefined;
@@ -29,6 +40,23 @@ export type MediaFrameProps = {
    * uploaded in the studio always wins.
    */
   fallbackSrc?: string;
+  /**
+   * An art-directed crop of the same subject, used below 48rem.
+   *
+   * A full-bleed frame is about 1.8:1 on a desktop and about 0.56:1 on a phone.
+   * No single landscape file survives both through a centred cover: the phone
+   * gets the middle third, which on a portrait subject is the backdrop. Where a
+   * slot runs full bleed it carries a second crop rather than a cleverer
+   * `object-position`.
+   */
+  fallbackSrcMobile?: string;
+  /**
+   * `object-position` for the fallback path, e.g. `'72% 50%'`. The Sanity path
+   * takes its focal point from the editor's hotspot instead.
+   */
+  focal?: string;
+  /** The same, below 48rem, for a frame whose crop changes shape. */
+  focalMobile?: string;
   /**
    * Required whenever an image is present. Decorative cloth fields are hidden
    * from assistive technology instead.
@@ -53,6 +81,9 @@ export function MediaFrame({
   ratio,
   image,
   fallbackSrc,
+  fallbackSrcMobile,
+  focal,
+  focalMobile,
   alt,
   sizes,
   priority = false,
@@ -66,6 +97,36 @@ export function MediaFrame({
   const src = image ? imageUrl(image, 2000) : fallbackSrc ?? null;
   const classes = [styles.frame, className].filter(Boolean).join(' ');
 
+  /*
+   * A priority frame on the placeholder path asks for its photograph in the
+   * document head rather than waiting to be discovered when the markup is
+   * parsed. `next/image` does this for the CMS path already; the plain <img>
+   * that path deliberately avoids does not, and on the opening screen that is
+   * the difference between the photograph arriving with the page and arriving
+   * after it. The descriptors have to match the element exactly or the browser
+   * fetches twice.
+   */
+  if (usingFallback && priority && src) {
+    // Media-scoped, because a frame carrying an art-directed phone crop would
+    // otherwise preload the desktop file and then download the phone one as
+    // well: two photographs fetched to show one.
+    const breakpoint = fallbackSrcMobile ? '(min-width: 48rem)' : undefined;
+    preload(src, {
+      as: 'image',
+      fetchPriority: 'high',
+      imageSrcSet: fallbackSrcSet(src),
+      imageSizes: sizes,
+      ...(breakpoint ? { media: breakpoint } : {}),
+    });
+    if (fallbackSrcMobile) {
+      preload(fallbackSrcMobile, {
+        as: 'image',
+        fetchPriority: 'high',
+        media: '(max-width: 47.99rem)',
+      });
+    }
+  }
+
   if (src) {
     return (
       <figure
@@ -73,7 +134,8 @@ export function MediaFrame({
         style={
           {
             ['--frame-ratio']: ratio,
-            ['--focal']: image ? focalPosition(image) : '50% 50%',
+            ['--focal']: image ? focalPosition(image) : (focal ?? '50% 50%'),
+            ...(focalMobile ? { ['--focal-mobile']: focalMobile } : {}),
           } as React.CSSProperties
         }
       >
@@ -81,16 +143,23 @@ export function MediaFrame({
           /* Placeholder path: a plain <img>. Bypasses next/image's optimizer
              and its measurement cache, which was pinning the previous encoded
              copy across client-side navigations. Also means overwriting the
-             PNG in `public/placeholders` shows up on the next reload with no
-             cache dance. */
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={src}
-            alt={alt ?? ''}
-            className={styles.image}
-            loading={priority ? 'eager' : 'lazy'}
-            decoding="async"
-          />
+             file in `public/placeholders` shows up on the next reload with no
+             cache dance. The width variants are carried by hand instead. */
+          <picture>
+            {fallbackSrcMobile ? (
+              <source media="(max-width: 47.99rem)" srcSet={fallbackSrcMobile} />
+            ) : null}
+            <img
+              src={src}
+              srcSet={fallbackSrcSet(src)}
+              sizes={sizes}
+              alt={alt ?? ''}
+              className={styles.image}
+              loading={priority ? 'eager' : 'lazy'}
+              fetchPriority={priority ? 'high' : undefined}
+              decoding="async"
+            />
+          </picture>
         ) : (
           <Image
             src={src}

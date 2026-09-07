@@ -1,13 +1,28 @@
 /*
  * Visarto typography.
  *
- * Cormorant Garamond carries the identity. It is a Garamond in the humanist
- * tradition — softer contrast than a didone, calligraphic terminals, an
- * italic that behaves like a second voice rather than a slanted version of
- * the first. Set light at display size, regular at text size.
+ * Times carries the identity, and it is set as a decision rather than as a
+ * default. Three things do that work, and all three are the opposite of how
+ * Times arrives out of the box:
+ *
+ *   scale     it was cut for nine point newsprint, so at a hundred pixels it
+ *             reads as a document. It has to be big before it reads as a
+ *             masthead.
+ *   tracking  it is set loose by default at every size. Display lines are
+ *             pulled in hard, and the amount changes with the size, because one
+ *             value cannot serve a hundred and forty pixels and twenty eight.
+ *   the italic  which is the best thing in the family, a genuine old style
+ *             italic rather than a slanted roman, and the clearest available
+ *             signal that the face was chosen.
+ *
+ * Everything is set at 400. Times has no light cut, so the old 300 was silently
+ * rendering regular; its bold is a newspaper weight, so the old 600 was giving
+ * the heaviest and least elegant thing in the family to the wordmark.
  *
  * Manrope sets everything that has to be read rather than looked at. It is
- * kept small, quiet, and slightly tracked so it never competes with the serif.
+ * kept small, quiet, and tracked so it never competes with the serif, and the
+ * gap between the two is deliberately wide: the contrast between an old style
+ * serif and a geometric sans is what makes the serif read as intentional.
  *
  * These classes set type and nothing else. Measure is the business of the
  * composition using them, so a headline's line length is decided where the
@@ -23,25 +38,25 @@
 }
 
 .display-1 {
-  font-weight: 300;
+  font-weight: 400;
   font-size: var(--t-display-1);
   line-height: var(--lh-display);
-  letter-spacing: var(--track-display-large);
+  letter-spacing: var(--track-display-1);
 }
 
 .display-2 {
   font-weight: 400;
   font-size: var(--t-display-2);
   line-height: var(--lh-display-small);
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--track-display-2);
   max-width: 20ch;
 }
 
 .display-3 {
-  font-weight: 500;
+  font-weight: 400;
   font-size: var(--t-display-3);
   line-height: var(--lh-title);
-  letter-spacing: -0.014em;
+  letter-spacing: var(--track-display-3);
   max-width: 26ch;
 }
 
@@ -55,6 +70,32 @@
   letter-spacing: -0.008em;
   color: var(--text);
 }
+
+/*
+ * The second voice.
+ *
+ * One held sentence per passage, set in the italic. This is the class that does
+ * the most to make Times look chosen: its italic is a real old style cursive
+ * with calligraphic terminals and a narrower fit, not a slanted roman, and it
+ * is the one part of the family that nothing else on the web looks like.
+ *
+ * Used for a standfirst or a single line that carries the house's voice. Never
+ * for a run of copy: an italic paragraph is harder to read and the effect
+ * spends itself.
+ */
+.display-voice {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.25rem, 1.02rem + 0.98vw, 1.85rem);
+  line-height: 1.34;
+  letter-spacing: -0.014em;
+  max-width: 30ch;
+  text-wrap: pretty;
+}
+/* Colour is deliberately not set here. A standfirst is usually held back from
+   the headline and a pull quote usually is not, and both use this class, so the
+   composition decides. Every use site sets one. */
 
 .lede {
   font-size: var(--t-lede);
