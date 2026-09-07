@@ -1,6 +1,11 @@
 /*
- * The cloth passage on the homepage. The specimen sheet itself lives in
- * components/cloth, because the cloth room uses the same one.
+ * The cloth passage.
+ *
+ * The rest of the page is built in columns. This one runs as a horizontal band
+ * across the full width, because a length of cloth is a horizontal object and
+ * because the change of shape is what separates the passage from the one before
+ * it. No change of ground is needed to do that, and none is used: the page
+ * stays in one tonal world from the opening to the close.
  */
 
 .section {
@@ -18,26 +23,26 @@
   max-width: 58ch;
 }
 
-.aside {
-  color: var(--text-muted);
-}
-
-.mills {
-  font-size: var(--t-small);
-  color: var(--text-secondary);
-  max-width: 50ch;
+/* Edge to edge. The band is the only element on the page that touches both
+   margins without being a hero. */
+.band {
+  margin-top: var(--s-8);
 }
 
 .foot {
-  display: grid;
-  gap: var(--s-5);
-  margin-top: var(--s-7);
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--s-6);
 }
 
-@media (min-width: 64rem) {
+@media (max-width: 47.99rem) {
+  /* A 24:7 band is a letterbox slot on a phone. It squares up instead. */
+  .band {
+    --frame-ratio: 5 / 4;
+    margin-top: var(--s-7);
+  }
+
   .foot {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: var(--s-7);
+    justify-content: flex-start;
   }
 }

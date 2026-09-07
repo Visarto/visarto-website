@@ -120,6 +120,9 @@ The surfaces are `.on-obsidian`, `.on-raised`, `.on-midnight` and `.on-bone`. Th
 is a role rather than a rule per surface, which is why one button works on all four with no
 special case.
 
+`.on-bone` is applied to a whole page, never to a section inside one. Today that is `/cloth` and
+nothing else.
+
 This is what made the inversion a change to one file rather than a hundred call sites, and it is
 worth protecting: the first pass had components reaching for raw palette names, and the surfaces
 did not actually invert until that was fixed.
@@ -240,25 +243,36 @@ Not applicable. No scrub hero.
 
 ## 9. Homepage sequence
 
-Five passages, each answering the question the last one raises, with the ground changing
-underfoot from the deepest tone on the site to its only light one.
+Four passages, each answering the question the last one raises. The page stays in one tonal world
+from the opening to the close; what changes between passages is the composition, not the ground.
 
-| # | Passage | Question it answers | Ground | L* |
-|---|---|---|---|---:|
-| 1 | The opening | Who is this and what do they make | obsidian | 4 |
-| 2 | What we make | Is what I need on the list | ink | 6 |
-| 3 | The fitting comes to you | Do I have to go somewhere | raised | 10 |
-| 4 | How cloth is built | Do they know what they are talking about | **bone** | 90 |
-| 5 | Book an appointment | How do I start | midnight | 10 |
+| # | Passage | Question it answers | Ground | Shape |
+|---|---|---|---|---|
+| 1 | The opening | Who is this and what do they make | obsidian | Full-bleed image, type on it |
+| 2 | What we make | Is what I need on the list | ink | Sticky intro left, index right |
+| 3 | The fitting comes to you | Do I have to go somewhere | raised | Image left, type right |
+| 4 | How cloth is built | Do they know what they are talking about | ink | Horizontal band, full width |
+| 5 | Book an appointment | How do I start | midnight | The only real tonal event |
 
-The cloth room is the single light passage on the site. That is right on the merits rather than
-for variety: a specimen sheet is a paper object, the weave drafts were drawn to read on light, and
-one bright passage in a dark page carries far more weight than the reverse.
+Every passage answers one of the homepage's four jobs: establish the house, show the range, kill
+the "do I have to go to a shop" objection, get to an appointment.
+
+**A whole page may change world; a section inside a page may not.** The cloth passage was briefly
+set on bone, and it was wrong three ways: at 29% of the page it was a second theme rather than an
+accent, a hard tonal flip mid-page reads as a section boundary and announces structure the
+composition should carry, and putting the brightest thing on the page immediately before the close
+left the close reading as a step down. `/cloth` is the light chapter instead, in full, arrived at
+through navigation.
+
+The cloth passage carries the material argument and one length of cloth, not the specimen sheet.
+Six weave structures with a paragraph each is depth content: it is the reason `/cloth` exists, and
+someone deciding whether to book does not need it. Rendering it in both places also made the
+homepage a preview of another page.
 
 The lookbook passage exists in code and renders only when at least three photographs exist. There
 is no proof passage: testimonials, press and client names require real material and permissions.
-That is the acknowledged hole in the sequence and the first thing to build once the material
-exists.
+That is the acknowledged hole in the sequence, and cutting the cloth passage down is what leaves
+room for both.
 
 ## 10. Page system
 
@@ -487,6 +501,7 @@ Environment variables are declared in one place, `lib/env.ts`, each with an expl
 | CMS boundaries are defined | Met |
 | No decision depends on a plugin default | Met |
 | No component looks like a SaaS template | Met. No cards, no pills, no icon grid, no shadows, no radius above 1px |
-| The page has tonal range | Met. L* 4 to 90 across five grounds, against a 19-point band before |
+| The page has tonal range | Met. L* 4 to 90 across the site, against a 19-point band before |
+| No section announces itself with a ground change | Met. The homepage is one world; `/cloth` is a chapter |
 | Proof passage | **Not met.** Requires real client material |
 | Palette checked against real photography | **Not met.** Requires photographs |

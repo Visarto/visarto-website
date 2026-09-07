@@ -11,7 +11,6 @@ import {
   getCollections,
   getHomePage,
   getLookbook,
-  getMills,
   getSiteSettings,
 } from '@/sanity/lib/queries';
 
@@ -32,10 +31,9 @@ export const metadata = pageMetadata({
  * what separates the sections, which is why none of them needs a label.
  */
 export default async function HomePage() {
-  const [page, collections, mills, lookbook, appointment, settings] = await Promise.all([
+  const [page, collections, lookbook, appointment, settings] = await Promise.all([
     getHomePage(),
     getCollections(),
-    getMills(),
     getLookbook(),
     getAppointmentSettings(),
     getSiteSettings(),
@@ -46,7 +44,7 @@ export default async function HomePage() {
       <HomeOpening image={page?.heroImage} />
       <CollectionIndex collections={collections} />
       <FittingSection image={page?.fittingImage} settings={settings} />
-      <ClothSection mills={mills} />
+      <ClothSection />
       <LookbookStrip items={lookbook} />
       <AppointmentSection settings={appointment} />
     </>

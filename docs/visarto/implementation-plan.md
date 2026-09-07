@@ -80,9 +80,27 @@ Three bugs the work exposed and fixed: SVG patterns resolve custom properties at
 site, so the cloth swatches kept the dark palette on the light passage; the photograph marker was
 buried under the hero scrim; and the marker collided with the call to action on phones.
 
+### Slice 12: homepage rhythm
+
+A correction to slice 11. The cloth passage had been set on bone, and measuring the page showed
+it was 29% of it, dead centre, and the single largest passage on the homepage. Three problems: an
+accent that size is a second theme, a hard tonal flip mid-page announces a section boundary the
+composition should carry, and the brightest thing on the page sat immediately before the close and
+flattened it.
+
+The homepage is now one tonal world and four passages. The cloth passage keeps the material
+argument and one length of cloth, set as a horizontal band because that is the shape cloth comes
+in, and the specimen sheet lives only on `/cloth`. `/cloth` becomes the light chapter in full,
+rather than being half dark and half bone, which had the same problem in miniature.
+
+Principle recorded so it is not reintroduced: **a whole page may change world; a section inside a
+page may not.**
+
+The homepage lost 777px and gained a real close.
+
 ## Next, and not blocked on Visarto
 
-### Slice 12: deferred from the art-direction pass
+### Slice 13: deferred from the art-direction pass
 
 Route transitions via the View Transitions API, masked line-by-line text reveals, parallax inside
 the image mask, a cursor treatment on collection frames, hover image exchange on the garment

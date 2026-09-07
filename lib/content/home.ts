@@ -69,10 +69,8 @@ export const home = {
   cloth: {
     heading: 'How cloth is built',
     body: 'A suit length is a grid. Warp threads run the length of the roll, weft threads run across it, and at every crossing one of the two sits on top. That single decision, repeated, becomes the character of the cloth: how it falls, how it creases, how it takes light.',
-    aside: 'The six structures below are drawn from their own weave drafts.',
-    millsRequires:
-      'The mills Visarto buys from, the bunches a client can order from, and any relationship that may be named publicly.',
     linkLabel: 'The cloth room',
+    imageBrief: 'A length of cloth',
   },
 
   appointment: {
