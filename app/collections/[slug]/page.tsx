@@ -4,6 +4,7 @@ import { ContentRequired } from '@/components/primitives/ContentRequired';
 import { CtaLink, QuietLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
 import { PhotographRequired } from '@/components/primitives/PhotographRequired';
+import { Reveal } from '@/components/primitives/Reveal';
 import { collectionEntries } from '@/lib/content/collections';
 import { collectionsPage } from '@/lib/content/pages';
 import { calls } from '@/lib/content/site';
@@ -94,19 +95,19 @@ export default async function CollectionPage({ params }: Params) {
           {`Lead photograph for ${collection.title.toLowerCase()}. A finished garment on a client, natural light. The foot of the frame is kept calm so the title sits on it.`}
         </PhotographRequired>
 
-        <div className={`sheet ${styles.openingCopy}`}>
+        <Reveal stagger className={`sheet ${styles.openingCopy}`}>
           <span className={`annotation ${styles.mark}`}>Collections</span>
-          <h1 id="collection-heading" className={`display-2 ${styles.title}`}>
+          <h1 id="collection-heading" className={`display-2 ${styles.title}`} data-reveal-opaque="">
             {collection.title}
           </h1>
           {collection.standfirst ? (
             <p className={`lede ${styles.standfirst}`}>{collection.standfirst}</p>
           ) : null}
-        </div>
+        </Reveal>
       </section>
 
       <div className="sheet">
-        <div className={styles.body}>
+        <Reveal stagger className={styles.body}>
           {collection.description ? (
             collection.description
               .split('\n')
@@ -124,12 +125,12 @@ export default async function CollectionPage({ params }: Params) {
             <CtaLink href={calls.primary.href}>{calls.primary.label}</CtaLink>
             <QuietLink href="/collections">All collections</QuietLink>
           </div>
-        </div>
+        </Reveal>
       </div>
 
       {collection.gallery.length > 0 ? (
         <div className="sheet">
-          <ul className={styles.gallery}>
+          <Reveal as="ul" stagger variant="mask" className={styles.gallery}>
             {collection.gallery.map((image, index) => (
               <li key={image.asset?._ref ?? index}>
                 <MediaFrame
@@ -140,7 +141,7 @@ export default async function CollectionPage({ params }: Params) {
                 />
               </li>
             ))}
-          </ul>
+          </Reveal>
         </div>
       ) : null}
     </>

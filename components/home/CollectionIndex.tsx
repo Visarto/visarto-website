@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Route } from 'next';
 
 import { QuietLink } from '@/components/primitives/Cta';
+import { Reveal } from '@/components/primitives/Reveal';
 import { collectionEntries } from '@/lib/content/collections';
 import { home } from '@/lib/content/home';
 import type { Collection } from '@/sanity/lib/types';
@@ -25,7 +26,7 @@ export function CollectionIndex({ collections }: { collections: Collection[] }) 
   return (
     <section className={styles.section} aria-labelledby="collections-heading">
       <div className={`sheet ${styles.layout}`}>
-        <div className={styles.intro}>
+        <Reveal stagger className={styles.intro}>
           <h2 id="collections-heading" className="display-2">
             {home.collections.heading}
           </h2>
@@ -33,9 +34,12 @@ export function CollectionIndex({ collections }: { collections: Collection[] }) 
           <QuietLink href="/collections" className={styles.introLink}>
             {home.collections.linkLabel}
           </QuietLink>
-        </div>
+        </Reveal>
 
-        <ol className={styles.list}>
+        {/* The rows arrive in their numbered order. A contents page that draws
+            itself top to bottom is the clearest statement on the homepage that
+            the sequence is deliberate. */}
+        <Reveal as="ol" stagger className={styles.list}>
           {entries.map((entry, position) => (
             <li key={entry.slug} className={styles.row}>
               <Link href={`/collections/${entry.slug}` as Route} className={styles.link}>
@@ -48,7 +52,7 @@ export function CollectionIndex({ collections }: { collections: Collection[] }) 
               </Link>
             </li>
           ))}
-        </ol>
+        </Reveal>
       </div>
     </section>
   );

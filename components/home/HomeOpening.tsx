@@ -1,6 +1,7 @@
 import { CtaLink, QuietLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
 import { PhotographRequired } from '@/components/primitives/PhotographRequired';
+import { Reveal } from '@/components/primitives/Reveal';
 import { calls } from '@/lib/content/site';
 import { home } from '@/lib/content/home';
 import type { SanityImageSource } from '@/sanity/lib/types';
@@ -29,8 +30,15 @@ export function HomeOpening({ image }: { image?: SanityImageSource | undefined }
           frame, and anything drawn under it is buried. */}
       <PhotographRequired overlay>{home.opening.imageBrief}</PhotographRequired>
 
-      <div className={`sheet ${styles.copy}`}>
-        <h1 id="opening-heading" className={`display-1 ${styles.display}`}>
+      {/*
+        The first screen composes as the opening curtain clears it rather than
+        being uncovered already finished. The headline carries
+        `data-reveal-opaque` because it is the page's Largest Contentful Paint
+        candidate: it lifts into place at full opacity, so the measurement is
+        taken on the first frame and not at the end of the entrance.
+      */}
+      <Reveal stagger className={`sheet ${styles.copy}`}>
+        <h1 id="opening-heading" className={`display-1 ${styles.display}`} data-reveal-opaque="">
           {home.opening.display}
         </h1>
         <p className={`lede ${styles.lede}`}>{home.opening.lede}</p>
@@ -39,7 +47,7 @@ export function HomeOpening({ image }: { image?: SanityImageSource | undefined }
           <QuietLink href={calls.secondary.href}>{calls.secondary.label}</QuietLink>
         </div>
         <p className={`fine ${styles.note}`}>{home.opening.note}</p>
-      </div>
+      </Reveal>
     </section>
   );
 }

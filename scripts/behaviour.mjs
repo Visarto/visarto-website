@@ -15,6 +15,13 @@ function check(name, passed, detail = '') {
   results.push({ name, passed, detail });
 }
 
+/*
+ * Everything the entrance system can leave hidden. A staggered container puts
+ * the pre-state on its children rather than on itself, so counting only
+ * `[data-reveal]` would pass whatever those children were doing.
+ */
+const ENTRANCE = '[data-reveal], [data-reveal][data-stagger] > *';
+
 const browser = await chromium.launch({
   executablePath: process.env.CHROME_PATH ?? '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
   args: ['--no-sandbox', '--no-proxy-server'],
@@ -31,8 +38,8 @@ const browser = await chromium.launch({
   await page.waitForTimeout(400);
 
   // Every revealing element must be at its final state without being scrolled to.
-  const hidden = await page.evaluate(() =>
-    [...document.querySelectorAll('[data-reveal]')].filter((element) => {
+  const hidden = await page.evaluate((selector) =>
+    [...document.querySelectorAll(selector)].filter((element) => {
       const style = getComputedStyle(element);
       return (
         Number(style.opacity) < 0.99 ||
@@ -40,7 +47,7 @@ const browser = await chromium.launch({
         (style.transform !== 'none' && style.transform !== 'matrix(1, 0, 0, 1, 0, 0)')
       );
     }).length,
-  );
+  ENTRANCE);
   check('reduced motion leaves every element in its final state', hidden === 0, `${hidden} hidden`);
 
   const transitions = await page.evaluate(() => {
@@ -66,9 +73,9 @@ const browser = await chromium.launch({
   const visible = await page.evaluate(() => document.body.innerText.length).catch(() => 0);
   const headline = await page.locator('h1').first().isVisible();
   const cta = await page.getByRole('link', { name: 'Book an Appointment' }).first().isVisible();
-  const revealCount = await page.locator('[data-reveal]').count();
+  const revealCount = await page.locator(ENTRANCE).count();
   const stillHidden = await page
-    .locator('[data-reveal]')
+    .locator(ENTRANCE)
     .evaluateAll((elements) =>
       elements.filter((element) => Number(getComputedStyle(element).opacity) < 0.99).length,
     );
@@ -280,6 +287,81 @@ const browser = await chromium.launch({
   const headlineVisible = await noJsPage.locator('h1').first().isVisible();
   check('and the page underneath is readable', headlineVisible);
   await noJs.close();
+}
+
+// ---- The entrance system ----------------------------------------------------
+{
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${BASE}/`, { waitUntil: 'load' });
+
+  /*
+   * Every passage on the homepage owns an entrance.
+   *
+   * The failure this guards against is not a broken animation. It is an uneven
+   * page: four passages that simply appear and one that moves reads as a fault
+   * rather than as restraint, and that is exactly the state the site was in
+   * before the entrance system was made consistent.
+   */
+  const passages = await page.evaluate(() =>
+    [...document.querySelectorAll('main section')].map((section) =>
+      section.querySelector('[data-reveal]') ? 1 : 0,
+    ),
+  );
+  check(
+    'every homepage passage carries an entrance',
+    passages.length > 0 && passages.every(Boolean),
+    `${passages.filter(Boolean).length} of ${passages.length}`,
+  );
+
+  // The first screen belongs to the load rather than to the scroll: it composes
+  // as the curtain clears, and it has to be finished well inside the time a
+  // visitor is prepared to look at a page that is not doing anything.
+  const settled = await page
+    .waitForFunction(
+      (selector) =>
+        [...document.querySelectorAll(selector)].every((element) => {
+          if (element.getBoundingClientRect().top > window.innerHeight) return true;
+          const style = getComputedStyle(element);
+          return (
+            Number(style.opacity) > 0.99 &&
+            (style.clipPath === 'none' || !style.clipPath.includes('100%')) &&
+            (style.transform === 'none' || style.transform === 'matrix(1, 0, 0, 1, 0, 0)')
+          );
+        }),
+      ENTRANCE,
+      { timeout: 2000 },
+    )
+    .then(() => true)
+    .catch(() => false);
+  check('the first screen composes within two seconds', settled);
+
+  // Then the rest of it, walked the way a reader walks it rather than jumped to
+  // the end, because an observer that has been scrolled past never fires.
+  const height = await page.evaluate(() => document.body.scrollHeight);
+  for (let y = 0; y < height; y += 600) {
+    await page.evaluate((top) => window.scrollTo(0, top), y);
+    await page.waitForTimeout(120);
+  }
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(1400);
+
+  const leftHidden = await page.evaluate((selector) => {
+    return [...document.querySelectorAll(selector)].filter((element) => {
+      const style = getComputedStyle(element);
+      return (
+        Number(style.opacity) < 0.99 ||
+        (style.clipPath !== 'none' && style.clipPath.includes('100%'))
+      );
+    }).length;
+  }, ENTRANCE);
+  check(
+    'nothing is left hidden once the page has been read',
+    leftHidden === 0,
+    `${leftHidden} hidden`,
+  );
+
+  await context.close();
 }
 
 // ---- The appointment path, with a destination configured --------------------

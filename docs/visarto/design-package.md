@@ -333,21 +333,51 @@ Until a photograph exists, each frame draws a cloth field from a real weave draf
 marks and a visible marker naming the photograph that belongs there. The state is designed, and
 it cannot be mistaken for a finished image.
 
-## 13. Motion vocabulary
+## 13. The entrance system
 
-Four behaviours and one opening. Nothing loops, drifts, tilts, follows the pointer or parallaxes.
+Three entrances, one interaction response, and one opening. Nothing loops, drifts, tilts, follows
+the pointer or parallaxes.
 
 | Behaviour | Where | Duration |
 |---|---|---|
-| Mask | A media frame uncovers from its lower edge | 820ms |
-| Rise | The first block of a passage lifts 12px, once per section | 620ms |
-| Rule | A drafting line draws left to right | 620ms |
+| Rise | Text arriving: 12px lift and a fade | 480ms |
+| Mask | A frame uncovers from its lower edge, its contents settling from 1.04 | 660ms |
+| Rule | A drafting line draws left to right | 480ms |
 | Exchange | Hover response on index rows, collection frames and links | 180 to 320ms |
 
-**One gesture per passage, and it lands on whatever the passage is about.** The homepage carries a
-rule draw under the opening, a mask on the fitting photograph, and a single rise on the cloth
-heading. Giving every section the same lift on entry is the most recognisable tell of a generated
-page, and it was removed after the first review.
+Applied to a container marked `data-stagger`, the entrance moves to that container's direct
+children and each one waits an extra **70ms**. That is the whole system: heading, then body, then
+list, then action.
+
+**The principle, recorded because it was got wrong once in each direction.** The first build gave
+every section the same lift on entry, which is the most recognisable tell of a generated page. The
+correction went too far and left the homepage with two moving elements across six passages, which
+does not read as restraint, it reads as a fault: four passages that snap into place and one that
+wipes open slowly is a page that looks like it is still loading.
+
+**An entrance is applied to every passage or to none. What separates a composed page from a
+template is order within a passage, not scarcity of passages that move.**
+
+Three engineering decisions follow from that, and each one fixes something that was measurably
+wrong:
+
+1. **The trigger is height independent.** `threshold: 0` with the root's bottom edge pulled up
+   10%, so an entrance starts when the element's top crosses 90% of the viewport whatever its
+   size. A fractional threshold makes a tall frame start later than the short paragraph beside it,
+   which is how two halves of one passage end up arriving at two different moments.
+2. **The durations are shorter than instinct suggests.** An entrance is measured from a moment the
+   visitor did not choose. Anything still running when they reach the words reads as loading. At
+   4x CPU throttle a passage is legible roughly 260ms after it crosses the trigger and at rest
+   before it reaches the middle of the screen.
+3. **The first screen belongs to the load, not to the scroll.** Anything above the fold composes
+   as the opening curtain clears it, 240ms into the lift so the two movements overlap. There is no
+   longer a cutover at 1.2 screens where the same element behaves differently between loads.
+
+**LCP safety.** An element at zero opacity is not painted, so a headline behind an opacity fade
+pushes Largest Contentful Paint out by the whole curtain. The `h1` on the homepage and on every
+inner page opening carries `data-reveal-opaque`: it lifts into place at full opacity, and the
+measurement is taken on the first frame. Measured at **LCP 472ms with the curtain and 444ms
+without**, against 488ms and 496ms before this work.
 
 ### The opening curtain
 
@@ -362,8 +392,11 @@ on a fast page inflates LCP for nothing. This one is not timed.
 - **Never shown** without JavaScript, under reduced motion, or on any page after the first in a
   session. All four are asserted in `scripts/behaviour.sh`.
 
-Measured on the production build at 4x CPU throttle over 4Mbps, five runs each: **LCP 488ms with
-the curtain, 496ms without**, CLS 0.002 in both. It costs nothing.
+The lift itself is **560ms**, down from 820ms. The hold is font gated and usually far shorter than
+its cap, so the lift was where the dead time actually was.
+
+Measured on the production build at 4x CPU throttle over 4Mbps, five runs each: **LCP 472ms with
+the curtain, 444ms without**, CLS 0.002 in both.
 
 ### Film grain
 
@@ -375,9 +408,12 @@ Deliberately no blend mode: on a full-screen fixed layer a blend mode creates a 
 that fights the sticky header and forces a repaint of everything beneath it on every scroll. Flat
 opacity looks the same here and costs nothing. It never animates.
 
-Engineering rules for the entrances are unchanged: one IntersectionObserver, unobserved once
-entered, anything within 1.2 screens revealed on mount, the pre-state gated behind `[data-js]`
-and a no-preference query, and a print stylesheet that forces final state.
+Engineering rules for the entrances: one IntersectionObserver for the whole document, each element
+unobserved the moment it has entered, the pre-state gated behind `[data-js]` and a no-preference
+query, a 1.6s fallback so nothing on the first screen can be left hidden if the curtain event is
+ever missed, and a print stylesheet that forces final state. `scripts/behaviour.sh` asserts that
+every homepage passage carries an entrance, that the first screen composes inside two seconds, and
+that nothing is left hidden once the page has been read.
 
 ## 14. Signature interaction
 

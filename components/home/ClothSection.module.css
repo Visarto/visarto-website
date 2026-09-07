@@ -24,7 +24,8 @@
 }
 
 /* Edge to edge. The band is the only element on the page that touches both
-   margins without being a hero. */
+   margins without being a hero. This is the entrance wrapper rather than the
+   frame itself, so the ratio below is set on the frame directly. */
 .band {
   margin-top: var(--s-8);
 }
@@ -36,9 +37,16 @@
 }
 
 @media (max-width: 47.99rem) {
-  /* A 24:7 band is a letterbox slot on a phone. It squares up instead. */
+  /* A 24:7 band is a letterbox slot on a phone. It squares up instead.
+     `aspect-ratio` rather than the `--frame-ratio` custom property: the frame
+     writes that property into its own style attribute, which no stylesheet
+     rule can outrank, so the override has to be made on the resolved
+     declaration instead. */
+  .band figure {
+    aspect-ratio: 5 / 4;
+  }
+
   .band {
-    --frame-ratio: 5 / 4;
     margin-top: var(--s-7);
   }
 

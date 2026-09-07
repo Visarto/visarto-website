@@ -1,5 +1,6 @@
 import { ContentRequired } from '@/components/primitives/ContentRequired';
 import { CtaLink } from '@/components/primitives/Cta';
+import { Reveal } from '@/components/primitives/Reveal';
 import { home } from '@/lib/content/home';
 import { calls } from '@/lib/content/site';
 import type { AppointmentSettings } from '@/sanity/lib/types';
@@ -9,14 +10,14 @@ export function AppointmentSection({ settings }: { settings: AppointmentSettings
   return (
     <section className={`on-midnight ${styles.section}`} aria-labelledby="appointment-heading">
       <div className={`sheet ${styles.layout}`}>
-        <div className={styles.copy}>
+        <Reveal stagger className={styles.copy}>
           <h2 id="appointment-heading" className={`display-2 ${styles.heading}`}>
             {home.appointment.heading}
           </h2>
           <p className={`body ${styles.body}`}>{home.appointment.body}</p>
-        </div>
+        </Reveal>
 
-        <div className={styles.aside}>
+        <Reveal stagger className={styles.aside}>
           {settings?.whatToBring ? (
             <p className={`body ${styles.body}`}>{settings.whatToBring}</p>
           ) : (
@@ -28,7 +29,7 @@ export function AppointmentSection({ settings }: { settings: AppointmentSettings
               {calls.secondary.label}
             </CtaLink>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

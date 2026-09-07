@@ -98,9 +98,49 @@ page may not.**
 
 The homepage lost 777px and gained a real close.
 
+### Slice 13: the entrance system
+
+Sections were arriving unevenly and slowly. Measuring it found four causes, and only the last one
+was a matter of taste:
+
+1. Slice 11 had removed the repeated fade-up to avoid the every-section-fades tell, and left the
+   homepage with two moving elements across six passages. Four passages that snap in and one that
+   wipes open slowly reads as a fault, not as restraint.
+2. The observer used a fractional threshold, so a tall frame started later than the short
+   paragraph beside it. Two halves of one passage arrived at two different moments.
+3. Entrances ran 620 to 820ms and started only once an element was 12% clear of the fold, so they
+   were still running when the reader reached the words. An image uncovering gradually while you
+   scroll past it is indistinguishable from an image still downloading.
+4. Anything within 1.2 screens was revealed with no transition at all, and anything at 1.21
+   screens got the full treatment, so the same element behaved differently between loads.
+
+The system that replaced it: three entrances at 480 and 660ms on an expo-out curve, a
+height-independent trigger at 90% of the viewport, and a `stagger` mode that moves the entrance to
+a container's direct children on a 70ms step. Every passage on every page now carries one, and the
+first screen composes as the opening curtain clears it rather than being uncovered already
+finished. The curtain lift came down from 820ms to 560ms.
+
+LCP is protected by construction: the headline lifts at full opacity rather than fading, because
+an element at zero opacity is not painted. Measured at 472ms with the curtain and 444ms without,
+against 488ms and 496ms before.
+
+Three checks added to `scripts/behaviour.sh`, all guarding the failure that started this: every
+homepage passage carries an entrance, the first screen composes within two seconds, and nothing is
+left hidden once the page has been read. 37/37 pass.
+
+Two bugs the work exposed and fixed: the homepage cloth band never squared up on a phone, because
+`MediaFrame` writes `--frame-ratio` into its own style attribute and no stylesheet rule can
+outrank that; and the appointment body copy was set as the full text colour held back to 86%
+opacity, which is an unmeasured colour of exactly the kind the two-layer token system exists to
+prevent.
+
+Principle recorded so it is not undone again: **an entrance is applied to every passage or to
+none. What separates a composed page from a template is order within a passage, not scarcity of
+passages that move.**
+
 ## Next, and not blocked on Visarto
 
-### Slice 13: deferred from the art-direction pass
+### Slice 14: deferred from the art-direction pass
 
 Route transitions via the View Transitions API, masked line-by-line text reveals, parallax inside
 the image mask, a cursor treatment on collection frames, hover image exchange on the garment

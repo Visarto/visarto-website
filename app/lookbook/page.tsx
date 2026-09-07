@@ -2,6 +2,7 @@ import { ContentRequired } from '@/components/primitives/ContentRequired';
 import { CtaLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
 import { PageOpening } from '@/components/primitives/PageOpening';
+import { Reveal } from '@/components/primitives/Reveal';
 import { calls } from '@/lib/content/site';
 import { lookbookPage } from '@/lib/content/pages';
 import { pageMetadata } from '@/lib/seo';
@@ -38,7 +39,7 @@ export default async function LookbookPage() {
 
       <div className="sheet">
         {items.length > 0 ? (
-          <ul className={styles.grid}>
+          <Reveal as="ul" stagger variant="mask" className={styles.grid}>
             {items.map((item) => (
               <li key={item._id} className={styles.item}>
                 <figure>
@@ -54,12 +55,12 @@ export default async function LookbookPage() {
                 </figure>
               </li>
             ))}
-          </ul>
+          </Reveal>
         ) : (
-          <div className={styles.empty}>
+          <Reveal stagger className={styles.empty}>
             <ContentRequired>{lookbookPage.emptyRequires}</ContentRequired>
             <CtaLink href={calls.primary.href}>{calls.primary.label}</CtaLink>
-          </div>
+          </Reveal>
         )}
       </div>
     </>

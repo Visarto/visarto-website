@@ -21,9 +21,9 @@ export function FittingSection({
     <section className={`on-raised ${styles.section}`} aria-labelledby="fitting-heading">
       <div className={`sheet ${styles.layout}`}>
         {/*
-          The photograph is the subject of this passage, so it carries the
-          entrance and the copy beside it does not. One gesture per passage, and
-          it lands on whatever the passage is actually about.
+          The photograph and the copy start together, which is the point of the
+          height-independent trigger: a tall frame and a short paragraph beside
+          it are one passage and must not arrive at two different moments.
         */}
         <Reveal as="div" variant="mask" className={styles.media}>
           <MediaFrame
@@ -36,7 +36,7 @@ export function FittingSection({
           />
         </Reveal>
 
-        <div className={styles.copy}>
+        <Reveal stagger className={styles.copy}>
           <h2 id="fitting-heading" className="display-2">
             {home.fitting.heading}
           </h2>
@@ -64,7 +64,7 @@ export function FittingSection({
           </div>
 
           <p className={`fine ${styles.closing}`}>{home.fitting.closing}</p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

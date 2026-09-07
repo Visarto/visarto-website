@@ -3,6 +3,7 @@ import type { Route } from 'next';
 
 import { MediaFrame } from '@/components/primitives/MediaFrame';
 import { PageOpening } from '@/components/primitives/PageOpening';
+import { Reveal } from '@/components/primitives/Reveal';
 import { collectionEntries } from '@/lib/content/collections';
 import { collectionsPage } from '@/lib/content/pages';
 import { pageMetadata } from '@/lib/seo';
@@ -47,7 +48,9 @@ export default async function CollectionsPage() {
       />
 
       <div className="sheet">
-        <ul className={styles.grid}>
+        {/* Rise rather than mask: these frames carry a hover crop of their own,
+            and a clip-path entrance would take the transform the hover needs. */}
+        <Reveal as="ul" stagger className={styles.grid}>
           {entries.map((entry, index) => (
             <li key={entry.slug} className={styles.item}>
               <Link href={`/collections/${entry.slug}` as Route} className={styles.link}>
@@ -65,7 +68,7 @@ export default async function CollectionsPage() {
               </Link>
             </li>
           ))}
-        </ul>
+        </Reveal>
       </div>
     </>
   );
