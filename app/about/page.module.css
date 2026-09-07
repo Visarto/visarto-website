@@ -37,3 +37,83 @@
     margin-inline: calc(var(--gutter) * -1);
   }
 }
+
+/* ---- Prototype founder's letter -----------------------------------------
+ * Rendered only when NEXT_PUBLIC_SHOW_PROTOTYPE_COPY=true. The tag block is
+ * a deliberate seam between the visual composition and the placeholder
+ * content, so nobody reviewing the page can miss that the copy is not real.
+ */
+.letter {
+  display: grid;
+  gap: var(--s-5);
+  max-width: 38rem;
+}
+
+.letterTag {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  border: 1px dashed var(--rule-strong);
+  background-color: var(--paper);
+  color: var(--ink-muted);
+}
+
+.letterWarning {
+  font-size: var(--t-fine);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/*
+ * Editorial drop cap on the first paragraph. The initial letter is enlarged
+ * with Fraunces at a heavier optical size and pulled up so its cap-height
+ * aligns with the first line rather than sitting above it. `initial-letter`
+ * gets a soft fallback for browsers that do not support it.
+ */
+.letterOpening::first-letter {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-variation-settings: 'opsz' 144;
+  font-size: 4.25em;
+  line-height: 0.82;
+  float: left;
+  padding: 0.05em 0.16em 0 0;
+  color: var(--ink);
+  /* Optical: Fraunces caps sit high; nudge back onto the baseline. */
+  margin-top: 0.06em;
+}
+
+@supports (initial-letter: 3) {
+  .letterOpening::first-letter {
+    float: none;
+    font-size: 1em;
+    line-height: 1;
+    padding: 0 0.12em 0 0;
+    margin: 0;
+    initial-letter: 3 2;
+  }
+}
+
+.signature {
+  display: grid;
+  gap: var(--s-1);
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule);
+}
+
+.signatureName {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 48;
+  font-size: clamp(1.75rem, 1.1rem + 1.6vw, 2.5rem);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.signatureRole {
+  font-size: var(--t-fine);
+  letter-spacing: 0.02em;
+  color: var(--ink-muted);
+}

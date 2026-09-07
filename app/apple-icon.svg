@@ -1,4 +1,14 @@
+<!--
+  Visarto mark, 180×180 for iOS home screen.
+
+  Reversed palette from the browser favicon: chalk stroke on midnight ground.
+  The mark is a geometric reconstruction (nested inverted triangle plus V)
+  pending Nick's vector source. See app/icon.svg for the same reasoning.
+-->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
-  <rect width="180" height="180" fill="#191512"/>
-  <path d="M38 48 L90 138 L142 48" fill="none" stroke="#f2eee6" stroke-width="12" stroke-linecap="square"/>
+  <rect width="180" height="180" fill="#1a1f2b"/>
+  <g fill="none" stroke="#f2eee6" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M36 54 H144 L90 142 Z"/>
+    <path d="M64 72 L90 115 L116 72"/>
+  </g>
 </svg>

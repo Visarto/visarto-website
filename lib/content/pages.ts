@@ -78,6 +78,31 @@ export const aboutPage = {
   standfirst: 'Visarto makes clothing to measure for men and women, by appointment.',
   bodyRequires:
     'Who runs Visarto, where the house came from, how long it has been working, who is in the workroom, and what it wants to be known for. Written by Visarto, not by the studio.',
+  /**
+   * Prototype letter.
+   *
+   * Placeholder text used only when `NEXT_PUBLIC_SHOW_PROTOTYPE_COPY=true`.
+   * Written to the site's voice rules so it composes truthfully, but every
+   * factual claim is deliberately generic: it refers to services Visarto
+   * already publishes (menswear and womenswear, made-to-measure and bespoke,
+   * by appointment) and invents nothing about history, staff, or address.
+   * A "PROTOTYPE COPY" tag renders above it so it cannot be mistaken for
+   * Nick's own words. Delete this block once the real letter arrives.
+   */
+  prototype: {
+    tag: 'Prototype copy',
+    warning: 'This block is placeholder for layout review. It will be replaced by a letter written by Nick.',
+    paragraphs: [
+      'There is a moment in a first fitting when a person notices their own posture in a mirror that has been paying attention. It surprises them. It is the point of the work.',
+      'We opened Visarto because ready-made clothing was not built for the people we knew. It fit some of them, most of the time, and that was not enough. A garment cut for one body is a different object from one that has been sized. It sits, it moves, and it rewards being worn.',
+      'We make suits, evening wear, shirts, and everything a wedding needs, in cloth from mills whose weaves we have handled. Appointments happen at the studio, or at your home or office when the studio is not the easier room to work in. Everything is decided in front of you, and nothing is finalised without a fitting.',
+      'If you are considering a first appointment, we are happy to answer questions before you book. There is no obligation, and there is no queue.',
+    ],
+    signature: {
+      name: 'Nick Sue',
+      role: 'Co-founder, Visarto',
+    },
+  },
 } as const;
 
 export const appointmentsPage = {

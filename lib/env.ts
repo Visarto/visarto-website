@@ -45,3 +45,15 @@ export const isAppointmentDeliveryConfigured = Boolean(appointmentEndpoint);
 
 export const analyticsId = readPublic('NEXT_PUBLIC_ANALYTICS_ID');
 export const isAnalyticsConfigured = Boolean(analyticsId);
+
+/**
+ * Prototype copy switch.
+ *
+ * When true, pages that are otherwise gated by `ContentRequired` markers render
+ * a temporary placeholder that lets Nick review composition and typography
+ * against a full page rather than an empty shell. The placeholder always wears
+ * a visible "PROTOTYPE COPY" tag in the page and is written to the copy-gate
+ * rules, so it cannot be mistaken for authored Visarto voice. The flag is
+ * default off; production is expected to leave it off.
+ */
+export const showPrototypeCopy = readPublic('NEXT_PUBLIC_SHOW_PROTOTYPE_COPY') === 'true';

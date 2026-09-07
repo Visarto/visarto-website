@@ -35,13 +35,13 @@ export const primaryNav: NavItem[] = [
 export const brand = {
   name: 'Visarto',
   /** Used in the document title pattern and in structured data. */
-  descriptor: 'Made-to-measure and custom clothing',
+  descriptor: 'Bespoke and made-to-measure menswear and womenswear',
   /**
    * The one sentence that has to be true on every page: what Visarto is, who it
    * is for, and how it works.
    */
   summary:
-    'Visarto is a made-to-measure house for men and women. Suits, evening wear, shirts, wedding and everyday clothing, cut to one set of measurements and fitted in person.',
+    'Visarto is a bespoke and made-to-measure house for men and women. Suits, evening wear, shirts, wedding and everyday clothing, cut to one set of measurements and fitted in person.',
 } as const;
 
 export const calls = {

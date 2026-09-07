@@ -1,4 +1,15 @@
+<!--
+  Visarto mark, small (32×32).
+
+  Geometric reconstruction, not a trace. The business card mark reads as a
+  downward-pointing triangle enclosing a nested V. Rebuilt from primitives so
+  it is honest SVG, not raster residue. Awaiting a vector source from Nick to
+  replace with the studio's approved paths.
+-->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="#191512"/>
-  <path d="M6 8 L16 24 L26 8" fill="none" stroke="#f2eee6" stroke-width="2.4" stroke-linecap="square"/>
+  <rect width="32" height="32" fill="#f2eee6"/>
+  <g fill="none" stroke="#191512" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M6 9 H26 L16 25 Z"/>
+    <path d="M11 12.5 L16 20.5 L21 12.5"/>
+  </g>
 </svg>

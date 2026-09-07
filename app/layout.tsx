@@ -44,7 +44,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const settings = await getSiteSettings();
 
   return (
-    <html lang="en" className={`${fraunces.variable} ${manrope.variable}`}>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${manrope.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: JS_FLAG }} />
       </head>
