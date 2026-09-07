@@ -149,7 +149,24 @@ export function Reveal({
     }
 
     active.observe(element);
-    return () => active.unobserve(element);
+
+    // On a client-side navigation the router resets the scroll after the
+    // effects have run, so an element measured well below the fold on mount can
+    // be on the first screen one frame later. One re-measurement closes that,
+    // and only that: an unconditional timer would reveal everything below the
+    // fold a quarter of a second after arrival, which is the scroll entrance
+    // deleted rather than made safe.
+    const recheck = requestAnimationFrame(() => {
+      if (element.dataset.revealed === 'true') return;
+      if (element.getBoundingClientRect().top >= window.innerHeight) return;
+      active.unobserve(element);
+      element.dataset.revealed = 'true';
+    });
+
+    return () => {
+      cancelAnimationFrame(recheck);
+      active.unobserve(element);
+    };
   }, []);
 
   return (

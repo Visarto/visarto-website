@@ -125,7 +125,7 @@
   --cloth-dark: var(--cloth-band-dark);
 
   /* ---- Type families ----------------------------------------------------- */
-  --font-display: var(--font-bodoni), 'Didot', 'Bodoni MT', 'Times New Roman', serif;
+  --font-display: 'Times New Roman', Times, 'Nimbus Roman', serif;
   --font-text: var(--font-manrope), 'Helvetica Neue', Arial, sans-serif;
 
   /* ---- Type scale --------------------------------------------------------
@@ -206,8 +206,8 @@
    * as loading, not as composition.
    */
   --dur-quick: 180ms;
-  --dur-normal: 320ms;
-  --dur-slow: 620ms;
+  --dur-normal: 300ms;
+  --dur-slow: 520ms;
 
   --dur-entrance: 480ms;
   --dur-entrance-media: 660ms;
@@ -217,7 +217,7 @@
   --reveal-step: 70ms;
   --reveal-lift: 0.75rem;
 
-  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 0.84, 0.28, 1);
   --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
   /* Leaves immediately and settles slowly. What makes 480ms feel unhurried. */
   --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);

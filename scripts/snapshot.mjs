@@ -131,7 +131,7 @@ for (const ref of fontRefs) {
  * artifact owns that element, so the declarations are hoisted onto :root and
  * the classes are carried on a wrapper as well.
  */
-const familyDeclarations = [...css.matchAll(/--font-(fraunces|manrope):\s*([^;}]+)/g)]
+const familyDeclarations = [...css.matchAll(/--font-(display-face|manrope):\s*([^;}]+)/g)]
   .map((match) => `--font-${match[1]}: ${match[2].trim()};`)
   .filter((value, index, all) => all.indexOf(value) === index)
   .join('\n  ');

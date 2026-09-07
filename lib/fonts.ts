@@ -1,27 +1,19 @@
-import { Bodoni_Moda, Manrope } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 
 /**
- * Bodoni Moda is Visarto's display voice; Manrope sets everything that has to
- * be read rather than looked at.
+ * Times New Roman is Visarto's display voice; Manrope sets everything that has
+ * to be read rather than looked at.
  *
- * A didone is the right register for a tailoring house: extreme stroke
- * contrast, hairline serifs and vertical stress are what a century of fashion
- * mastheads are cut from. It is also the reason the optical size axis matters
- * here more than anywhere. A didone set small with display proportions loses
- * its hairlines entirely, so `opsz` is doing real work rather than decorating
- * the config.
+ * Times is a system face, so it is not loaded here — it is declared in the
+ * `--font-display` token in `tokens.css` and picked up directly by the OS.
+ * Nothing to preload, nothing to subset, no network cost. `display` is exported
+ * as an empty variable class so `layout.tsx` can compose it alongside Manrope
+ * without a conditional.
  *
- * The family is subset to that axis alone, which is the same discipline that
- * kept the previous face at 66KB. Both appear in the first viewport, so both
- * are preloaded and nothing else is.
+ * Manrope is the only web font shipped. It appears in the first viewport, so
+ * it is preloaded.
  */
-export const bodoni = Bodoni_Moda({
-  subsets: ['latin'],
-  display: 'swap',
-  axes: ['opsz'],
-  variable: '--font-bodoni',
-  preload: true,
-});
+export const display = { variable: '' } as const;
 
 export const manrope = Manrope({
   subsets: ['latin'],

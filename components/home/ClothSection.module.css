@@ -27,13 +27,13 @@
    margins without being a hero. This is the entrance wrapper rather than the
    frame itself, so the ratio below is set on the frame directly. */
 .band {
-  margin-top: var(--s-8);
+  margin-top: var(--s-9);
 }
 
 .foot {
   display: flex;
   justify-content: flex-end;
-  margin-top: var(--s-6);
+  margin-top: var(--s-7);
 }
 
 @media (max-width: 47.99rem) {
@@ -47,7 +47,7 @@
   }
 
   .band {
-    margin-top: var(--s-7);
+    margin-top: var(--s-8);
   }
 
   .foot {

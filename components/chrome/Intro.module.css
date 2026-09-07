@@ -41,7 +41,6 @@
   font-size: clamp(1.25rem, 3.5vw, 2rem);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  font-variation-settings: 'opsz' 11;
   color: var(--bone-1);
   margin-right: -0.22em;
   opacity: 0;

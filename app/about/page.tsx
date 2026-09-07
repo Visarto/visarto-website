@@ -53,6 +53,7 @@ export default async function AboutPage() {
           <MediaFrame
             ratio="4 / 5"
             image={page?.portrait}
+            fallbackSrc="/placeholders/about-portrait.jpg"
             alt={page?.portrait?.alt ?? ''}
             sizes="(min-width: 64rem) 40vw, 100vw"
             weave="hopsack"

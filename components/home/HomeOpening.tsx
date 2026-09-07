@@ -1,6 +1,5 @@
 import { CtaLink, QuietLink } from '@/components/primitives/Cta';
 import { MediaFrame } from '@/components/primitives/MediaFrame';
-import { PhotographRequired } from '@/components/primitives/PhotographRequired';
 import { Reveal } from '@/components/primitives/Reveal';
 import { calls } from '@/lib/content/site';
 import { home } from '@/lib/content/home';
@@ -20,15 +19,13 @@ export function HomeOpening({ image }: { image?: SanityImageSource | undefined }
         className={styles.media}
         ratio="auto"
         image={image}
+        fallbackSrc="/placeholders/home-hero.jpg"
         alt={image?.alt ?? ''}
         sizes="100vw"
         priority
         weave="herringbone"
       />
       <div className={styles.scrim} aria-hidden="true" />
-      {/* Placed here rather than inside the frame: the scrim sits over the
-          frame, and anything drawn under it is buried. */}
-      <PhotographRequired overlay>{home.opening.imageBrief}</PhotographRequired>
 
       {/*
         The first screen composes as the opening curtain clears it rather than
